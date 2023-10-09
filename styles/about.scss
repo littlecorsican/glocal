@@ -1,0 +1,47 @@
+.about-page {
+    #banner {
+        background: url(/images/aboutBanner.png) no-repeat;
+        height: 500px;
+      }
+  
+      #agency_div {
+        background: url(/images/about_agency.png);
+      }
+  
+      #inner_banner_div {
+        top: 270px;
+      }
+  
+      #our_story_text_div {
+        position: absolute;
+      }
+  
+      #planning_div {
+        background: linear-gradient(90deg, #b8b09de5 60%, #fff 40%);
+      }
+  
+      @media only screen and (max-width: 576px) {
+        #banner {
+          background: url(/images/aboutBanner_mobile.png) no-repeat;
+          height: 300px;
+        }
+  
+        #agency_div {
+          background: url(/images/about_agency_mobile.png);
+        }
+  
+        #inner_banner_div {
+          top: 165px;
+        }
+      }
+  
+      @media only screen and (max-width: 1200px) {
+        #our_story_text_div {
+          position: relative;
+        }
+  
+        #planning_div {
+          background: none;
+        }
+      }
+}

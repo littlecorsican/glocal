@@ -1,0 +1,49 @@
+.umrah-page {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Montserrat", sans-serif;
+    }
+
+    p {
+      font-family: "Poppins", sans-serif;
+    }
+
+    #banner {
+      background: url(/images/umrahBanner.png) no-repeat;
+      background-position: center;
+      height: 500px;
+    }
+
+    #inner_banner_div {
+      top: 270px;
+    }
+
+    .carousel-indicators [data-bs-target] {
+      background-color: #b8b09d;
+    }
+
+    .about-content-box {
+      padding-right: 25px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      #banner {
+        background: url(/images/umrahBanner_mobile.png) no-repeat;
+        height: 300px;
+      }
+
+      #inner_banner_div {
+        top: 153px;
+      }
+    }
+
+    @media only screen and (max-width: 700px) {
+      .about-content-box {
+        padding: 0px;
+      }
+    }
+}

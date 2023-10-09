@@ -1,0 +1,62 @@
+.contact-component {
+    position : fixed;
+    bottom: 50px;
+    right : 50px;
+    img {
+        cursor : pointer;
+        max-width : 73%;
+    }
+}
+
+.contact-page {
+    #banner {
+        background: url(/images/contactBanner.png) no-repeat;
+        height: 640px;
+      }
+    
+    .contact-icon {
+      width : 30px;
+      height : 30px;
+    }
+  
+      #inner_banner_div {
+        top: 280px;
+      }
+  
+      #message_div {
+        margin-top: -180px;
+      }
+  
+      #message_div input,
+      #message_div textarea {
+        background-color: #f5f5f5;
+        border-color: #e8e2d6;
+        color: #460000;
+        font-family: "Poppins";
+      }
+  
+      #message_desc_div {
+        border-radius: 15px 0px 0px 15px;
+      }
+  
+      @media only screen and (max-width: 576px) {
+        #banner {
+          background: url(/images/contactBanner_mobile.png) no-repeat;
+          height: 300px;
+        }
+  
+        #inner_banner_div {
+          top: 153px;
+        }
+  
+        #message_div {
+          margin-top: -57px;
+        }
+      }
+  
+      @media only screen and (max-width: 1200px) {
+        #message_desc_div {
+          border-radius: 0px 0px 15px 15px;
+        }
+      }
+}

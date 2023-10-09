@@ -1,0 +1,30 @@
+typeCd T
+
+FT_CWB
+FT_CNB
+max 1 
+
+FT_SGL
+FT_TWN
+max 2 
+
+FT_INFT
+max 1
+
+
+typeCd A
+Fuel and Airport, fill in quantity based on people
+
+only got Amount , then fill
+infant exempted
+
+
+ADULT + CHILD 
+tipping
+discount
+agent collection fees
+VISA
+DEVIATION
+
+
+set loading wehn sending api

@@ -1,0 +1,354 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&family=Poppins:wght@100;200;300;400;500&display=swap");
+
+:root {
+    --darker-background-color: #243848;
+    --accent-color: #f3f3f3;
+    --text-color: #000000;
+    --navbar-height: 90px;
+  }
+
+#header_div {
+    position: fixed;
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    ol,
+    ul {
+      padding-left: 0rem;
+    }
+    
+    nav {
+      height: var(--navbar-height);
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      box-shadow: 0 1px 15px rgb(143, 143, 143);
+      background: #fff;
+      position: sticky;
+      padding: 0;
+    }
+    
+    nav .logo {
+      margin-left: 40px;
+    }
+    
+    .logo img {
+
+    }
+
+    .selectedPage {
+        border-top: 4px solid rgb(234, 36, 45);
+        color : #f11414
+    }
+    
+    nav ul {
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    nav li {
+      height: 100%;
+      width: 150px;
+      text-align: center;
+      position: relative;
+    }
+    
+    nav li:hover {
+      background: none;
+      color: #f11414;
+    }
+    
+    nav ul a {
+      height: 100%;
+      width: 100%;
+    
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    
+      text-decoration: none;
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      text-align: center;
+      text-transform: uppercase;
+    
+      color: #000000;
+    }
+    
+    nav ul a:hover {
+      color: #f11414;
+    }
+    
+    nav ul a {
+      height: 100%;
+      width: 100%;
+    
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    
+      text-decoration: none;
+    }
+    
+    .expandable_li .dropdown {
+      height: 5px;
+      width: 200px;
+    
+      display: none;
+      flex-direction: column;
+    
+      position: absolute;
+      left: 0;
+      top: 110px;
+    }
+    
+    .dropdown li {
+      height: 30px;
+      text-align: center;
+      margin-left: 50px;
+      width: 195px;
+    }
+    
+    .dropdown li a {
+      justify-content: center;
+      font-family: "Poppins";
+      font-weight: 500;
+      font-size: 14px;
+      padding: 10px 0;
+      text-align: center;
+      text-transform: uppercase;
+      color: #000000;
+      width: 100%;
+      border-bottom: 1px solid #cdcdcd;
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+    
+    nav li:hover .dropdown {
+      display: flex;
+      color: #f11414;
+    }
+    
+    nav input[type="checkbox"] {
+      display: none;
+    }
+    
+    .expandable_li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      color: #000000;
+      z-index: 10;
+    }
+    
+    label {
+      display: block;
+    }
+    
+    .expandable_li label {
+      display: block;
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      /* identical to box height */
+      text-align: center;
+      text-transform: uppercase;
+      color: #000000;
+    }
+    
+    .bar {
+      height: 3.9px;
+      width: 100%;
+      background: var(--text-color);
+      border-radius: 100px;
+    }
+    
+    /*Icon Part*/
+    .icon-header-grouped {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 35px;
+    }
+    
+    .nav li:hover {
+      color: #f11414;
+    }
+    
+    .nav ul:hover {
+      color: #f11414;
+    }
+    
+    li label {
+      color: #f11414;
+    }
+    
+    @media (min-width: 1024px) {
+      .nav {
+        padding: 0% 20%;
+      }
+    }
+    
+    @media (max-width: 1200px) {
+      #header_div {
+        position: absolute;
+      }
+    
+      .toggle_button {
+        display: flex;
+        width: 26px;
+        height: 27px;
+        flex-direction: column;
+        justify-content: space-around;
+        transform: matrix(-1, 0, 0, 1, 0, 0);
+      }
+    
+      nav ul {
+        height: min-content;
+        width: 100%;
+        background: #f5f5f5;
+        border-bottom: 1px solid #cdcdcd;
+    
+        display: none;
+        position: absolute;
+        top: 76px;
+      }
+    
+      nav {
+        height: 76px;
+      }
+    
+      nav li {
+        height: min-content;
+        width: 100%;
+      }
+    
+      nav ul a {
+        padding: 30px 0;
+        border-bottom: 1px solid #cdcdcd;
+      }
+    
+      nav ul {
+        background: #f5f5f5;
+        padding: 0;
+      }
+    
+      .expandable_li {
+        display: block;
+        border-bottom: 1px solid #cdcdcd;
+      }
+    
+      .expandable_li label {
+        padding: 30px 0;
+        cursor: pointer;
+        display: block;
+      }
+    
+      .expandable_li .dropdown {
+        width: 100%;
+        position: absolute;
+        top: 80px;
+        z-index: 5;
+      }
+    
+      .expandable_li:hover .dropdown {
+        display: block;
+      }
+    
+      .expandable_li input[type="checkbox"]:checked ~ .dropdown {
+        display: block;
+        width: 100%;
+      }
+    
+      .expandable_li input[type="checkbox"] ~ .dropdown {
+        display: none;
+      }
+    
+      .dropdown {
+        position: static;
+        width: 100%;
+        height: min-content;
+      }
+    
+      .dropdown li {
+        padding: 0;
+        display: block;
+        position: static;
+        background: #ffffff;
+        font-family: "Montserrat";
+        font-family: "Montserrat";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+        /* identical to box height */
+        text-align: center;
+        text-transform: uppercase;
+        color: #000000;
+        text-align: center;
+        text-transform: uppercase;
+    
+        background: #ffffff;
+    
+        margin-left: 0px;
+        width: 100%;
+        height: 70px;
+      }
+    
+      .dropdown li a {
+        width: 100%;
+        padding: 0;
+        justify-content: center;
+      }
+    
+      #toggle_button:checked ~ ul {
+        display: block;
+      }
+    
+      /*LOGO IMAGE*/
+      .logo img {
+        width: 46px;
+        height: 46px;
+      }
+    
+      .icon-header-grouped {
+        gap: 15px;
+        flex: 1;
+        justify-content: end;
+      }
+    
+      .icon-header-grouped a:nth-child(1) {
+        width: 15px;
+        height: 15px;
+      }
+    
+      .icon-header-grouped a {
+        width: 15px;
+      }
+    
+      #toggle_button:checked ~ .toggle_button i:before {
+        content: "\f00d";
+      }
+    }
+    
+}
+
+
+
