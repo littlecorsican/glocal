@@ -59,7 +59,7 @@ export default class SearchBar extends React.Component {
                         <hr className="relative top-[-0.5rem]  border-4 border-[#D68A2C] m-0 opacity-50"></hr>
                     </h2>
                     <h2 className="fw-bold text-center" style={{fontFamily: "Montserrat", color: "#000"}}> DEALS FOR THE SEASON YOU </h2>
-                    <h2 className="fw-bold text-center" style={{fontFamily: "Montserrat", color: "#D68A2C"}}>DON'T WANT TO MISS!</h2>
+                    <h2 className="fw-bold text-center" style={{fontFamily: "Montserrat", color: "#D68A2C"}}>DON&apos;T WANT TO MISS!</h2>
                     <h6 className="text-center col-12 col-xl-5" style={{fontFamily: 'Poppins'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h6>
                 </div>
 
