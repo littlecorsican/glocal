@@ -43,11 +43,14 @@ export default function Footer() {
     ]);
     return (
         <section>
-            <div className="container d-flex flex-column justify-content-center gx-0" style={{backgroundColor: "#e8e2d6"}}>
+            <div 
+                className="container d-flex flex-column justify-content-center gx-0"
+                style={{ backgroundImage: 'url("images/home_article_background_opacity.png")' }}
+            >
                 <div className="container-lg d-flex flex-column text-center pt-5 pb-4">
                     <h2 className="fw-bold w-fit m-auto" style={{color: "#000000", fontFamily: 'Montserrat'}}>
                         What’s New?
-                        <hr className="relative top-[-1.75rem]  border-4 border-[#D68A2C]" />
+                        <hr className="relative top-[-0.75rem]  border-4 border-[#D68A2C] m-0 opacity-50" />
                     </h2>
                     <h1 className="fw-bold" style={{fontFamily: 'Montserrat', color:'#D68A2C' }}>Latest News & Articles</h1>
                 </div>

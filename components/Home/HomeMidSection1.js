@@ -54,8 +54,12 @@ export default class SearchBar extends React.Component {
         <section>
             <div id="highlight_div" style={{background: "#e8e2d6", marginTop: "-1px"}}>
                 <div className="container py-4 py-xl-5 d-flex flex-column justify-content-center align-items-center">
-                    <p className="fw-bold text-center" style={{color: "#b8b09d", fontFamily: "Montserrat", letterSpacing: "0.15em"}}>HIGHLIGHTS</p>
-                    <h2 className="fw-bold text-center" style={{fontFamily: "Montserrat"}}><span style={{color: "#b32129"}}> DEALS FOR THE SEASON </span>YOU DON’T WANT TO MISS!</h2>
+                    <h2 className="fw-bold text-center" style={{color: "#000", fontFamily: "Montserrat", letterSpacing: "0.15em", fontSize:"20px", fontWeight:"700"}}>
+                        HIGHLIGHTS
+                        <hr className="relative top-[-0.5rem]  border-4 border-[#D68A2C] m-0 opacity-50"></hr>
+                    </h2>
+                    <h2 className="fw-bold text-center" style={{fontFamily: "Montserrat", color: "#000"}}> DEALS FOR THE SEASON YOU </h2>
+                    <h2 className="fw-bold text-center" style={{fontFamily: "Montserrat", color: "#D68A2C"}}>DON'T WANT TO MISS!</h2>
                     <h6 className="text-center col-12 col-xl-5" style={{fontFamily: 'Poppins'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h6>
                 </div>
 

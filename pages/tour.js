@@ -238,7 +238,7 @@ export default function Tour() {
         <div className="tour-page">
             <div className="overflow-hidden">
         
-                <div id="banner" className="mb-5 bg-image d-flex justify-content-center align-items-start" style={{backgroundSize: 'cover', backgroundPosition: 'center', borderBottom: '15px solid #B32129'}}>
+                <div id="banner" className="mb-5 bg-image d-flex justify-content-center align-items-start" style={{backgroundSize: 'cover', backgroundPosition: 'center'}}>
                     <div id="inner_banner_div" className="position-relative bg-transparent container px-4 d-flex flex-column gap-4">
                         <div className="d-flex align-items-center flex-column">
                             <h1 className="text-white fw-bold" style={{textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', fontFamily: '"Montserrat"'}}>TOUR PACKAGES</h1>

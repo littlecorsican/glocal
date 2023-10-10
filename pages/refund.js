@@ -8,7 +8,7 @@ export default function Footer() {
     return (
         <Layout>
             <div className="refund-page overflow-hidden">
-                <div id="banner" className="mb-5 bg-image d-flex justify-content-center align-items-start" style={{backgroundImage: 'linear-gradient(red, #b32129)', backgroundPosition: 'center', borderBottom: '15px solid #b32129'}}>
+                <div id="banner" className="mb-5 bg-image d-flex justify-content-center align-items-start" style={{backgroundImage: 'linear-gradient(red, #b32129)', backgroundPosition: 'center'}}>
                     <div id="inner_banner_div" className="position-relative bg-transparent container px-4 d-flex flex-column gap-4">
                         <div className="d-flex align-items-center flex-column">
                             <h1 className="text-white fw-bold" style={{textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', fontFamily: '"Montserrat"'}}>REFUND POLICY</h1>
