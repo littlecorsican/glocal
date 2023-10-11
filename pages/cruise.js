@@ -76,8 +76,7 @@ export default function Cruise() {
             fetch(api().referenceList)
             .then(rawResult => rawResult.json())
             .then(jsonData => {
-                const result = JSON.parse(jsonData)
-                setCountries(result?.countryList)
+                setCountries(jsonData?.countryList)
             });
         } catch (error) {
             console.log('There was an error', error);
@@ -133,10 +132,9 @@ export default function Cruise() {
             .then(rawResult => rawResult.json())
             .then(jsonData => {
                 console.log(jsonData, "jsonData")
-                console.log(JSON.parse(jsonData))
                 setLoading(false)
                 setLoadingText("")
-                setRJson(JSON.parse(jsonData)?.tourDepList)
+                setRJson(jsonData?.tourDepList)
             });
         } catch (error) {
 

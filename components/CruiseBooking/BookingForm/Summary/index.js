@@ -94,15 +94,14 @@ export default function Summary(props) {
             })
             const response1 = await fetch1.json();
             console.log("response1", response1)
-            const parsedResponse1 = JSON.parse(response1)
-            const idBooking = parsedResponse1.idBooking
+            const idBooking = response1.idBooking
             cruise_context.setSuccessfulBookingId(idBooking)
-            const successful = parsedResponse1.successful
+            const successful = response1.successful
             if (successful) {
 
             } else {
-                if (parsedResponse1.error) {
-                    alert(`Error ${parsedResponse1.error} , please try again later`)
+                if (response1.error) {
+                    alert(`Error ${response1.error} , please try again later`)
                 } else {
                     alert("Error , please try again later")
                 }
@@ -133,14 +132,11 @@ export default function Summary(props) {
                 }
             })
             const response2 = await fetch2.json();
-            const parsedResponse2 = JSON.parse(response2)
-            const reParse = JSON.parse(parsedResponse2) // somehow the backend developer double encoded the json
-            console.log("reParse", reParse)
-            if (reParse.successful == true) {
+            if (response2.successful == true) {
                 props.nextPage()
             } else {
-                if (parsedData.error) {
-                    alert(`Error ${parsedData.error} , please try again later`)
+                if (response2.error) {
+                    alert(`Error ${response2.error} , please try again later`)
                 } else {
                     alert("Error , please try again later")
                 }

@@ -24,9 +24,8 @@ export default class SearchBar extends React.Component {
         .then(rawResult => rawResult.json())
         .then(jsonData => {
             console.log(jsonData)
-            console.log("parsedData", JSON.parse(jsonData))
             this.setState({
-                tourData : JSON.parse(jsonData)?.tourDepList
+                tourData : jsonData?.tourDepList
             })
         });
     
@@ -34,9 +33,8 @@ export default class SearchBar extends React.Component {
         .then(rawResult => rawResult.json())
         .then(jsonData => {
             console.log(jsonData)
-            console.log("parsedData", JSON.parse(jsonData))
             this.setState({
-                cruiseData : JSON.parse(jsonData)?.tourDepList
+                cruiseData : jsonData?.tourDepList
             })
         });
 

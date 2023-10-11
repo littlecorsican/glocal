@@ -23,9 +23,8 @@ export default function Footer() {
             .then(rawResult => rawResult.json())
             .then(jsonData => {
                 console.log(jsonData, "jsonData")
-                console.log(JSON.parse(jsonData))
                 setLoading(false)
-                setUmrah(JSON.parse(jsonData)?.tourDepList)
+                setUmrah(jsonData?.tourDepList)
             });
         } catch (error) {
             console.log('There was an error', error);

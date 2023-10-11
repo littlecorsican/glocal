@@ -103,8 +103,7 @@ export default class SearchBar extends React.Component {
         fetch(api().referenceList)
         .then(rawResult => rawResult.json())
         .then(jsonData => {
-            const result = JSON.parse(jsonData)
-            this.setState({ countries : result.countryList , category : result.tourTypeList })
+            this.setState({ countries : jsonData.countryList , category : jsonData.tourTypeList })
         });
     } catch (error) {
 

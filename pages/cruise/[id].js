@@ -30,9 +30,8 @@ export default function Contact() {
       .then(rawResult => rawResult.json())
       .then(jsonData => {
           console.log(jsonData, "jsonData")
-          console.log(JSON.parse(jsonData))
-          setRJson(JSON.parse(jsonData).tourPkg)
-          let cmsArr = JSON.parse(jsonData)?.tourPkg?.tourPkgDailyItinerary?.dailyItineraryItemEngList
+          setRJson(jsonData.tourPkg)
+          let cmsArr = jsonData?.tourPkg?.tourPkgDailyItinerary?.dailyItineraryItemEngList
           let cmsCombine = ""
           if (cmsArr) {
             cmsCombine = `<div style="font-family: Poppins">`

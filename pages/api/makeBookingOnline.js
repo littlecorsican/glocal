@@ -5,8 +5,6 @@ const handler = async(req, res)=> {
     if (req.method === 'POST') {
         //console.log("req", req)
         console.log("body", req.body, typeof req.body)
-        // const body = JSON.parse(req.body)
-        // console.log("body2", body, typeof body)
       try {
         const url = `${api().makeBookingOnline}`
         fetch(url, {

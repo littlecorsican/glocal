@@ -44,11 +44,9 @@ export default function Contact() {
         fetch(url)
         .then(rawResult => rawResult.json())
         .then(jsonData => {
-          console.log("parsedData", JSON.parse(jsonData))
-          const parsedData = JSON.parse(jsonData)
-          setTourPackage(parsedData?.tourDep?.tourPkg)
-          setDep(parsedData?.tourDep)
-          let tempDepList = parsedData?.tourDep?.tourDepItemList
+          setTourPackage(jsonData?.tourDep?.tourPkg)
+          setDep(jsonData?.tourDep)
+          let tempDepList = jsonData?.tourDep?.tourDepItemList
           // assign quantity and 0 to all objects because the API to create booking requires it
           for (let i = 0 ; i < tempDepList.length ; i ++) {
             tempDepList[i].quantity = 0;
@@ -74,9 +72,7 @@ export default function Contact() {
           .then(rawResult => rawResult.json())
           .then(jsonData => {
               console.log(jsonData)
-              console.log("parsedData", JSON.parse(jsonData))
-              const parsedData = JSON.parse(jsonData)
-              const onlineBookingConfigList = parsedData.onlineBookingConfigList
+              const onlineBookingConfigList = jsonData.onlineBookingConfigList
               setIdCompany(onlineBookingConfigList[onlineBookingConfigList.length-1].idCompany)
           });
 
@@ -84,9 +80,7 @@ export default function Contact() {
           .then(rawResult => rawResult.json())
           .then(jsonData => {
               console.log(jsonData)
-              console.log("referenceList", JSON.parse(jsonData))
-              const parsedData = JSON.parse(jsonData)
-              const malaysia = parsedData.countryList.filter((value)=>{  // put malaysia first
+              const malaysia = jsonData.countryList.filter((value)=>{  // put malaysia first
                 return value.countryName == "Malaysia"
               })
               const rest = parsedData.countryList.filter((value)=>{
@@ -100,9 +94,7 @@ export default function Contact() {
           .then(rawResult => rawResult.json())
           .then(jsonData => {
               console.log(jsonData)
-              console.log("iPayConfigList", JSON.parse(jsonData))
-              const parsedData = JSON.parse(jsonData)
-              setIPayConfigListId(parsedData.ipayConfigList[0].id)
+              setIPayConfigListId(jsonData.ipayConfigList[0].id)
           });
 
         Promise.all([fetch1, fetch2, fetch3]).then(function(values) {
@@ -199,9 +191,7 @@ export default function Contact() {
       .then(jsonData => {
           console.log(jsonData)
           setLoading(false)
-          console.log("/api/cancelBooking", JSON.parse(jsonData))
-          const parsedData = JSON.parse(jsonData)
-          const successful = parsedData.successful
+          const successful = jsonData.successful
           if (successful) {
             location.href = '/'
           } else {
