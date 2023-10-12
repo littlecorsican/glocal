@@ -49,7 +49,7 @@ export default function Footer() {
                     </h2>
                 </div>
             </div>
-            <div className="flex flex-row justify-between">
+            <div className="flex justify-between responsive-flex">
                 <div className="feature-item feature-item-mp flex-1 mr-2">
                     <div className="flex">
                         <div className="flex-[4]">
@@ -78,7 +78,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-row justify-between">
+            <div className="flex responsive-flex justify-between">
                 <div className="feature-item feature-item-mp flex-[2] mr-2">
                     <div className="flex">
                         <div className="flex-[4]">

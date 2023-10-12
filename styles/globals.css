@@ -79,6 +79,9 @@ body {
   .progress-font {
     font-size: 0.6rem
   }
+  .responsive-flex {
+    flex-direction: column;
+  }
 }
 
 @media only screen and (min-width: 770px) {
@@ -88,5 +91,8 @@ body {
   }
   .progress-font {
     font-size: 1rem
+  }
+  .responsive-flex {
+    flex-direction: row;
   }
 }
