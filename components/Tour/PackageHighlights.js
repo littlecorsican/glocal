@@ -72,19 +72,9 @@ export default function ImageGallery(props) {
         {quadImageData.map((packBy4,index)=>{
           return <div  className="flex" style={{display: 'flex !important'}} key={index}> <div style={{display: 'flex', justifyContent: 'center'}}>
             {packBy4.map((value,index2)=>{
-            return (<div className="col-sm-3" key={index2}>
-              <div className="card" style={{width: 'auto', borderRadius: '30px 0px', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.25)', height: '336px'}}>
-                <img  src={value.fileUrl} className="card-img-top" style={{borderTopLeftRadius: '30px'}} alt="..." />
-                <div className="card-body" style={{paddingTop: '25px', paddingBottom: '50px', paddingLeft: '30px'}}>
-                  <h5 className="card-title" style={{fontWeight: 700, fontFamily: 'Montserrat', paddingBottom: '10px'}}>
-                    {value.title}
-                  </h5>
-                  <h5 className="card-subtitle" style={{fontSize: '16px', fontWeight: 400, fontFamily: 'Montserrat'}}>
-                    {value.description}
-                  </h5>
-                </div>
-              </div>
-            </div>)
+            return (
+              <CarouselCard image={value.fileUrl} title={value.title} description={value.description} key={index2} />
+            )
             })}
           </div></div>
         })}
@@ -114,19 +104,9 @@ export default function ImageGallery(props) {
         {triImageData.map((packBy3,index)=>{
           return <div  className="flex" style={{display: 'flex !important'}} key={index}> <div style={{display: 'flex', justifyContent: 'center'}} >
             {packBy3.map((value,index2)=>{
-            return (<div className="col-sm-3" key={index2}>
-            <div className="card" style={{width: 'auto', borderRadius: '30px 0px', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.25)', height: '336px'}}>
-              <img  src={value.fileUrl} className="card-img-top" style={{borderTopLeftRadius: '30px'}} alt="..." />
-              <div className="card-body" style={{paddingTop: '25px', paddingBottom: '50px', paddingLeft: '30px'}}>
-                <h5 className="card-title" style={{fontWeight: 700, fontFamily: 'Montserrat', paddingBottom: '10px'}}>
-                  {value.title}
-                </h5>
-                <h5 className="card-subtitle" style={{fontSize: '16px', fontWeight: 400, fontFamily: 'Montserrat'}}>
-                  {value.description}
-                </h5>
-              </div>
-            </div>
-            </div>)
+            return (
+              <CarouselCard image={value.fileUrl} title={value.title} description={value.description} key={index2} />
+            )
           })}
         </div></div>})}
       </Carousel>
@@ -155,19 +135,9 @@ export default function ImageGallery(props) {
         {dualImageData.map((packBy2,index)=>{
           return <div  className="flex" style={{display: 'flex !important'}} key={index}> <div style={{display: 'flex', justifyContent: 'center'}}>
             {packBy2.map((value,index2)=>{
-            return (<div className="col-sm-3" key={index2}>
-            <div className="card" style={{width: 'auto', borderRadius: '30px 0px', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.25)', height: '336px'}}>
-              <img  src={value.fileUrl} className="card-img-top" style={{borderTopLeftRadius: '30px'}} alt="..." />
-              <div className="card-body" style={{paddingTop: '25px', paddingBottom: '50px', paddingLeft: '30px'}}>
-                <h5 className="card-title" style={{fontWeight: 700, fontFamily: 'Montserrat', paddingBottom: '10px'}}>
-                  {value.title}
-                </h5>
-                <h5 className="card-subtitle" style={{fontSize: '16px', fontWeight: 400, fontFamily: 'Montserrat'}}>
-                  {value.description}
-                </h5>
-              </div>
-            </div>
-            </div>)
+            return (
+              <CarouselCard image={value.fileUrl} title={value.title} description={value.description} key={index2} />
+            )
           })}
         </div></div>})}
       </Carousel>
