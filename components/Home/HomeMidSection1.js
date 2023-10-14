@@ -67,7 +67,7 @@ export default class SearchBar extends React.Component {
                             this.state.tourData.length > 0 && this.state.tourData.map((value,index)=>{
                                 if (index < 6) {
                                     return (
-                                        <div className="product col-12 col-xl-3" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
+                                        <div className="product col-12 col-xl-3 min-w-[260px]" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
                                             <div className="position-absolute border-0" style={{top: "8px", right: "8px"}}>
                                                 <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#F4B63D', fontFamily: 'Montserrat'}}>TOUR</button>
                                             </div>
@@ -98,7 +98,7 @@ export default class SearchBar extends React.Component {
                             this.state.cruiseData.length > 0 && this.state.cruiseData.map((value,index)=>{
                                 if (index < 6) {
                                     return (
-                                        <div className="product col-12 col-xl-3" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
+                                        <div className="product col-12 col-xl-3 min-w-[260px]" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
                                             <div className="position-absolute border-0" style={{top: "8px", right: "8px"}}>
                                                 <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#F4B63D', fontFamily: 'Montserrat'}}>CRUISE</button>
                                             </div>

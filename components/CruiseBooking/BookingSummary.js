@@ -9,8 +9,8 @@ export default function Contact(props) {
   // const [countDown ,setCountDown] = useState(900)
   // const [startCountDown ,setStartCountDown] = useState(false)
 
-  const context = useContext(CruiseContext)
-  console.log("context", context)
+  const cruise_context = useContext(CruiseContext)
+  console.log("cruise_context", cruise_context)
 
   const secondsToMin=(countDown)=>{
     let min = Math.floor(countDown / 60)
@@ -42,19 +42,21 @@ export default function Contact(props) {
       <p style={{fontFamily: '"Poppins"', color: '#0e0001'}}>{props.dep.dtDep}</p>
       {<div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
         <h6> Adult/Children </h6>
-        <h6>RM {context.peopleAmount ? context.peopleAmount : 0} </h6>
+        <h6>RM {cruise_context.peopleAmount ? cruise_context.peopleAmount : 0} </h6>
       </div>}
       {<div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
         <h6> Infant </h6>
-        <h6>RM {context.infantAmount ? context.infantAmount : 0} </h6>
+        <h6>RM {cruise_context.infantAmount ? cruise_context.infantAmount : 0} </h6>
       </div>}
       <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
         <h6>Booking Deposit</h6>
-        <h6> RM {parseInt(context.peopleAmount)+parseInt(context.infantAmount)} </h6>
+        <h6> RM {cruise_context?.tourPackage?.deposit} </h6>
       </div>
       <hr className="hr mt-lg-1" />
       <p className="m-0 fw-bold" style={{fontFamily: '"Poppins"', color: '#b8b09d', letterSpacing: '0.05em'}}>TOTAL DUE</p>
-      <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>RM {parseInt(context.peopleAmount)+parseInt(context.infantAmount)}</h3>
+      <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>
+        RM {parseInt(cruise_context.peopleAmount)+parseInt(cruise_context.infantAmount) + parseInt(cruise_context?.tourPackage?.deposit)}
+      </h3>
       {/* <button type="button" className="btn rounded-pill btn-book" style={{fontFamily: '"Montserrat"', fontStyle: 'normal', fontWeight: 700, background: '#ea242d', color: '#ffffff'}}>BOOK NOW</button> */}
     </div>
   )

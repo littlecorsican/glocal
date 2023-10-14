@@ -150,6 +150,27 @@ export default function Contact() {
           tempAggregateData.infantRoom.quantity += 1
           tempAggregateData.infantRoom.amount = tempAggregateData.infantRoom.quantity * tourDepItemList[i].amount
         }
+        if (tourDepItemList[i].code == "FT_CTW" && (roomData[key].childRoomWithBedCount == 2)) {
+          tempAggregateData.childWithBedRoom.quantity += 2
+          const childWithBedRoomAmt = tourDepItemList.find((value)=>{
+            return value.code == "FT_CWB"
+          }).amount
+          tempAggregateData.childWithBedRoom.amount = childWithBedRoomAmt  + tourDepItemList[i].amount
+        }
+        if (tourDepItemList[i].code == "FT_CTW" && (roomData[key].childRoomWithoutBedCount == 2)) {
+          tempAggregateData.childWithNoBedRoom.quantity += 2
+          const childWithoutBedRoomAmt = tourDepItemList.find((value)=>{
+            return value.code == "FT_CNB"
+          }).amount
+          tempAggregateData.childWithNoBedRoom.amount = childWithoutBedRoomAmt  + tourDepItemList[i].amount
+        }
+        if (tourDepItemList[i].code == "FT_CWB" && (roomData[key].childRoomWithBedCount == 1 && roomData[key].childRoomWithoutBedCount == 1)) {
+          const childWithoutBedRoomAmt = tourDepItemList.find((value)=>{
+            return value.code == "FT_CNB"
+          }).amount
+          tempAggregateData.childWithNoBedRoom.amount = childWithoutBedRoomAmt
+          tempAggregateData.childWithBedRoom.amount = tourDepItemList[i].amount
+        }
       }
     }
     console.log("tempAggregateData", tempAggregateData)

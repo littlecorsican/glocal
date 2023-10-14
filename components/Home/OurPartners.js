@@ -50,7 +50,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className="flex justify-between responsive-flex">
-                <div className="feature-item feature-item-mp flex-1 mr-2">
+                <div className="feature-item feature-item-mp flex-1 mr-2 min-w-[260px]">
                     <div className="flex">
                         <div className="flex-[4]">
                             <h4 style={{ fontFamily:"Montserrat", fontWeight:"600", color:"#2158AA" }}>MUSLIM-FRIENDLY</h4>
@@ -64,7 +64,7 @@ export default function Footer() {
                     </div>
                     
                 </div>
-                <div className="feature-item feature-item-mp flex-1 ml-2">
+                <div className="feature-item feature-item-mp flex-1 ml-2 min-w-[260px]">
                     <div className="flex">
                         <div className="flex-[4]">
                             <h4 style={{ fontFamily:"Montserrat", fontWeight:"600", color:"#2158AA" }}>COMFORTABLE STAY</h4>
@@ -79,7 +79,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className="flex responsive-flex justify-between">
-                <div className="feature-item feature-item-mp flex-[2] mr-2">
+                <div className="feature-item feature-item-mp flex-[2] mr-2 min-w-[260px]">
                     <div className="flex">
                         <div className="flex-[4]">
                             <h4 style={{ fontFamily:"Montserrat", fontWeight:"600", color:"#2158AA" }}>LICENSED AGENCY</h4>
@@ -93,7 +93,7 @@ export default function Footer() {
                     </div>
                     
                 </div>
-                <div className="feature-item feature-item-mp flex-[2] ml-2">
+                <div className="feature-item feature-item-mp flex-[2] ml-2 min-w-[260px]">
                     <div className="flex">
                         <div className="flex-[4]">
                             <h4 style={{ fontFamily:"Montserrat", fontWeight:"600", color:"#2158AA" }}>EXPERIENCED TOUR GUIDES</h4>
