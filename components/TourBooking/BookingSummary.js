@@ -3,8 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link';
 import {useState, useEffect, useContext} from 'react'
 import api from 'api'
+import { Money } from '@dintero/money'
 
-export default function Contact(props) {
+export default function BookingSummary(props) {
 
   // const [countDown ,setCountDown] = useState(900)
   // const [startCountDown ,setStartCountDown] = useState(false)
@@ -25,6 +26,12 @@ export default function Contact(props) {
 
   const { timer, startTimer } = props
   const { aggregateData } = tour_context
+
+  const adultRoom = aggregateData?.adultRoom?.amount || 0
+  const childWithBedRoom = aggregateData?.childWithBedRoom?.amount || 0
+  const childWithoutBedRoom = aggregateData?.childWithNoBedRoom?.amount || 0
+  const infantRoom = aggregateData?.infantRoom?.amount || 0
+  const deposit = tour_context?.tourPackage?.deposit || 0
 
   return (
     <div id="summary_div" className="card d-flex justify-content-start flex-column flex-wrap p-4 rounded-5 shadow">
@@ -51,7 +58,7 @@ export default function Contact(props) {
         <h6>RM {aggregateData.childWithBedRoom.amount}</h6>
       </div>}
       {aggregateData?.childWithNoBedRoom?.quantity > 0 && <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
-        <h6>Children Without Bed x{aggregateData.childWithNoBedRoom.quantity}</h6>
+        <h6>Children W/O Bed x{aggregateData.childWithNoBedRoom.quantity}</h6>
         <h6>RM {aggregateData.childWithNoBedRoom.amount}</h6>
       </div>}
         {/* infant count */}
@@ -65,7 +72,16 @@ export default function Contact(props) {
       </div>
       <hr className="hr mt-lg-1" />
       <p className="m-0 fw-bold" style={{fontFamily: '"Poppins"', color: '#b8b09d', letterSpacing: '0.05em'}}>TOTAL DUE</p>
-      <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>RM {aggregateData?.adultRoom?.amount + aggregateData?.childWithBedRoom?.amount + aggregateData?.childWithNoBedRoom?.amount + aggregateData?.infantRoom?.amount + tour_context?.tourPackage?.deposit}</h3>
+      <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>
+        RM {
+            Money.of(adultRoom, 'MYR')
+            .add(Money.of(childWithBedRoom, 'MYR'))
+            .add(Money.of(childWithoutBedRoom, 'MYR'))
+            .add(Money.of(infantRoom, 'MYR'))
+            .add(Money.of(deposit, 'MYR'))
+            .toString()
+          }
+      </h3>
       {/* <button type="button" className="btn rounded-pill btn-book" style={{fontFamily: '"Montserrat"', fontStyle: 'normal', fontWeight: 700, background: '#ea242d', color: '#ffffff'}}>BOOK NOW</button> */}
     </div>
   )

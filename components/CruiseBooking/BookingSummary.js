@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import {useState, useEffect, useContext} from 'react'
 import api from 'api'
+import { Money } from '@dintero/money'
 
 export default function Contact(props) {
 
@@ -26,6 +27,11 @@ export default function Contact(props) {
 
 
   const { aggregateData, timer, startTimer } = props
+
+
+  const peopleAmount = cruise_context.peopleAmount || 0
+  const infantAmount = cruise_context.infantAmount || 0
+  const deposit = cruise_context?.tourPackage?.deposit || 0
 
   return (
     <div id="summary_div" className="card d-flex justify-content-start flex-column flex-wrap p-4 rounded-5 shadow">
@@ -55,7 +61,12 @@ export default function Contact(props) {
       <hr className="hr mt-lg-1" />
       <p className="m-0 fw-bold" style={{fontFamily: '"Poppins"', color: '#b8b09d', letterSpacing: '0.05em'}}>TOTAL DUE</p>
       <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>
-        RM {parseInt(cruise_context.peopleAmount)+parseInt(cruise_context.infantAmount) + parseInt(cruise_context?.tourPackage?.deposit)}
+        RM {
+            Money.of(peopleAmount, 'MYR')
+            .add(Money.of(infantAmount, 'MYR'))
+            .add(Money.of(deposit, 'MYR'))
+            .toString()
+          }
       </h3>
       {/* <button type="button" className="btn rounded-pill btn-book" style={{fontFamily: '"Montserrat"', fontStyle: 'normal', fontWeight: 700, background: '#ea242d', color: '#ffffff'}}>BOOK NOW</button> */}
     </div>

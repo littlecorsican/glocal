@@ -27,9 +27,11 @@ export default function Overview(props) {
 
     const checkIfCanEnableNext=()=>{
         let headCount = 0
+        let adultCount = 0
         console.log("checkIfCanEnableNext", roomData)
         for (const key in roomData) {
             headCount += roomData[key].adultRoomCount
+            adultCount += roomData[key].adultRoomCount
             headCount += roomData[key].childRoomWithBedCount
             headCount += roomData[key].childRoomWithoutBedCount
             headCount += roomData[key].infantRoomCount
@@ -37,7 +39,9 @@ export default function Overview(props) {
         console.log("headCount", headCount)
         if (headCount > 0 && checkbox1.current.checked == true && checkbox2.current.checked == true) {
             tour_context.setTotalHeadCount(headCount)
-            setNextBtnEnabled(true)
+            if (adultCount > 0) {
+                setNextBtnEnabled(true)
+            }
         } else {
             tour_context.setTotalHeadCount(headCount)
             setNextBtnEnabled(false)
@@ -115,6 +119,7 @@ export default function Overview(props) {
             {/*BUTTON NEXT PART*/}
             <hr className="hr mt-lg-4" style={{marginTop: '-10px'}} />
             <div className="d-flex button-combined_div d-flex justify-content-between flex-nowrap flex-sm-wrap">
+                {/* KEEPING BACK BUTTON HERE TO KEEP NEXT BUTTON ON RIGHT HAND SIDE */}
                 <div className="button-container col-md-2 col-5">
                     <button onClick={props.prevPage} type="button" className="btn rounded-pill fw-bold w-100" 
                         style={{

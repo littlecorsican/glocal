@@ -9,6 +9,7 @@ import BookingSummary from '../components/TourBooking/BookingSummary'
 import { useRouter } from "next/router";
 import api from 'api'
 import Loading from '../components/Loading'
+import { Money } from '@dintero/money'
 //import { validateReferenceList, validateOnlineBookingConfigList, validateIpayConfigList, validateTourdepdetail } from '../utils/utils'
 
 export default function Contact() {
@@ -132,37 +133,45 @@ export default function Contact() {
       for (let i =0 ; i < tourDepItemList.length ; i ++) {
         if (tourDepItemList[i].code == "FT_SGL" && roomData[key].adultRoomCount == 1) {
           tempAggregateData.adultRoom.quantity += 1
-          tempAggregateData.adultRoom.amount = tempAggregateData.adultRoom.quantity * tourDepItemList[i].amount
+          const amount = Money.of(tourDepItemList[i].amount, "MYR").multiply(tempAggregateData.adultRoom.quantity)
+          .toString()
+          tempAggregateData.adultRoom.amount = amount
         }
         if (tourDepItemList[i].code == "FT_TWN" && roomData[key].adultRoomCount == 2) {
           tempAggregateData.adultRoom.quantity += 2
-          tempAggregateData.adultRoom.amount = tempAggregateData.adultRoom.quantity * tourDepItemList[i].amount
+          const amount = Money.of(tourDepItemList[i].amount, "MYR").multiply(tempAggregateData.adultRoom.quantity)
+          .toString()
+          tempAggregateData.adultRoom.amount = amount
         }
         if (tourDepItemList[i].code == "FT_CWB" && roomData[key].childRoomWithBedCount == 1) {
           tempAggregateData.childWithBedRoom.quantity += 1
-          tempAggregateData.childWithBedRoom.amount = tempAggregateData.childWithBedRoom.quantity * tourDepItemList[i].amount
+          const amount = Money.of(tourDepItemList[i].amount, "MYR").multiply(tempAggregateData.childWithBedRoom.quantity)
+          .toString()
+          tempAggregateData.childWithBedRoom.amount = amount
         }
         if (tourDepItemList[i].code == "FT_CNB" && roomData[key].childRoomWithoutBedCount == 1) {
           tempAggregateData.childWithNoBedRoom.quantity += 1
-          tempAggregateData.childWithNoBedRoom.amount = tempAggregateData.childWithNoBedRoom.quantity * tourDepItemList[i].amount
-        }
-        if (tourDepItemList[i].code == "FT_INFT" && roomData[key].infantRoomCount == 1) {
-          tempAggregateData.infantRoom.quantity += 1
-          tempAggregateData.infantRoom.amount = tempAggregateData.infantRoom.quantity * tourDepItemList[i].amount
+          const amount = Money.of(tourDepItemList[i].amount, "MYR").multiply(tempAggregateData.childWithNoBedRoom.quantity)
+          .toString()
+          tempAggregateData.childWithNoBedRoom.amount = amount
         }
         if (tourDepItemList[i].code == "FT_CTW" && (roomData[key].childRoomWithBedCount == 2)) {
           tempAggregateData.childWithBedRoom.quantity += 2
           const childWithBedRoomAmt = tourDepItemList.find((value)=>{
             return value.code == "FT_CWB"
           }).amount
-          tempAggregateData.childWithBedRoom.amount = childWithBedRoomAmt  + tourDepItemList[i].amount
+          const amount = Money.of(tourDepItemList[i].amount, "MYR").add(Money.of(childWithBedRoomAmt, "MYR"))
+          .toString()
+          tempAggregateData.childWithBedRoom.amount = amount
         }
         if (tourDepItemList[i].code == "FT_CTW" && (roomData[key].childRoomWithoutBedCount == 2)) {
           tempAggregateData.childWithNoBedRoom.quantity += 2
           const childWithoutBedRoomAmt = tourDepItemList.find((value)=>{
             return value.code == "FT_CNB"
           }).amount
-          tempAggregateData.childWithNoBedRoom.amount = childWithoutBedRoomAmt  + tourDepItemList[i].amount
+          const amount = Money.of(tourDepItemList[i].amount, "MYR").add(Money.of(childWithoutBedRoomAmt, "MYR"))
+          .toString()
+          tempAggregateData.childWithNoBedRoom.amount = amount
         }
         if (tourDepItemList[i].code == "FT_CWB" && (roomData[key].childRoomWithBedCount == 1 && roomData[key].childRoomWithoutBedCount == 1)) {
           const childWithoutBedRoomAmt = tourDepItemList.find((value)=>{
@@ -170,6 +179,12 @@ export default function Contact() {
           }).amount
           tempAggregateData.childWithNoBedRoom.amount = childWithoutBedRoomAmt
           tempAggregateData.childWithBedRoom.amount = tourDepItemList[i].amount
+        }
+        if (tourDepItemList[i].code == "FT_INFT" && roomData[key].infantRoomCount == 1) {
+          tempAggregateData.infantRoom.quantity += 1
+          const amount = Money.of(tourDepItemList[i].amount, "MYR").multiply(tempAggregateData.infantRoom.quantity)
+          .toString()
+          tempAggregateData.infantRoom.amount = amount
         }
       }
     }

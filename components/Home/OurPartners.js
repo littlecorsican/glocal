@@ -59,7 +59,7 @@ export default function Footer() {
                             </div>
                         </div>
                         <div className="flex-[1]">
-                            <img src="images/features_icon_1.png" />
+                            <img src="/images/features_icon_1.png" />
                         </div>
                     </div>
                     
@@ -73,7 +73,7 @@ export default function Footer() {
                             </div>
                         </div>
                         <div className="flex-[1]">
-                            <img src="images/features_icon_2.png" />
+                            <img src="/images/features_icon_2.png" />
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@ export default function Footer() {
                             </div>
                         </div>
                         <div className="flex-[1]">
-                            <img src="images/features_icon_3.png" />
+                            <img src="/images/features_icon_3.png" />
                         </div>
                     </div>
                     
@@ -102,12 +102,12 @@ export default function Footer() {
                             </div>
                         </div>
                         <div className="flex-[1]">
-                            <img src="images/features_icon_4.png" />
+                            <img src="/images/features_icon_4.png" />
                         </div>
                     </div>
                 </div>
                 <div className="feature-item-mp flex-[1] ml-2">
-                    <img src="images/glocaltravel.png" />
+                    <img src="/images/glocaltravel.png" />
                     <button className="d-md-none d-block" style={{border: 'none', paddingLeft: '19px', paddingRight: '19px', paddingTop: '9.34px', paddingBottom: '9.34px', backgroundColor: '#ea242d', color: '#fff', fontFamily: 'Montserrat', fontWeight: 700, fontSize: '12px', borderRadius: '100px'}}>GO TO HOMEPAGE</button>
                 </div>
             </div>

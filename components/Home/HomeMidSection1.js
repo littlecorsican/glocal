@@ -71,7 +71,7 @@ export default class SearchBar extends React.Component {
                                             <div className="position-absolute border-0" style={{top: "8px", right: "8px"}}>
                                                 <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#F4B63D', fontFamily: 'Montserrat'}}>TOUR</button>
                                             </div>
-                                            <img className="img-fluid" src={value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/rsz_warner-bros-studio-tour.jpg" : value?.imageUrl } alt="" style={{ minHeight:"330px" }} />
+                                            <img className="img-fluid min-h-[330px] max-h-[450px]" src={value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/rsz_warner-bros-studio-tour.jpg" : value?.imageUrl } alt="" style={{ minHeight:"330px" }} />
                                             {/* <Image src={value.imageUrl} className="img-fluid" alt=' ' width={100} height={100}/> */}
                                             <div className="container p-4 bg-white">
                                                 <div className="d-flex flex-row justify-content-between" style={{fontFamily: 'Montserrat'}}>

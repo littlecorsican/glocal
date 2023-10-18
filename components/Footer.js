@@ -45,13 +45,13 @@ export default function Footer() {
                         </div>
                     </form>
                     <div className="flex flex-row justify-between w-3/5 my-4">
-                        <img src="images/footer_facebook.png" className="" />
-                        <img src="images/footer_separator.png" className="" />
-                        <img src="images/footer_linkedin.png" className="" />
-                        <img src="images/footer_separator.png" className="" />
-                        <img src="images/footer_twitter.png" className="" />
-                        <img src="images/footer_separator.png" className="" />
-                        <img src="images/footer_youtube.png" className="" />
+                        <img src="/images/footer_facebook.png" className="" />
+                        <img src="/images/footer_separator.png" className="" />
+                        <img src="/images/footer_linkedin.png" className="" />
+                        <img src="/images/footer_separator.png" className="" />
+                        <img src="/images/footer_twitter.png" className="" />
+                        <img src="/images/footer_separator.png" className="" />
+                        <img src="/images/footer_youtube.png" className="" />
                     </div>
 
 
@@ -63,27 +63,27 @@ export default function Footer() {
                         style={{ fontFamily: '"Montserrat"', letterSpacing: "0.15em" }}
                     >
                         REACH OUT
-                        <img src="images/Line.png" className="my-4" />
+                        <img src="/images/Line.png" className="my-4" />
                     </h5>
                     <div
                         className="d-flex flex-row gap-1 mt-3"
                         style={{ fontFamily: 'Poppins' }}
                     >
-                        <img src="images/footer_location.png" className="w-[24px] h-[24px] mx-2" />
+                        <img src="/images/footer_location.png" className="w-[24px] h-[24px] mx-2" />
                         B2-3A & B2-5, Arc @ Ampang Ukay, Persiaran Ampang Ukay, Hulu Kelang, 68000 Ampang, Selangor.
                     </div>
                     <div
                         className="d-flex flex-row gap-1 mt-3"
                         style={{ fontFamily: 'Poppins' }}
                     >
-                        <img src="images/footer_telephone.png" className="w-[24px] h-[24px] mx-2" />
+                        <img src="/images/footer_telephone.png" className="w-[24px] h-[24px] mx-2" />
                         011-1091 4828
                     </div>
                     <div
                         className="d-flex flex-row gap-1 mt-3"
                         style={{ fontFamily: 'Poppins' }}
                     >
-                        <img src="images/footer_clock.png" className="w-[24px] h-[24px] mx-2" />
+                        <img src="/images/footer_clock.png" className="w-[24px] h-[24px] mx-2" />
                         <p className="fs-6" style={{ fontFamily: 'Poppins' }}>
                             Monday-Friday: <span className="text-[#D68A2C]">9:00 – 18:00</span>
                         <br />
@@ -100,7 +100,7 @@ export default function Footer() {
                     >
                         Quick Links
                     </h5>
-                    <img src="images/Line.png" className="my-4" />
+                    <img src="/images/Line.png" className="my-4" />
                     <div
                         className="d-flex flex-column gap-1 mt-3"
                         style={{ fontFamily: 'Poppins' }}

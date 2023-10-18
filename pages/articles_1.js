@@ -36,7 +36,7 @@ export default function Footer() {
                             </h6>
                             <h2 className="fw-bold pt-3 pt-xl-5 text-break" style={{fontFamily: '"Montserrat"', fontSize: '30px'}} >Firstly, What Do We Have?</h2>
                             <div className="flex flex-col">
-                                <img src="images/article_sub1.jpg" className="w-48"  />
+                                <img src="/images/article_sub1.jpg" className="w-48"  />
                             </div>
                             <h6 style={{fontFamily: '"Poppins"', fontWeight: 400, lineHeight: '27px'}} >
                                 We have a good-looking and well-mannered cabin crew
@@ -48,8 +48,8 @@ export default function Footer() {
                             </h6>
                             <h2 className="fw-bold pt-3 pt-xl-5 text-break" style={{fontFamily: '"Montserrat"', fontSize: '30px'}} >Secondly, The Waiting Part Is The Endless Fun And Adventure Moments.</h2>
                             <div className="flex flex-row">
-                                <img src="images/article_sub2.jpg" className="w-48"  />
-                                <img src="images/article_sub3.jpg" className="w-48"  />
+                                <img src="/images/article_sub2.jpg" className="w-48"  />
+                                <img src="/images/article_sub3.jpg" className="w-48"  />
                             </div>
                             <h6 style={{fontFamily: '"Poppins"', fontWeight: 400, lineHeight: '27px'}} >
                                 Everyone is excited about FREE! Whether it is free entertainment, free
@@ -63,13 +63,13 @@ export default function Footer() {
                                 waterslides and jacuzzies.
                             </h6>
                             <div className="flex flex-row">
-                                <img src="images/article_sub4.jpg" className="w-48"  />
+                                <img src="/images/article_sub4.jpg" className="w-48"  />
                             </div>
                             <h6 style={{fontFamily: '"Poppins"', fontWeight: 400, lineHeight: '27px'}} >
                             For outdoor lovers, you can also enjoy activities like rope courses, it&#39;s also for free. From the mesmerizing Infinite Show, a dance extravaganza reminiscent of America&#39;s Got Talent, to the engaging and hilarious Love Matters performance, every night was filled with excitement and wonder. It&#39;s really perfect for solo travel and family.   
                             </h6>
                             <div className="flex flex-row">
-                                <img src="images/article_sub5.jpg" className="w-48"  />
+                                <img src="/images/article_sub5.jpg" className="w-48"  />
                             </div>
                             <h2 className="fw-bold pt-3 pt-xl-5 text-break" style={{fontFamily: '"Montserrat"', fontSize: '30px'}} >A Foodie Delights In A Masterpiece.</h2>
                             <h6 style={{fontFamily: '"Poppins"', fontWeight: 400, lineHeight: '27px'}} >
@@ -85,11 +85,11 @@ export default function Footer() {
                                 family.
                             </h6>
                             <div className="flex flex-row">
-                                <img src="images/article_sub6.jpg" className="w-48"  />
+                                <img src="/images/article_sub6.jpg" className="w-48"  />
                             </div>
                             <h2 className="fw-bold pt-3 pt-xl-5 text-break" style={{fontFamily: '"Montserrat"', fontSize: '30px'}} >Exploring Lion City,</h2>
                             <div className="flex flex-row">
-                                <img src="images/article_sub7.jpg" className="w-48"  />
+                                <img src="/images/article_sub7.jpg" className="w-48"  />
                             </div>
                             <h6 style={{fontFamily: '"Poppins"', fontWeight: 400, lineHeight: '27px'}} >
                                 That sounds like a wonderful plan! When you dock at the Singapore

@@ -6,7 +6,7 @@ import IncrementCount from './IncrementCount'
 
 export default function Rooms(props, ref) {
 
-    const [adult, setAdult] = useState(1)
+    const [adult, setAdult] = useState(0)
     const [childWithBed, setChildren] = useState(0)
     const [childWithoutBed, setChildrenWithoutBed] = useState(0)
     const [infant, setInfant] = useState(0)

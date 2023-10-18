@@ -8,6 +8,7 @@ import { clone, cloneDeep } from 'lodash';
 import DropDownMenu from '@component/components/Shared/DropDownMenu';
 import Button from '@component/components/Shared/Button';
 import Label from '@component/components/Shared/Label';
+import { Money } from '@dintero/money'
 
 export default function Overview(props) {
 
@@ -37,13 +38,13 @@ export default function Overview(props) {
             let peopleAmount = 0
             let infantAmount = 0
             if (totalPeople === 1) {
-                peopleAmount = selectedCabinObj.priceSgl
+                peopleAmount = Money.of(selectedCabinObj.priceSgl, 'MYR').toString()
             } else if (totalPeople === 2) {
-                peopleAmount = selectedCabinObj.priceTwn * 2
+                peopleAmount = Money.of(selectedCabinObj.priceTwn, 'MYR').multiply(2).toString()
             } else if (totalPeople === 3) {
-                peopleAmount = selectedCabinObj.price3 * 3
+                peopleAmount = Money.of(selectedCabinObj.price3, 'MYR').multiply(3).toString()
             } else if (totalPeople === 4) {
-                peopleAmount = selectedCabinObj.price4 * 4
+                peopleAmount = Money.of(selectedCabinObj.price4, 'MYR').multiply(4).toString()
             } else {
                 peopleAmount = 0
             }
@@ -51,7 +52,7 @@ export default function Overview(props) {
             console.log("peopleAmount", peopleAmount)
 
             if (totalInfant === 1) {
-                infantAmount = selectedCabinObj.priceInf
+                infantAmount = Money.of(selectedCabinObj.priceInf, 'MYR').toString()
             } else {
                 infantAmount = 0
             }

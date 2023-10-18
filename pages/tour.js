@@ -308,7 +308,7 @@ export default function Tour() {
                                 <div className="d-flex justify-content-start col-12 col-xl-5 position-relative">
                                     <img 
                                         src={value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/rsz_warner-bros-studio-tour.jpg" : value?.imageUrl}
-                                        className="img-fluid w-100"
+                                        className="img-fluid w-100 min-h-[250px] max-h-[450px]"
                                         style={{borderTopLeftRadius: '1.5rem', backgroundSize: 'cover'}}
                                         alt="Article Image"
                                     />

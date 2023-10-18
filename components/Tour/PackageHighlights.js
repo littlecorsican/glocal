@@ -31,6 +31,7 @@ export default function ImageGallery(props) {
           tempArr2.push(props.data[i+o])
         }
         tempArr.push(tempArr2)
+        tempArr.push(tempArr2)
       } 
       console.log("tempArr", tempArr)
       return tempArr

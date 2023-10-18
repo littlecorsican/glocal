@@ -41,7 +41,7 @@ export default function ImageGallery(props) {
                 </Link> 
               }
               <div className="row g-2">
-                <div className="col-8">
+                <div className="col-8 max-h-[800px]">
                 {
                   props.data && props.data.length > 0 && <Link href={props.data[0].fileUrl} className="lightbox" data-caption={props.data[0].title}>
                     <img  style={{width: '100%', height: '100%', objectFit: 'cover'}} src={props.data[0].fileUrl} alt="" />
@@ -53,7 +53,7 @@ export default function ImageGallery(props) {
                   </Link>
                 }
                 </div> 
-                <div className="col-4">
+                <div className="col-4 max-h-[800px] overflow-hidden">
                   <div className="row g-2">
                     {
                       props.data && props.data.length > 0 && props.data.map((value,index)=>{

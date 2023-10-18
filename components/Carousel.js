@@ -48,7 +48,7 @@ export default function Footer() {
       renderArrowPrev={(clickHandler, hasNext, labelNext) => 
         (
           <button onClick={clickHandler} className="carousel-btn carousel-prev-btn">
-            <span className="" aria-hidden="true"><img src="images/carousel_backbtn.png"/></span>
+            <span className="" aria-hidden="true"><img src="/images/carousel_backbtn.png"/></span>
             <span className="visually-hidden">Previous</span>
           </button>
         )
@@ -56,7 +56,7 @@ export default function Footer() {
       renderArrowNext={(clickHandler, hasNext, labelNext) => 
         (
           <button onClick={clickHandler} className="carousel-btn carousel-next-btn">
-            <span className="" aria-hidden="true"><img src="images/carousel_nextbtn.png"/></span>
+            <span className="" aria-hidden="true"><img src="/images/carousel_nextbtn.png"/></span>
             <span className="visually-hidden">Next</span>
           </button>
         )
