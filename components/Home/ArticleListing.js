@@ -118,7 +118,7 @@ function CardType1(props) {
             {props.index !== props.data.length-1 && <div className="" style={{ flex:1 }}>
                 <div className="flex flex-column bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis">
                     <div className="flex-1">
-                        <img src={props.data[props.index+1].image_path} className="w-full" />
+                        <img src={props.data[props.index+1].image_path} className="w-full max-h-[200px]" />
                     </div>
                     <div className='flex-1 p-4'>
                         <div className="text-lg font-bold" style={{ fontFamily: '"Montserrat"' }}>{props.data[props.index+1].title}</div>
@@ -139,9 +139,9 @@ function CardType2(props) {
     return (
         <div className="flex flex-row w-full justify-evenly my-4 ">
             <div className="flex flex-row bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:1 }}>
-                <div className="flex flex-column bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis">
+                <div className="flex flex-column bg-white max-h-[350px] overflow-hidden text-ellipsis">
                     <div className="flex-1">
-                        <img src={props.value.image_path} className="w-full" />
+                        <img src={props.value.image_path} className="w-full max-h-[200px]" />
                     </div>
                     <div className='flex-1 p-4'>
                         <div className="text-lg font-bold" style={{ fontFamily: '"Montserrat"' }}>{props.value.title}</div>
