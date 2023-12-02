@@ -12,7 +12,7 @@ export default function Contact() {
     //   </Link>
     // </div>
     <div className="position-fixed d-flex justify-content-end" style={{bottom: '50px', right: '1%', zIndex: 100, width: '10%'}}>
-      <a href="https://app.warotator.com/salesteam" target="_blank">
+      <a href="https://saleskakijalan.wasap.my" target="_blank">
         <img src="/icons/whatsapp.png" alt="whatsapp" style={{cursor: 'pointer', maxWidth: '73%'}} />
       </a>
     </div>

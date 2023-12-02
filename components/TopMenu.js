@@ -15,32 +15,27 @@ export default class TopMenu extends React.Component {
             "child" : []
           },
           {
-            "title" : "tour",
-            "url" : "/tour",
-            "child" : []
-          },
-          // {
-          //   "title" : "tour",
-          //   "url" : "/tour",
-          //   "child" : [
-          //     {
-          //       "title" : "all tours",
-          //       "url" : "/tour?category=TOURS",
-          //     },
-          //     {
-          //       "title" : "inbound",
-          //       "url" : "/tour?category=TOURS:INBOUND",
-          //     },
-          //     {
-          //       "title" : "outbound",
-          //       "url" : "/tour?category=TOURS:OUTBOUND",
-          //     },
-          //   ]
-          // },
-          {
             "title" : "cruise",
             "url" : "/cruise",
             "child" : []
+          },
+          {
+            "title" : "tour",
+            "url" : "/tour",
+            "child" : [
+              {
+                "title" : "all tours",
+                "url" : "/tour?category=TOURS",
+              },
+              {
+                "title" : "inbound",
+                "url" : "/tour?category=INBOUND",
+              },
+              {
+                "title" : "outbound",
+                "url" : "/tour?category=OUTBOUND",
+              },
+            ]
           },
           // {
           //   "title" : "umrah",
@@ -84,7 +79,7 @@ export default class TopMenu extends React.Component {
       <>
         <div id="header_div" className="w-100" style={{zIndex: 10}}>
         <nav>
-          <div className="logo">
+        <div className="logo">
             <Link href="/">
               <img  className="img-fluid" src="/images/glocaltravel.png" alt="Logo" />
             </Link>

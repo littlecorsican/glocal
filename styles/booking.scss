@@ -1,0 +1,15 @@
+.booking-summary-flex {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-top-child {
+    -webkit-order: 0;
+    order: 0;
+}
+
+.flex-bottom-child {
+    -webkit-order: 1;
+    order: 1;
+}

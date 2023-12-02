@@ -22,12 +22,15 @@ export default function Contact() {
     const [successfulBookingId, setSuccessfulBookingId] = useState(null)
     const [idCompany, setIdCompany] = useState(null)
     const [timer, setTimer] = useState(null)
+    const [countdown, setCountDown] = useState(false)
     const [country, setCountry] = useState({})
     const [iPayConfigListId, setIPayConfigListId] = useState()
+    const [adminChargesPercentage, setAdminChargesPercentage] = useState(0)
     const [loading, setLoading] = useState(false)
     const [loadingText, setLoadingText] = useState("")
-    const [totalHeadCount, setTotalHeadCount] = useState(0)
+    const [totalHeadCount, setTotalHeadCount] = useState(0)  // total adult + child + infant
     const [userInputData, setUserInputData] = useState(null)
+    const [selectedPaymentMode, setSelectedPaymentMode] = useState(0)
     
     const  router = useRouter();
     const  idTourPkg = router.query["idTourPkg"];
@@ -59,6 +62,7 @@ export default function Contact() {
         });
       } catch (error) {
         console.log('There was an error', error);
+        alert("There is an error in our system, please try again later")
       }
 
   }, [router.isReady, idCompany]);
@@ -76,7 +80,7 @@ export default function Contact() {
           .then(jsonData => {
               console.log(jsonData)
               const onlineBookingConfigList = jsonData.onlineBookingConfigList
-              setIdCompany(onlineBookingConfigList[onlineBookingConfigList.length-1].idCompany)
+              setIdCompany(onlineBookingConfigList[onlineBookingConfigList.length-1]?.idCompany || 1)
           });
 
           const fetch2 = fetch(url2)
@@ -97,7 +101,8 @@ export default function Contact() {
           .then(rawResult => rawResult.json())
           .then(jsonData => {
               console.log(jsonData)
-              setIPayConfigListId(jsonData?.ipayConfigList[0]?.id || 1)
+              setIPayConfigListId(jsonData?.ipayConfigList[0]?.idBase || 1)
+              setAdminChargesPercentage(jsonData?.ipayConfigList[0]?.adminChargesPercentage || 0)
           });
 
         Promise.all([fetch1, fetch2, fetch3]).then(function(values) {
@@ -105,6 +110,7 @@ export default function Contact() {
         }); 
         } catch (error) {
           console.log('There was an error', error);
+          alert("There is an error in our system, please try again later")
         }
   },[])
 
@@ -205,6 +211,7 @@ export default function Contact() {
 
   const start=()=>{
     setTimer(900)
+    setCountDown(true)
     intervalId.current = setInterval(()=>{
       setTimer((timer)=>timer-1)
     }, 1000) 
@@ -215,6 +222,7 @@ export default function Contact() {
       setTimer(null)
       clearInterval(intervalId.current);
       if (timer != null) {
+        setCountDown(false)
         alert("Times up")
         cancelBooking()
       }
@@ -224,6 +232,7 @@ export default function Contact() {
   const cancelBooking=()=>{
     //call cancel booking api
     setLoading(true)
+    setLoadingText("Cancelling booking....")
     const idBooking = successfulBookingId
     let url = `/api/cancelBooking`
     try {
@@ -235,6 +244,7 @@ export default function Contact() {
       .then(jsonData => {
           console.log(jsonData)
           setLoading(false)
+          setLoadingText("")
           const successful = jsonData.successful
           if (successful) {
             location.href = '/'
@@ -245,6 +255,7 @@ export default function Contact() {
       });
     } catch (error) {
         console.log('There was an error', error);
+        alert("There is an error in our system, please try again later")
     }
   }
 
@@ -266,6 +277,9 @@ export default function Contact() {
           handleRoomChange,
           removeRoomFromRoomData,
           userInputData, setUserInputData,
+          countdown,
+          adminChargesPercentage, setAdminChargesPercentage,
+          selectedPaymentMode, setSelectedPaymentMode
         }}>
         <div className="container" style={{paddingTop: '120px'}}>
             {/*Left & Right Col Combined*/}
@@ -284,6 +298,7 @@ export default function Contact() {
             <div id="summary_price" className="col-xxl-3 col-12 rounded-5 m-0 mt-xl-5" style={{height: 'fit-content'}} >
               <BookingSummary 
                 timer={timer}
+                selectedPaymentMode={selectedPaymentMode}
               />
             </div>
           </div>

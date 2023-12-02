@@ -4,6 +4,8 @@ import Link from 'next/link';
 import {useState, useEffect, useContext} from 'react'
 import api from 'api'
 import { Money } from '@dintero/money'
+import { payment_mode } from '@component/utils/constants.js'
+import { calculateTourTotalAmount } from '@component/utils/payment.js'
 
 export default function BookingSummary(props) {
 
@@ -32,6 +34,8 @@ export default function BookingSummary(props) {
   const childWithoutBedRoom = aggregateData?.childWithNoBedRoom?.amount || 0
   const infantRoom = aggregateData?.infantRoom?.amount || 0
   const deposit = tour_context?.tourPackage?.deposit || 0
+  const adminChargesPercentage = tour_context?.adminChargesPercentage || 0
+  const totalHeadCount = tour_context?.totalHeadCount || 0
 
   return (
     <div id="summary_div" className="card d-flex justify-content-start flex-column flex-wrap p-4 rounded-5 shadow">
@@ -67,21 +71,47 @@ export default function BookingSummary(props) {
         <h6>RM {aggregateData.infantRoom.amount}</h6>
       </div>}
       <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
-        <h6>Booking Deposit</h6>
-        <h6> RM {tour_context?.tourPackage?.deposit} </h6>
+        <h6>Admin Charges</h6>
+        <h6> {tour_context?.adminChargesPercentage * 100 || 0}% </h6>
       </div>
-      <hr className="hr mt-lg-1" />
-      <p className="m-0 fw-bold" style={{fontFamily: '"Poppins"', color: '#b8b09d', letterSpacing: '0.05em'}}>TOTAL DUE</p>
-      <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>
-        RM {
-            Money.of(adultRoom, 'MYR')
-            .add(Money.of(childWithBedRoom, 'MYR'))
-            .add(Money.of(childWithoutBedRoom, 'MYR'))
-            .add(Money.of(infantRoom, 'MYR'))
-            .add(Money.of(deposit, 'MYR'))
-            .toString()
-          }
-      </h3>
+      <div className="booking-summary-flex">
+        <div className={`${props.selectedPaymentMode == payment_mode.pay_full_amount ? "flex-top-child" : "flex-bottom-child"}`}>
+          <hr className="hr mt-lg-1" />
+          <p className="m-0 fw-bold" style={{fontFamily: '"Poppins"', color: '#b8b09d', letterSpacing: '0.05em'}}>TOTAL DUE</p>
+          <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>
+            RM {
+                props.selectedPaymentMode == payment_mode.pay_full_amount ? 
+                calculateTourTotalAmount({
+                  adultRoom: adultRoom,
+                  childWithBedRoom: childWithBedRoom,
+                  childWithoutBedRoom: childWithoutBedRoom,
+                  infantRoom: infantRoom,
+                  adminChargesPercentage: adminChargesPercentage,
+                  deposit: deposit,
+                  totalHeadCount: totalHeadCount
+                }).amountPostAdminCharges
+                :
+                calculateTourTotalAmount({
+                  adultRoom: adultRoom,
+                  childWithBedRoom: childWithBedRoom,
+                  childWithoutBedRoom: childWithoutBedRoom,
+                  infantRoom: infantRoom,
+                  adminChargesPercentage: adminChargesPercentage,
+                  deposit: deposit,
+                  totalHeadCount: totalHeadCount
+                }).depositAmount
+              }
+          </h3>
+        </div>
+        <div className={`${props.selectedPaymentMode == payment_mode.pay_full_amount ? "flex-bottom-child" : "flex-top-child"}`}>
+          <hr/>
+          <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
+            <h6>Booking Deposit</h6>
+            <h6> RM {tour_context?.tourPackage?.deposit * (totalHeadCount)} </h6>
+          </div>
+        </div>
+      </div>
+    
       {/* <button type="button" className="btn rounded-pill btn-book" style={{fontFamily: '"Montserrat"', fontStyle: 'normal', fontWeight: 700, background: '#ea242d', color: '#ffffff'}}>BOOK NOW</button> */}
     </div>
   )

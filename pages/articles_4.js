@@ -2,8 +2,23 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Layout from '../components/Layout'
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 
 export default function Footer() {
+
+    const [data, setData] = useState([
+        "/images/articles/article_4_1.jpeg",
+        "/images/articles/article_4_2.jpeg",
+        "/images/articles/article_4_3.jpeg",
+        "/images/articles/article_4_4.jpeg",
+        "/images/articles/article_4_5.jpeg",
+        "/images/articles/article_4_6.jpeg",
+        "/images/articles/article_4_7.jpeg",
+        "/images/articles/article_4_8.jpeg",
+        "/images/articles/article_4_9.jpeg",
+        "/images/articles/article_4_10.jpeg",
+    ])
 
     return (
         <Layout>
@@ -28,6 +43,17 @@ export default function Footer() {
                             <img className="img-fluid" src="icons/contact_gold.png" alt="icon calendar" />
                             <h6 className="fw-bold mt-2" style={{fontFamily: '"Poppins"', color: '#B8B09D'}}>Tour News</h6>
                             </div>
+                        </div>
+                        <div className="p-8">
+                            <Carousel centerMode={true} dynamicHeight={true} swipeable={true} className="h-fit px-[30vw]">
+                                {
+                                    data.map((value, index)=>{
+                                        return <div key={index}>
+                                        <img src={value} className="max-h-[500px] " />
+                                    </div>
+                                    })
+                                }
+                            </Carousel>
                         </div>
                         <div id="content_listing_div" className="text_content_div_2">
                             <h2 className="fw-bold pt-3 pt-xl-5 text-break" style={{fontFamily: '"Montserrat"', fontSize: '30px'}}></h2>
@@ -87,7 +113,15 @@ export default function Footer() {
                                 picnic areas for delightful meals. Get ready to be captivated by the enchanting beauty of Lake
                                 Blausee!
                             </h6>
-
+                            <br/>
+                            <p style={{ fontFamily: '"Poppins"', fontWeight: 400, lineHeight: '27px', float:"right" }}>
+                                Sincerely,
+                            </p>
+                            <br/>
+                            <br/>
+                            <p style={{ fontFamily: '"Poppins"', fontWeight: 400, lineHeight: '27px', float:"right" }}>
+                                <i>Puteri Nur Najwa</i>
+                            </p>
                             <br/>
 
                         </div>

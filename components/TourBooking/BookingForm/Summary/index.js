@@ -11,8 +11,7 @@ import { cloneDeep } from 'lodash'
 export default function Summary(props) {
 
     const tour_context = useContext(TourContext)
-    console.log("tour_context", tour_context)
-  
+   
     const [backBtnEnabled, setBackBtnEnabled] = useState(true)
     const [backBtnDisplay, setBackBtnDisplay] = useState(true)
     const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
@@ -32,122 +31,20 @@ export default function Summary(props) {
     }
 
     const sendApi=async()=>{
-        //  populate tourDepItemList
-        console.log("tourDepItemList", tour_context.tourDepItemList)
-        console.log("roomData", tour_context.roomData)
-        let tourDepItemListClone = _.cloneDeep(tour_context.tourDepItemList)
-        for (const key in tour_context.roomData) {
-            if (tour_context.roomData[key].adultRoomCount == 1) {
-                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
-                    if (tourDepItemListClone[i].code == "FT_SGL") {
-                        tourDepItemListClone[i].quantity += 1
-                    }
-                    // if (tourDepItemListClone[i].code == "APT_ADT") {
-                    //     tourDepItemListClone[i].quantity += 1
-                    // }
-                    // if (tourDepItemListClone[i].code == "FUEL_ADT") {
-                    //     tourDepItemListClone[i].quantity += 1
-                    // }
-                }
-            } 
-            if (tour_context.roomData[key].adultRoomCount == 2) {
-                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
-                    if (tourDepItemListClone[i].code == "FT_TWN") {
-                        tourDepItemListClone[i].quantity += 2
-                    }
-                    // if (tourDepItemListClone[i].code == "APT_ADT") {  //temporary no need fill in tax/fuel/vat/tips
-                    //     tourDepItemListClone[i].quantity += 2
-                    // }
-                    // if (tourDepItemListClone[i].code == "FUEL_ADT") {
-                    //     tourDepItemListClone[i].quantity += 2
-                    // }
-                }
-            }
-            if (tour_context.roomData[key].childRoomWithBedCount == 1) {
-                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
-                    if (tourDepItemListClone[i].code == "FT_CWB") {
-                        tourDepItemListClone[i].quantity += 1
-                    }
-                    // if (tourDepItemListClone[i].code == "APT_CHD") {
-                    //     tourDepItemListClone[i].quantity += 1
-                    // }
-                    // if (tourDepItemListClone[i].code == "FUEL_CHD") {
-                    //     tourDepItemListClone[i].quantity += 1
-                    // }
-                }
-            }
-            if (tour_context.roomData[key].childRoomWithoutBedCount == 1) {
-                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
-                    if (tourDepItemListClone[i].code == "FT_CNB") {
-                        tourDepItemListClone[i].quantity += 1
-                    }
-                    // if (tourDepItemListClone[i].code == "APT_CHD") {
-                    //     tourDepItemListClone[i].quantity += 1
-                    // }
-                    // if (tourDepItemListClone[i].code == "FUEL_CHD") {
-                    //     tourDepItemListClone[i].quantity += 1
-                    // }
-                }
-            }
-            if (tour_context.roomData[key].infantRoomCount == 1) {
-                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
-                    if (tourDepItemListClone[i].code == "FT_INFT") {
-                        tourDepItemListClone[i].quantity += 1
-                        break
-                    }
-                }
-            }
-        }
-
-        console.log({
-            idCompany : tour_context.idCompany,
-            idTourDep:tour_context.dep.idBase,
-            bookingChargeItemList:tourDepItemListClone,
-            quantity : 1,})
 
         try {
-            tour_context.setLoading(true)
-            tour_context?.setLoadingText("Sending booking details....")
-            const fetch1 = await fetch('api/makeBookingOnline', {
-                method: 'POST',
-                body: JSON.stringify({
-                    idCompany: tour_context.idCompany,
-                    idTourDep: tour_context.dep.idBase,
-                    bookingChargeItemList: tourDepItemListClone,
-                    quantity: tour_context.userInputData.passengerList.length || 1,
-                }),
-                headers : {
-                    "Content-Type" : "application/json",
-                }
-
-            })
-            const response1 = await fetch1.json();
-            console.log("response1", response1)
-            const idBooking = response1.idBooking
-            tour_context.setSuccessfulBookingId(idBooking)
-            const successful = response1.successful
-            tour_context.setLoading(false)
-            if (successful) {
-            } else {
-                if (response1.error) {
-                    alert(`Error ${response1.error} , please try again later`)
-                } else {
-                    alert("Error , please try again later")
-                }
-                return
-            }
-
+           
             tour_context.setLoading(true)
             tour_context?.setLoadingText("Registering customer details....")
 
             const fetch2Body = tour_context.userInputData
-            fetch2Body.idBooking = idBooking
+            fetch2Body.idBooking = tour_context.successfulBookingId
             //need to alter the details a bit as api wont accept
             for (let i = 0 ; i < fetch2Body.passengerList.length ; i++ ) {
                 const passenger = fetch2Body.passengerList[i]
                 delete passenger.travellerId;
-                passenger.salutationCd = salutation[passenger.salutationCd||0]
-                passenger.sexCd = gender[passenger.sexCd||0]
+                // passenger.salutationCd = isNaN(passenger.salutationCd) ? passenger.salutationCd : salutation[passenger.salutationCd||0];
+                // passenger.sexCd = isNaN(passenger.sexCd) ? passenger.sexCd : gender[passenger.sexCd||0];
             }
 
             console.log("fetch2Body", fetch2Body)
@@ -160,18 +57,19 @@ export default function Summary(props) {
                 }
             })
             const response2 = await fetch2.json();
+            const parsedResponse2 = JSON.parse(response2)
+            //const parsedResponse2 = { successful: true }
             tour_context.setLoading(false)
             tour_context?.setLoadingText("")
-            if (response2.successful == true) {
+            if (parsedResponse2.successful) {
                 props.nextPage()
             } else {
-                if (response2.error) {
-                    alert(`Error ${response2.error} , please try again later`)
+                if (parsedResponse2.error) {
+                    alert(`Error ${parsedResponse2.error} , please try again later`)
                 } else {
                     alert("Error , please try again later")
                 }
             }
-            //props.nextPage()
         } catch (error) {
             console.log('There was an error', error);
             alert('There was an error', error);
@@ -228,6 +126,12 @@ export default function Summary(props) {
                         <th style={{fontFamily: '"Poppins"', fontWeight: '400!important', fontSize: '16px'}} scope="row" className="col-xl-4 col-5 p-3">Title</th>
                         <td style={{fontFamily: '"Poppins"', fontWeight: 600, fontSize: '16px'}} className="col-xl-9 col-5 p-3 fw-bold">
                             {tour_context?.userInputData?.salutationCd}
+                        </td>
+                    </tr>
+                    <tr style={{borderBottom: '1px solid #e8e2d6'}}>
+                        <th style={{fontFamily: '"Poppins"', fontWeight: '400!important', fontSize: '16px'}} scope="row" className="col-xl-4 col-5 p-3">Gender</th>
+                        <td style={{fontFamily: '"Poppins"', fontWeight: 600, fontSize: '16px'}} className="col-xl-9 col-5 p-3 fw-bold">
+                            {tour_context?.userInputData?.sexCd}
                         </td>
                     </tr>
                     <tr style={{borderBottom: '1px solid #e8e2d6'}}>
@@ -329,7 +233,7 @@ export default function Summary(props) {
                             display : nextBtnDisplay ? 'block' : 'none',
                         }}
                         disabled = {nextBtnEnabled ? false: true}
-                        >BOOK</button>
+                        >NEXT</button>
                 </div>
             </div>
         </div>

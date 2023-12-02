@@ -2,6 +2,7 @@ import React from 'react';
 
 import Head from 'next/head'
 import Footer from '../components/Footer'
+import Whatsapp from './Whatsapp'
 import TopMenu from '../components/TopMenu'
 
 const Layout =({children}) =>{
@@ -13,6 +14,7 @@ const Layout =({children}) =>{
             </Head>
             <TopMenu />
             <main>{children}</main>
+            <Whatsapp />
             <Footer />
         </>
     )

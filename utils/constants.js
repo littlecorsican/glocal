@@ -21,16 +21,25 @@ export const title = {
     2 : "Ms"
 }
 
-export const salutation = {
-    0 : "Mr",
-    1 : "Mrs",
-    2 : "Ms"
-}
+// export const salutation = {
+//     0 : "Mr",
+//     1 : "Mrs",
+//     2 : "Ms"
+// }
+export const salutation = [
+    {text: "Mr", code:"MR"},
+    {text: "Mrs", code:"MRS"},
+    {text: "Ms", code:"MS"},
+]
 
-export const gender = {
-    0 : "Male",
-    1 : "Female"
-}
+// export const gender = {
+//     0 : "Male",
+//     1 : "Female"
+// }
+export const gender = [
+    {text: "Male", code:"Male"},
+    {text: "Female", code:"Female"},
+]
 
 export const relationship = {
     0 : "Sister",
@@ -40,6 +49,9 @@ export const relationship = {
     4 : "Daughter",
     5 : "Friend"
 }
+
+export const razorPayBaseUrl = "https://www.onlinepayment.com.my/RMS/pay"
+//https://www.onlinepayment.com.my/RMS/pay/SB_cahayanurholida/?amount=27&orderid=ODSFJS342&vcode=d34c26cbb06f83c8e3ed5e81d263f077
 
 export const review = [
     {
@@ -95,3 +107,20 @@ export const faq = [
         description: 'KAKIJALAN will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
     },
 ]
+
+export const payment_status = {
+    "00": "Succesful Payment",
+    "11" : "Payment Failed",
+    "22": "Payment still pending"
+}
+
+
+export const email_host = "mail.kakijalan.com.my"
+export const email_port = "465"
+export const email_useSSL = true
+export const email_to = 'cahayanur.holidays@gmail.com'
+
+export const payment_mode = {
+    pay_full_amount: 0,
+    pay_deposit_only: 1
+}

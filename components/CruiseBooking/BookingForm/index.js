@@ -17,7 +17,6 @@ export default function BookingForm(props) {
     const [ inputData, setInputData] = useState({ // default value
     })
 
-
     const nextPage=()=>{
         setProgressIndex(progressIndex + 1)
     }
@@ -76,7 +75,6 @@ export default function BookingForm(props) {
                     progressIndex={progressIndex}
                 />
                 <Payment nextPage={nextPage} prevPage={prevPage} progressIndex={progressIndex} />
-                <Confirmation nextPage={nextPage} prevPage={prevPage} progressIndex={progressIndex} />
         </div>
     )
     

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import {useState, useEffect, useContext} from 'react'
 import api from 'api'
 import { Money } from '@dintero/money'
+import { payment_mode } from '@component/utils/constants.js'
+import { calculateCruiseTotalAmount } from '@component/utils/payment.js'
 
 export default function Contact(props) {
 
@@ -26,12 +28,16 @@ export default function Contact(props) {
   }
 
 
-  const { aggregateData, timer, startTimer } = props
+  const { timer, startTimer } = props
 
 
   const peopleAmount = cruise_context.peopleAmount || 0
   const infantAmount = cruise_context.infantAmount || 0
   const deposit = cruise_context?.tourPackage?.deposit || 0
+  const portCharges_amt = cruise_context?.portCharges_amt || 0
+  const adminChargesPercentage = cruise_context?.adminChargesPercentage || 0
+  const totalPeople = cruise_context?.totalPeople || 0
+  const totalInfant = cruise_context?.totalInfant || 0
 
   return (
     <div id="summary_div" className="card d-flex justify-content-start flex-column flex-wrap p-4 rounded-5 shadow">
@@ -55,19 +61,48 @@ export default function Contact(props) {
         <h6>RM {cruise_context.infantAmount ? cruise_context.infantAmount : 0} </h6>
       </div>}
       <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
-        <h6>Booking Deposit</h6>
-        <h6> RM {cruise_context?.tourPackage?.deposit} </h6>
+        <h6>Admin Charges</h6>
+        <h6> {cruise_context?.adminChargesPercentage*100 || 0}% </h6>
       </div>
-      <hr className="hr mt-lg-1" />
-      <p className="m-0 fw-bold" style={{fontFamily: '"Poppins"', color: '#b8b09d', letterSpacing: '0.05em'}}>TOTAL DUE</p>
-      <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>
-        RM {
-            Money.of(peopleAmount, 'MYR')
-            .add(Money.of(infantAmount, 'MYR'))
-            .add(Money.of(deposit, 'MYR'))
-            .toString()
-          }
-      </h3>
+      <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
+        <h6>Port Charges</h6>
+        <h6> RM {cruise_context?.portCharges_amt} </h6>
+      </div>
+      <div className="booking-summary-flex">
+        <div className={`${props.selectedPaymentMode == payment_mode.pay_full_amount ? "flex-top-child" : "flex-bottom-child"}`}>
+          <hr className="hr mt-lg-1" />
+          <p className="m-0 fw-bold" style={{fontFamily: '"Poppins"', color: '#b8b09d', letterSpacing: '0.05em'}}>TOTAL DUE</p>
+          <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>
+            RM {
+                props.selectedPaymentMode == payment_mode.pay_full_amount ? 
+                calculateCruiseTotalAmount({
+                  peopleAmount: peopleAmount,
+                  infantAmount: infantAmount,
+                  portCharges_amt: portCharges_amt,
+                  adminChargesPercentage: adminChargesPercentage,
+                  deposit: deposit,
+                  totalHeadCount: totalPeople + totalInfant
+                }).amountPostAdminCharges
+                :
+                calculateCruiseTotalAmount({
+                  peopleAmount: peopleAmount,
+                  infantAmount: infantAmount,
+                  portCharges_amt: portCharges_amt,
+                  adminChargesPercentage: adminChargesPercentage,
+                  deposit: deposit,
+                  totalHeadCount: totalPeople + totalInfant
+                }).depositAmount
+              }
+          </h3>
+        </div>
+        <div className={`${props.selectedPaymentMode == payment_mode.pay_full_amount ? "flex-bottom-child" : "flex-top-child"}`}>
+          <hr/>
+          <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
+            <h6>Booking Deposit</h6>
+            <h6> RM {cruise_context?.tourPackage?.deposit * (totalPeople + totalInfant)} </h6>
+          </div>
+        </div>
+      </div>
       {/* <button type="button" className="btn rounded-pill btn-book" style={{fontFamily: '"Montserrat"', fontStyle: 'normal', fontWeight: 700, background: '#ea242d', color: '#ffffff'}}>BOOK NOW</button> */}
     </div>
   )

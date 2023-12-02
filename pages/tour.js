@@ -5,6 +5,13 @@ import CustomDropDown from '@component/components/CustomDropDown'
 import Image from 'next/image';
 import api from 'api'
 import Loading from '../components/Loading'
+import { groupTourPackageWithLocation } from '../utils/utils'
+
+/**
+ *  category = TOUR: outbound
+ *  category = INBOUND: inbound
+ */
+
 
 export default function Tour() {
 
@@ -18,7 +25,7 @@ export default function Tour() {
 
     const  router = useRouter();
     const  destination = router.query["destination"];
-    const  category = router.query["category"];  // used for inbound/outbound, not in used anymore
+    const  category = router.query["category"];
     const  month = router.query["month"];
     const  priceFrom = router.query["priceFrom"];
     const  priceTo = router.query["priceTo"];
@@ -128,19 +135,35 @@ export default function Tour() {
         console.log("urlParams", urlParams)
         setLoading(true)
         try {
-            fetch(`${api().tourPackageWithLocation}?type=TOUR${urlParams}`)
+            let result1, result2
+            const fetch1 = fetch(`${api().tourPackageWithLocation}?type=TOUR${urlParams}`)
             .then(rawResult => rawResult.json())
             .then(jsonData => {
                 console.log(jsonData, "jsonData")
-                setLoading(false)
-                setRJson(jsonData?.tourDepList)
+                result1 = jsonData?.tourDepList
             });
+            const fetch2 = fetch(`${api().tourPackageWithLocation}?type=INBOUND${urlParams}`)
+            .then(rawResult => rawResult.json())
+            .then(jsonData => {
+                console.log(jsonData, "jsonData")
+                result2 = jsonData?.tourDepList
+            });
+            Promise.all([fetch1, fetch2]).then(function(values) {
+                console.log([...result1, ...result2], "jsonData")
+                if (category == "OUTBOUND") {
+                    setRJson(groupTourPackageWithLocation([...result1]))
+                } else if (category == "INBOUND") {
+                    setRJson(groupTourPackageWithLocation([...result2]))
+                } else {
+                    setRJson(groupTourPackageWithLocation([...result1, ...result2]))
+                }
+                setLoading(false)
+            }); 
         } catch (error) {
-
             console.log('There was an error', error);
         }
 
-    }, [router.isReady]);
+    }, [router.isReady, category]);
 
 
     const handleChange=(index)=>{
@@ -236,7 +259,7 @@ export default function Tour() {
         <div className="tour-page">
             <div className="overflow-hidden">
         
-                <div id="banner" className="mb-5 bg-image d-flex justify-content-center align-items-start" style={{backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                <div id="banner" className="mb-5 bg-image d-flex justify-content-center align-items-start" style={{backgroundSize: 'cover', backgroundPosition: 'center', borderBottom: '15px solid #B32129'}}>
                     <div id="inner_banner_div" className="position-relative bg-transparent container px-4 d-flex flex-column gap-4">
                         <div className="d-flex align-items-center flex-column">
                             <h1 className="text-white fw-bold" style={{textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', fontFamily: '"Montserrat"'}}>TOUR PACKAGES</h1>

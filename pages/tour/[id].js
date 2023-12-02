@@ -10,6 +10,7 @@ import api from 'api'
 export default function Contact() {
 
   const [rJson, setRJson] = useState({})
+  const [tourDepList, setTourDepList] = useState([])
   const [CMSHTML, setCMSHTML] = useState("")
 
   const  router = useRouter();
@@ -18,6 +19,20 @@ export default function Contact() {
   console.log(router.query)
 
   const tableTh = ["#", "Departure", "Price From" , "Airline", "Status"]
+  const textToMonth = {
+    "Jan": 1,
+    "Feb": 2,
+    "Mar": 3,
+    "Apr": 4,
+    "May": 5,
+    "Jun": 6,
+    "Jul": 7,
+    "Aug": 8,
+    "Sep": 9,
+    "Oct": 10,
+    "Nov": 11,
+    "Dec": 12,
+  }
 
   useEffect(() => {
     if(!router.isReady) return;
@@ -29,7 +44,8 @@ export default function Contact() {
       fetch(url)
       .then(rawResult => rawResult.json())
       .then(jsonData => {
-          console.log(jsonData, "jsonData")
+          console.log(jsonData, "jsonData", addFormattedDate(jsonData.tourPkg.tourDepList))
+          setTourDepList(addFormattedDate(jsonData.tourPkg.tourDepList))
           setRJson(jsonData.tourPkg)
           let cmsArr = jsonData?.tourPkg?.tourPkgDailyItinerary?.dailyItineraryItemEngList
           let cmsCombine = ""
@@ -50,11 +66,33 @@ export default function Contact() {
 
   }, [router.isReady]);
 
+  const addFormattedDate=(array)=>{
+    return array.map((value)=>{
+      value.date = convertTextDateToDateObj(value.dtDep)
+      return value
+    })
+  }
+
+  const sortTourpkgdetailByDate=(array)=>{
+    array.sort(function(a,b){
+      return new Date(b.date) - new Date(a.date);
+    });
+  }
+
+  const convertTextDateToDateObj=(text_date)=>{
+    //Jan 29, 2024
+    let string_date = text_date.replace(",", "")
+    const arr_date = string_date.split(" ")
+    const month = textToMonth[arr_date[0]]
+    const day = arr_date[1]
+    const year = arr_date[2]
+    return `${year}-${month}-${day}`
+  }
 
   return (
     <Layout>
       {rJson && rJson != {} && <div className="tour-detail-page">
-        <div id="top-section">  
+      <div id="top-section">  
           <div style={{
             textAlign:"center",
             justifyContent: 'center',
@@ -104,74 +142,74 @@ export default function Contact() {
 
         <PackageHiglights data={rJson.tourHighlightList} />
 
-        <div id="package-details" className="">
-          <div className="web-package-details container py-5">
-            <div className="row g-5 responsive-flex">
-              <div className=" col-lg-5 col-12 order-2 order-lg-1 flex-1">
-                <div style={{boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.25)', border: '1px solid #a0a0a0', padding: '25px', borderRadius: '30px' , minHeight : "500px"}} >
-                  <h2 style={{
-                      fontWeight: "700",
-                      fontSize: "30px",
-                      fontFamily: "Montserrat",
-                      paddingBottom: "10px"
-                  }}>
-                    ABOUT THIS PACKAGE
-                  </h2>
-                  <div dangerouslySetInnerHTML={{__html: CMSHTML}}>
+          <div id="package-details" className="">
+            <div className="web-package-details container py-5">
+              <div className="row g-5 responsive-flex">
+                <div className=" col-lg-5 col-12 order-2 order-lg-1 flex-1">
+                  <div style={{boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.25)', border: '1px solid #a0a0a0', padding: '25px', borderRadius: '30px' , minHeight : "500px"}} >
+                    <h2 style={{
+                        fontWeight: "700",
+                        fontSize: "30px",
+                        fontFamily: "Montserrat",
+                        paddingBottom: "10px"
+                    }}>
+                      ABOUT THIS PACKAGE
+                    </h2>
+                    <div dangerouslySetInnerHTML={{__html: CMSHTML}}>
 
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className=" col-lg-7 col-12 order-2 order-lg-1 flex-1">
-              <div className="flex">
+                <div className=" col-lg-7 col-12 order-2 order-lg-1 flex-1">
+
+                    <div className="flex">
                     <div className="flex-1 tab-header block text-[#fff] bg-[#3470C9] text-center p-3 m-4" id="selectdates">
                       FULL TOUR  
                     </div>
-                    {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-[#3470C9] text-center p-3 m-4 text-white bg-[#b32129]" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERY PDF @ 行程下载</button>}
-                  </div>
-                  <div className="block" >
-                    <p><b>Note :</b> </p>
-                    <ol style={{ listStyleType : "decimal", fontFamily : "Montserrat" }}>
-                        <li><b>Full Tour - includes return flight tickets (KLIA/KLIA 2) and ground arrangement.</b></li>
-                        <li>Please check the available Room Type combination prior to tour booking.</li>
-                        <li>Prices stated below are tour fare per pax based on Adult Twin sharing + Miscellaneous Charges*.</li>
-                        <li>Early Bird Discount is still applicable for those with ✩, it is limited and on first come first served basis.</li>
-                        <li>Prices and discounts shown are guidlines only and are not guaratneed until booking is completed</li>
-                    </ol>
-                  </div>
-                  <div className="block" style={{ overflowX:"auto" }} >
-                    <table className="table-fixed border-collapse border-slate-400 border w-full">
-                      <thead>
-                        <tr>
-                          {tableTh.map((value,index)=>{
-                            return <th key={index}>{value}</th>
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rJson.tourDepList && rJson.tourDepList.map((value,index)=>{
-                          return <tr key={index}>
-                              <td className="border border-slate-300"> 
-                                {index+1}
-                              </td>
-                              <td>
-                                {<Departure dtDep={value.dtDep} desc={value.desc} langDesc={value.langDesc} />}
-                              </td>
-                              <td className="align-top">
-                                <b>RM {value?.tourPrice}✩</b>
-                              </td>
-                              <td className="align-top">
-                                {value?.airlineDesc}🔗
-                              </td>
-                              <td className="align-top"> 
+                      {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-[#b32129] text-center p-3 m-4 text-white bg-[#b32129]" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERARY PDF @ 行程下载</button>}
+                    </div>
+                    <div className="block" >
+                      <p><b>Note :</b> </p>
+                      <ol style={{ listStyleType : "decimal", fontFamily : "Montserrat" }}>
+                          <li><b>Full Tour - includes return flight tickets (KLIA/KLIA 2) and ground arrangement.</b></li>
+                          <li>Please check the available Room Type combination prior to tour booking.</li>
+                          <li>Prices stated below are tour fare per pax based on Adult Twin sharing + Miscellaneous Charges*.</li>
+                          <li>Early Bird Discount is still applicable for those with ✩, it is limited and on first come first served basis.</li>
+                          <li>Prices and discounts shown are guidlines only and are not guaratneed until booking is completed</li>
+                      </ol>
+                    </div>
+                    <div className="block" style={{ overflowX:"auto" }} >
+                      <table className="table-fixed border-collapse border-slate-400 border w-full">
+                        <thead>
+                          <tr>
+                            {tableTh.map((value,index)=>{
+                              return <th key={index}>{value}</th>
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {tourDepList && tourDepList.map((value,index)=>{
+                            return <tr key={index}>
+                                <td className="border border-slate-300"> 
+                                  {index+1}
+                                </td>
+                                <td>
+                                  {<Departure dtDep={value.dtDep} desc={value.desc} langDesc={value.langDesc} />}
+                                </td>
+                                <td className="align-top">
+                                  <b>RM {value?.tourPrice}✩</b>
+                                </td>
+                                <td className="align-top">
+                                  {value?.airlineDesc}🔗
+                                </td>
+                                <td className="align-top"> 
                                 <button className="rounded px-7 py-2 text-white bg-[#3470C9]" onClick={()=>location.href=`/booking-tour?id=${value?.idBase}&idTourPkg=${value?.idTourPkg}`}>Departure Detail</button>
                               </td>
-                            </tr>
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-
+                              </tr>
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
 
                 </div>
             </div>
@@ -188,6 +226,7 @@ export default function Contact() {
     </Layout>
   )
 }
+
 
 function Departure(props) {
   return <>

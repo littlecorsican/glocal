@@ -13,7 +13,8 @@ const api=()=>{
             "cancelBooking": "https://trevabook.ddns.net/trevabook-admin/api/v1/cancelBooking",
             "onlineBookingConfigList": "https://trevabook.ddns.net/trevabook-admin/api/v1/onlineBookingConfigList",
             "iPayConfigList": "https://trevabook.ddns.net/trevabook-admin/api/v1/ipayConfigList",
-            "tourpkglist": "https://trevabook.ddns.net/trevabook-admin/api/v1/tourpkglist"
+            "tourpkglist": "https://trevabook.ddns.net/trevabook-admin/api/v1/tourpkglist",
+            "contactUs": "https://trevabook.ddns.net/trevabook-admin/api/v1/contactUs",
         }
         
     } else if (process.env.NEXT_PUBLIC_NODE_ENV == "production") {
@@ -30,6 +31,7 @@ const api=()=>{
             "onlineBookingConfigList": `${base}/onlineBookingConfigList`,
             "iPayConfigList": `${base}/ipayConfigList`,
             "tourpkglist": `${base}/tourpkglis`,
+            "contactUs": `${base}/contactUs`,
         }
     }
 

@@ -32,84 +32,10 @@ export default function Summary(props) {
 
     const sendApi=async()=>{
 
-        console.log("tourCruiseCabinList", cruise_context.tourCruiseCabinList)
-        console.log("tourDepItemList", cruise_context.tourDepItemList)
-        const newTourDepItemList = cloneDeep(cruise_context.tourDepItemList)
-        for (let i = 0 ; i < newTourDepItemList.length ; i++ ) {
-            const item = newTourDepItemList[i]
-            if (item.code === "PORT_CHARGES") {
-                item.quantity += cruise_context.totalPeople
-            }
-            if (item.code === "AC") {
-                item.quantity += cruise_context.totalPeople
-            }
-            if (item.code === "TRVL_INS") {
-                item.quantity += cruise_context.totalPeople
-            }
-            if (item.code === "VISA") {
-                item.quantity += cruise_context.totalPeople
-            }
-            if (item.code === "DEVIATION") {
-                item.quantity += cruise_context.totalPeople
-            }
-        }
-        
-        console.log("newTourDepItemList", newTourDepItemList)
-        const selectedCabinObj = cruise_context.tourCruiseCabinList[cruise_context.selectedCabinIndex]
-        console.log("selectedCabinObj", selectedCabinObj)
-
-        selectedCabinObj.ttlCabin = 1;
-
-        if (cruise_context.totalPeople === 1) {
-            selectedCabinObj.paxSgl = 1
-        } else if (cruise_context.totalPeople === 2) {
-            selectedCabinObj.paxTwn = 2
-        } else if (cruise_context.totalPeople === 3) {
-            selectedCabinObj.pax3 = 3
-        } else if (cruise_context.totalPeople === 4) {
-            selectedCabinObj.pax4 = 4
-        }
-
-        if (cruise_context.totalInfant === 1) {
-            selectedCabinObj.paxInf = 1
-        }
-
         try {
-            cruise_context.setLoading(true)
-            cruise_context?.setLoadingText("Sending booking details....")
-            const fetch1 = await fetch('api/makeBookingOnline', {
-                method: 'POST',
-                body: JSON.stringify({
-                    idCompany: cruise_context.idCompany,
-                    idTourDep: cruise_context.dep.idBase,
-                    bookingChargeItemList: newTourDepItemList,
-                    tourCruiseCabinList: [selectedCabinObj],
-                    cabinQty: 1,
-                    quantity: cruise_context.userInputData.passengerList.length || 1,
-                }),
-                headers : {
-                    "Content-Type" : "application/json",
-                }
-
-            })
-            const response1 = await fetch1.json();
-            console.log("response1", response1)
-            const idBooking = response1.idBooking
-            cruise_context.setSuccessfulBookingId(idBooking)
-            const successful = response1.successful
-            if (successful) {
-
-            } else {
-                if (response1.error) {
-                    alert(`Error ${response1.error} , please try again later`)
-                } else {
-                    alert("Error , please try again later")
-                }
-                return
-            }
 
             const fetch2Body = cruise_context.userInputData
-            fetch2Body.idBooking = idBooking
+            fetch2Body.idBooking = cruise_context.successfulBookingId
 
             // remove the type and id as api wont accept
             for (let i = 0 ; i < fetch2Body.passengerList.length ; i++ ) {
@@ -117,11 +43,12 @@ export default function Summary(props) {
                 delete passenger.type;
                 delete passenger.Id;
                 passenger.roomNo = "1" // its always 1 
-                passenger.salutationCd = salutation[passenger.salutationCd||0]
-                passenger.sexCd = gender[passenger.sexCd||0]
+                passenger.salutationCd = isNaN(passenger.salutationCd) ? passenger.salutationCd : salutation[passenger.salutationCd||0];
+                passenger.sexCd = isNaN(passenger.sexCd) ? passenger.sexCd : gender[passenger.sexCd||0];
             }
 
             console.log("fetch2Body", fetch2Body)
+            cruise_context.setLoading(true)
             cruise_context?.setLoadingText("Registering customer details....")
 
             const fetch2 = await fetch('api/sendCustomerDetails', {
@@ -132,11 +59,12 @@ export default function Summary(props) {
                 }
             })
             const response2 = await fetch2.json();
-            if (response2.successful == true) {
+            const parsedResponse2 = JSON.parse(response2)
+            if (parsedResponse2.successful == true) {
                 props.nextPage()
             } else {
-                if (response2.error) {
-                    alert(`Error ${response2.error} , please try again later`)
+                if (parsedResponse2.error) {
+                    alert(`Error ${parsedResponse2.error} , please try again later`)
                 } else {
                     alert("Error , please try again later")
                 }
@@ -201,6 +129,12 @@ export default function Summary(props) {
                         <th style={{fontFamily: '"Poppins"', fontWeight: '400!important', fontSize: '16px'}} scope="row" className="col-xl-4 col-5 p-3">Title</th>
                         <td style={{fontFamily: '"Poppins"', fontWeight: 600, fontSize: '16px'}} className="col-xl-9 col-5 p-3 fw-bold">
                             {cruise_context?.userInputData?.salutationCd}
+                        </td>
+                    </tr>
+                    <tr style={{borderBottom: '1px solid #e8e2d6'}}>
+                        <th style={{fontFamily: '"Poppins"', fontWeight: '400!important', fontSize: '16px'}} scope="row" className="col-xl-4 col-5 p-3">Gender</th>
+                        <td style={{fontFamily: '"Poppins"', fontWeight: 600, fontSize: '16px'}} className="col-xl-9 col-5 p-3 fw-bold">
+                            {cruise_context?.userInputData?.sexCd}
                         </td>
                     </tr>
                     <tr style={{borderBottom: '1px solid #e8e2d6'}}>

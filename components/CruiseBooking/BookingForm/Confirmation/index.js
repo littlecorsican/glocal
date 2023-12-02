@@ -6,6 +6,12 @@ import React from 'react';
 import Passenger from 'components/SummaryPassenger'
 import { gender, relationship, states, salutation } from '../../../../utils/constants'
 
+/**
+ * 
+ * NOT IN USE, REFER TO /payment_status
+ * 
+ */
+
 export default function Confirmation(props) {
 
     const cruise_context = useContext(CruiseContext)
@@ -30,8 +36,8 @@ export default function Confirmation(props) {
     }
 
     return (
-        <div style={{ display: `${props.progressIndex == 3 ? "block" : "none"}` }}>
-            <h2 className="d-flex justify-content-center pt-5 headline-order fw-bold" style={{fontFamily: '"Montserrat"', fontStyle: 'normal'}}>TOUR OVERVIEW</h2>
+        <div style={{ display: `${props.progressIndex == 99 ? "block" : "none"}` }}>
+            <h2 className="d-flex justify-content-center pt-5 headline-order fw-bold" style={{fontFamily: '"Montserrat"', fontStyle: 'normal'}}>CRUISE OVERVIEW</h2>
             <p className="d-flex summary-desc justify-content-center align-self-center text-center mb-3 mb-xxxl-0" style={{fontFamily: '"Poppins"', fontWeight: 400, fontSize: '18px', maxWidth: '600px'}}>
                 Payment is successful and you should receive an email through {cruise_context?.userInputData?.email} for the full itenerary and details of the booking.
             </p>

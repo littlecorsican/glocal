@@ -39,9 +39,9 @@ export default function Rooms(props) {
 
          {/* 2nd row  */}
          <div className="d-flex flex-row flex-xl-nowrap flex-wrap justify-content-start input-column gap-2">
-            <DropDownMenu title="Title" id="salutationCd" onChange={onChange} data={salutation} />
+            <DropDownMenu title="Title" id="salutationCd" onChange={onChange} data={salutation} valueKey="code" textKey="text" />
 
-            <DropDownMenu title="Gender" id="sexCd" onChange={onChange} data={gender} />
+            <DropDownMenu title="Gender" id="sexCd" onChange={onChange} data={gender} valueKey="code" textKey="text" />
 
             <InputText id="icNo" placeholder="1234567-00-1234" title="IC No." onChange={onChange} />
             <DateInput title="Date of Birth" id="dob" onChange={onChange} />

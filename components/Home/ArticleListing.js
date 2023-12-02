@@ -40,6 +40,7 @@ export default function Footer() {
             readmore_link: '/articles_6',
             description: 'I had the incredible opportunity to embark on a 9-day, 7-night adventure in Turkiye with the renowned travel agency, Kakijalan. The journey began with an exciting flight on Emirates Airlines, and I must admit, I had a whirlwind of emotions - a mix of fear, nervousness, and overwhelming excitement - as it was my very first time boarding a plane. As soon as I landed in Turkiye, I was warmly greeted by a friendly and knowledgeable tour guide, Neco, who would be my companion throughout the entire trip. Neco&#39;s expertise and passion for the country were evident from the start, and I knew I was in good hands.',
         },
+        
     ]);
     return (
         <section>
@@ -54,7 +55,8 @@ export default function Footer() {
                     </h2>
                     <h1 className="fw-bold" style={{fontFamily: 'Montserrat', color:'#D68A2C' }}>Latest News & Articles</h1>
                 </div>
-                <div id="article_listing_div" className="container d-flex flex-wrap justify-content-center gap-3">
+                {/* ------------MOBILE------------- */}
+                <div id="article_listing_div_mobile" className="container d-flex flex-wrap justify-content-center gap-3">
                     {
                         data.map((value,index)=>{
                             return  <div key={index} className="container d-flex flex-row flex-xxl-nowrap flex-wrap shadow bg-white p-4 col-lg-5 col-12 gap-xl-3 gap-2 m-0"             style={{borderRadius: "20px 0px"}}>
@@ -71,9 +73,104 @@ export default function Footer() {
                         })
                     }
                 </div>
+                {/* ------------END OF MOBILE------------- */}
+                {/* ------------WEB------------- */}
+                <div id="article_listing_div_web" className="container d-flex flex-wrap justify-content-center gap-3">
+                    {
+                        data.map((value,index)=>{
+                            if (index%2 == 0) {
+                                const round = index / 2
+                                console.log("round", round)
+                                if (round%2 == 0) { 
+                                    return <CardType1 data={data} value={value} index={index} key={index} />
+                                } else {
+                                    return <CardType2 data={data} value={value} index={index} key={index} />
+                                }
+                            }
+                        })
+                    }
+                </div>
+                {/* ------------END OF WEB------------- */}
                 <button onClick={()=>location.href = '/articles'} className="text-white rounded-pill fw-bold py-3 px-4 align-self-center mt-4 mb-5" style={{backgroundColor: "#2158AA", fontFamily: 'Montserrat', border: "none", maxWidth: "300px"}}>VISIT OUR NEWSROOM</button>
             </div>
         </section>
     )
 }
 
+
+
+function CardType1(props) {
+    return (
+        <div className="flex flex-row w-full justify-evenly my-4 ">
+            <div className="flex flex-row bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:2 }}>
+                <div style={{ backgroundImage: `url('${props.value.image_path}')` }} className="w-1/2 bg-no-repeat bg-cover min-h-[300px]">
+                </div>
+                <div className="w-1/2 p-4 min-h-[300px] flex-wrap whitespace-normal">
+                    <div className="text-lg font-bold" style={{ fontFamily: '"Montserrat"' }}>{props.value.title}</div>
+                        <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
+                            <Link className="text-decoration-none text-[#D68A2C] font-bold" href={props.value.readmore_link}>
+                                Read More <span className="text-[#2158AA] font-normal">&gt;</span>
+                            </Link>
+                        </div>
+                    <div className="text-sm font-normal leading-8 my-2" style={{ fontFamily: '"Poppins"' }}>{props.value.description}</div>
+                </div>
+            </div>
+            {props.index !== props.data.length-1 && <div className="" style={{ flex:1 }}>
+                <div className="flex flex-column bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis">
+                    <div className="flex-1">
+                        <img src={props.data[props.index+1].image_path} className="w-full" />
+                    </div>
+                    <div className='flex-1 p-4'>
+                        <div className="text-lg font-bold" style={{ fontFamily: '"Montserrat"' }}>{props.data[props.index+1].title}</div>
+                        <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
+                            <Link className="text-decoration-none text-[#D68A2C] font-bold" href={props.data[props.index+1].readmore_link}>
+                                Read More <span className="text-[#2158AA] font-normal">&gt;</span>
+                            </Link>
+                        </div>
+                        <div className="text-sm font-normal leading-8 my-2 " style={{ fontFamily: '"Poppins"' }}>{props.data[props.index+1].description}</div>
+                    </div>
+                </div>
+            </div>}
+        </div>
+    )
+}
+
+function CardType2(props) {
+    return (
+        <div className="flex flex-row w-full justify-evenly my-4 ">
+            <div className="flex flex-row bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:1 }}>
+                <div className="flex flex-column bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis">
+                    <div className="flex-1">
+                        <img src={props.value.image_path} className="w-full" />
+                    </div>
+                    <div className='flex-1 p-4'>
+                        <div className="text-lg font-bold" style={{ fontFamily: '"Montserrat"' }}>{props.value.title}</div>
+                        <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
+                            <Link className="text-decoration-none text-[#D68A2C] font-bold" href={props.value.readmore_link}>
+                                Read More <span className="text-[#2158AA] font-normal">&gt;</span>
+                            </Link>
+                        </div>
+                        <div className="text-sm font-normal leading-8 my-2 " style={{ fontFamily: '"Poppins"' }}>{props.value.description}</div>
+                    </div>
+                </div>
+            </div>
+            {props.index !== props.data.length-1 && <div className="" style={{ flex:2 }}>
+                <div className="flex flex-row bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:2 }}>
+                    <div style={{ backgroundImage: `url('${props.data[props.index+1].image_path}')` }} className="w-1/2 bg-no-repeat bg-cover min-h-[300px]">
+                    </div>
+                    <div className="w-1/2 p-4 min-h-[300px] flex-wrap whitespace-normal">
+                        <div className="text-lg font-bold" style={{ fontFamily: '"Montserrat"' }}>{props.data[props.index+1].title}</div>
+                        <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
+                            <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
+                                <Link className="text-decoration-none text-[#D68A2C] font-bold" href={props.data[props.index+1].readmore_link}>
+                                    Read More <span className="text-[#2158AA] font-normal">&gt;</span>
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="text-sm font-normal leading-8 my-2" style={{ fontFamily: '"Poppins"' }}>{props.data[props.index+1].description}</div>
+                    </div>
+                </div>
+            </div>}
+        </div>
+    )
+}

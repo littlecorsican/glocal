@@ -287,12 +287,12 @@ export default function Contact() {
                                     <p className="m-0 fw-bold" style={{fontFamily: '"Montserrat"'}}>{value.name}</p>
                                     <div className="text-center" style={{fontFamily: 'Poppins'}}>
                                         <p className="m-0 fst-italic" style={{color: '#A0A0A0'}}>{value.role}</p>
-                                        <p className="mt-4 fw-bold" style={{color: '#000', fontSize:"0.85rem" }}>
+                                        <div className="mt-4 fw-bold" style={{color: '#000', fontSize:"0.85rem" }}>
                                             <div className="flex flex-row">
                                                 <img src="icons/contact_phonecall.png" className="mr-2" />
                                                 {value.tel}
                                             </div>
-                                        </p>
+                                        </div>
                                         <Link href="mailto:${e.email}" className="m-0 text-decoration-none" style={{color: '#000', fontSize:"0.85rem"}}>
                                             <div className="flex flex-row">
                                                 <img src="icons/contact_email.png"  className="mr-2" />

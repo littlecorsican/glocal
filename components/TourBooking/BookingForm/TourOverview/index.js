@@ -5,6 +5,7 @@ import {useState, useEffect, useCallback, useRef, useContext} from 'react'
 import React from 'react';
 import Rooms from './Rooms'
 import { cloneDeep } from 'lodash';
+import { payment_mode } from '@component/utils/constants.js'
 
 export default function Overview(props) {
 
@@ -89,7 +90,131 @@ export default function Overview(props) {
         setRoomData(tour_context?.roomData)
     },[tour_context])
 
-  return (
+    const makeBooking=async()=>{
+        //  populate tourDepItemList
+        console.log("tourDepItemList", tour_context.tourDepItemList)
+        console.log("roomData", tour_context.roomData)
+        let tourDepItemListClone = _.cloneDeep(tour_context.tourDepItemList)
+        for (const key in tour_context.roomData) {
+            if (tour_context.roomData[key].adultRoomCount == 1) {
+                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
+                    if (tourDepItemListClone[i].code == "FT_SGL") {
+                        tourDepItemListClone[i].quantity += 1
+                    }
+                    // if (tourDepItemListClone[i].code == "APT_ADT") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
+                    // if (tourDepItemListClone[i].code == "FUEL_ADT") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
+                }
+            } 
+            if (tour_context.roomData[key].adultRoomCount == 2) {
+                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
+                    if (tourDepItemListClone[i].code == "FT_TWN") {
+                        tourDepItemListClone[i].quantity += 2
+                    }
+                    // if (tourDepItemListClone[i].code == "APT_ADT") {  //temporary no need fill in tax/fuel/vat/tips
+                    //     tourDepItemListClone[i].quantity += 2
+                    // }
+                    // if (tourDepItemListClone[i].code == "FUEL_ADT") {
+                    //     tourDepItemListClone[i].quantity += 2
+                    // }
+                }
+            }
+            if (tour_context.roomData[key].childRoomWithBedCount == 1) {
+                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
+                    if (tourDepItemListClone[i].code == "FT_CWB") {
+                        tourDepItemListClone[i].quantity += 1
+                    }
+                    // if (tourDepItemListClone[i].code == "APT_CHD") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
+                    // if (tourDepItemListClone[i].code == "FUEL_CHD") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
+                }
+            }
+            if (tour_context.roomData[key].childRoomWithoutBedCount == 1) {
+                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
+                    if (tourDepItemListClone[i].code == "FT_CNB") {
+                        tourDepItemListClone[i].quantity += 1
+                    }
+                    // if (tourDepItemListClone[i].code == "APT_CHD") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
+                    // if (tourDepItemListClone[i].code == "FUEL_CHD") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
+                }
+            }
+            if (tour_context.roomData[key].infantRoomCount == 1) {
+                for(let i = 0 ; i < tourDepItemListClone.length ; i++) {
+                    if (tourDepItemListClone[i].code == "FT_INFT") {
+                        tourDepItemListClone[i].quantity += 1
+                        break
+                    }
+                }
+            }
+        }
+
+        console.log({
+            idCompany : tour_context.idCompany,
+            idTourDep:tour_context.dep.idBase,
+            bookingChargeItemList:tourDepItemListClone,
+            quantity : 1,})
+
+        try {
+            tour_context.setLoading(true)
+            tour_context?.setLoadingText("Sending booking details....")
+            const fetch1 = await fetch('api/makeBookingOnline', {
+                method: 'POST',
+                body: JSON.stringify({
+                    idCompany: tour_context.idCompany,
+                    idTourDep: tour_context.dep.idBase,
+                    bookingChargeItemList: tourDepItemListClone,
+                    quantity: tour_context.totalHeadCount || 1,
+                }),
+                headers : {
+                    "Content-Type" : "application/json",
+                }
+
+            })
+            const response1 = await fetch1.json();
+            console.log("response1", response1)
+            const idBooking = response1.idBooking
+            // const idBooking = 3321
+            tour_context.setSuccessfulBookingId(idBooking)
+            //addTourBookingIdToStorage(idBooking)
+            const successful = response1.successful
+            // const successful = true
+            tour_context.setLoading(false)
+            tour_context?.setLoadingText("")
+            if (successful) {
+                props.start()
+                props.nextPage()
+            } else {
+                if (response1.error) {
+                    alert(`${response1.error}`)
+                } else {
+                    alert("Error , please try again later")
+                }
+                return
+            }
+        } catch (error) {
+            console.log('There was an error', error);
+            alert('There was an error', error);
+            tour_context.setLoading(false)
+            tour_context?.setLoadingText("")
+        }
+    }
+
+    const paymentModeChange=(e)=>{
+        console.log(payment_mode[e.target.id])
+        tour_context.setSelectedPaymentMode(payment_mode[e.target.id])
+    }
+
+    return (
         <div style={{ display: `${props.progressIndex == 0 ? "block" : "none"}` }}>
             <h2 className="d-flex justify-content-center py-5 headline-order" style={{fontFamily: '"Montserrat"', fontStyle: 'normal'}}>TOUR OVERVIEW</h2>
             <div id="room_div">
@@ -115,13 +240,47 @@ export default function Overview(props) {
                 Tour member must ensure he/she is medically and physically fit for travel. Please disclose any physical, medical, or other special needs that require special attention at the time of booking. T&amp;C Apply
                 </label>
             </div>
+
+            <p className="summary-desc text-start mt-3" style={{fontWeight: 600}}>Please select your payment mode</p>
+            <div className="conatiner d-flex flex-wrap justify-content-between">
+                <div className="d-flex flex-column col-xl-6 col-12">
+                    <div className="payment_div d-flex">
+                        <div className="form-check">
+                            <input className="form-check-input" 
+                                type="radio"
+                                name="payment_mode"
+                                id="pay_full_amount"
+                                defaultValue="pay_full_amount"
+                                onClick={paymentModeChange}
+                                checked={tour_context.selectedPaymentMode == payment_mode.pay_full_amount}
+                            />
+                        </div>
+                        <label htmlFor="pay_full_amount" className="m-0" style={{fontSize: '15px'}}>Pay Full Amount</label>
+                    </div>
+                </div>
+                <div className="d-flex flex-column col-xl-6 col-12">
+                    <div className="payment_div d-flex">
+                        <div className="form-check">
+                            <input className="form-check-input"
+                                type="radio"
+                                name="payment_mode"
+                                id="pay_deposit_only"
+                                defaultValue="pay_full_amount"
+                                onClick={paymentModeChange}
+                                checked={tour_context.selectedPaymentMode == payment_mode.pay_deposit_only}
+                            />
+                        </div>
+                        <label htmlFor="pay_deposit_only" className="m-0" style={{fontSize: '15px'}}>Pay Deposit Only</label>
+                    </div>
+                </div>
+            </div>
             
             {/*BUTTON NEXT PART*/}
             <hr className="hr mt-lg-4" style={{marginTop: '-10px'}} />
             <div className="d-flex button-combined_div d-flex justify-content-between flex-nowrap flex-sm-wrap">
                 {/* KEEPING BACK BUTTON HERE TO KEEP NEXT BUTTON ON RIGHT HAND SIDE */}
-                <div className="button-container col-md-2 col-5">
-                    <button onClick={props.prevPage} type="button" className="btn rounded-pill fw-bold w-100" 
+                <div className="button-container col-md-2 col-5">  
+                    <button type="button" className="btn rounded-pill fw-bold w-100" 
                         style={{
                             fontFamily: '"Montserrat"', 
                             background: backBtnEnabled ? '#d1b882' : '#cdcdcd', 
@@ -132,7 +291,9 @@ export default function Overview(props) {
                     >BACK</button>
                 </div>
                 <div className="button-container col-md-2 col-5">
-                    <button onClick={props.nextPage} type="button" className="btn rounded-pill fw-bold w-100" 
+                    <button onClick={()=>{
+                        makeBooking()
+                    }} type="button" className="btn rounded-pill fw-bold w-100" 
                         style={{
                             fontFamily: '"Montserrat"', 
                             background: nextBtnEnabled ? '#d1b882' : '#cdcdcd', 

@@ -83,7 +83,7 @@ export default function Contact() {
               const malaysia = jsonData.countryList.filter((value)=>{  // put malaysia first
                 return value.countryName == "Malaysia"
               })
-              const rest = parsedData.countryList.filter((value)=>{
+              const rest = jsonData.countryList.filter((value)=>{
                 return value.countryName != "Malaysia"
               })
               const countryData = [...malaysia, ...rest]

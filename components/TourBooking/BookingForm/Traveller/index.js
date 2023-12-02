@@ -11,6 +11,9 @@ import DropDownMenu from '@component/components/Shared/DropDownMenu';
 import TextArea from '@component/components/Shared/TextArea';
 import InputEmail from '@component/components/Shared/EmailInput';
 import _ from 'lodash';
+import { Money } from '@dintero/money'
+import { payment_mode } from '@component/utils/constants.js'
+import { calculateTourTotalAmount } from '@component/utils/payment.js'
 
 export default function Traveller(props) {
 
@@ -54,12 +57,49 @@ export default function Traveller(props) {
     // },[])
 
     const storeApi=()=>{
+
+        const { aggregateData } = tour_context
+        // calculate total amount
+        const adultRoom = aggregateData?.adultRoom?.amount || 0
+        const childWithBedRoom = aggregateData?.childWithBedRoom?.amount || 0
+        const childWithoutBedRoom = aggregateData?.childWithNoBedRoom?.amount || 0
+        const infantRoom = aggregateData?.infantRoom?.amount || 0
+
+        const fnReturn = calculateTourTotalAmount({
+            adultRoom: adultRoom,
+            childWithBedRoom: childWithBedRoom,
+            childWithoutBedRoom: childWithoutBedRoom,
+            infantRoom: infantRoom,
+            adminChargesPercentage: tour_context.adminChargesPercentage,
+            deposit: tour_context?.tourPackage?.deposit,
+            totalHeadCount: tour_context?.totalHeadCount
+        })
+
+        // // CALCULATE TOTAL AMOUNT
+        // const amountPreAdminCharges = Money.of(adultRoom, 'MYR')
+        // .add(Money.of(childWithBedRoom, 'MYR'))
+        // .add(Money.of(childWithoutBedRoom, 'MYR'))
+        // .add(Money.of(infantRoom, 'MYR'))
+
+        // console.log("amountPreAdminCharges", amountPreAdminCharges.toString())
+
+        // const adminCharges = Money.of(amountPreAdminCharges, 'MYR').multiply(tour_context.adminChargesPercentage)
+        // const amountPostAdminCharges = Money.of(amountPreAdminCharges, 'MYR').add(adminCharges)
+
+        // console.log("adminCharges", adminCharges.toString())
+        // console.log("amountPostAdminCharges", amountPostAdminCharges.toString())
+
+        // // CALCULATE DEPOSIT AMOUNT
+        // const depositAmount = Money.of(tour_context?.tourPackage?.deposit, 'MYR')
+        // .multiply(tour_context?.totalHeadCount)
+        // .toString()
+
         const body = {
-            "salutationCd": salutation[salutationCdRef.current.value||0],
+            "salutationCd": salutationCdRef.current.value||0,
             "surname": surnameRef.current.value,
             "givenName": first_nameRef.current.value,
             "nickName": nickNameRef.current.value,
-            "sexCd": gender[sexCdRef.current.value||0],
+            "sexCd": sexCdRef.current.value,
             "contactNo": contact_numRef.current.value,
             "email": emailRef.current.value,
             "idCountry": idCountryRef.current.value,
@@ -75,11 +115,11 @@ export default function Traveller(props) {
             "passengerList": passengerList,
             "paymentInfo": {
                 "idIpayConfig": tour_context.iPayConfigListId,
-                "email": "",    
-                "paymentAmt": 200.00,
-                "adminChargesPercentage": 0.02,
-                "adminCharges": 4.00,
-                "totalPaymentAmt": 204.00
+                "email": emailRef.current.value,    
+                "paymentAmt": tour_context?.selectedPaymentMode == payment_mode.pay_full_amount ? fnReturn.amountPreAdminCharges : fnReturn.depositAmount,
+                "adminChargesPercentage": tour_context?.selectedPaymentMode == payment_mode.pay_full_amount ? tour_context.adminChargesPercentage : 0,
+                "adminCharges": tour_context?.selectedPaymentMode == payment_mode.pay_full_amount ? fnReturn.adminCharges : 0,
+                "totalPaymentAmt": tour_context?.selectedPaymentMode == payment_mode.pay_full_amount ? fnReturn.amountPostAdminCharges : fnReturn.depositAmount
             }
         }
 
@@ -306,7 +346,7 @@ export default function Traveller(props) {
         salutationCdRef.current.value = 1
         sexCdRef.current.value = 1
         contact_numRef.current.value = "124234234"
-        emailRef.current.value = "asdfasf@asdftyyt.com"
+        emailRef.current.value = "cyxtf@hotmail.com"
         postcodeRef.current.value = "234234"
         stateRef.current.value = 3
         idCountryRef.current.value = 129
@@ -317,6 +357,38 @@ export default function Traveller(props) {
         ecSurnameRef.current.value = "tyrty"
         ecEmailRef.current.value = "asf@adsf.com"
         ecRelationshipRef.current.value = 0
+        setPassengerList([
+            {
+            "roomNo": 1,
+            "travellerId": 1,
+            "givenName": "asdf",
+            "isBillingPerson": true,
+            "surname": "asdf",
+            "nickName": "asdf",
+            "dob": "2023-11-21",
+            "icNo": "34234",
+            "sexCd": "0",
+            "salutationCd": "0",
+            "passportNo": "erwrwe",
+            "dtExpiry": "2023-11-23",
+            "idCountry": "84"
+            },
+            // {
+            // "roomNo": 1,
+            // "travellerId": 2,
+            // "givenName": "dsafasdf",
+            // "isBillingPerson": false,
+            // "surname": "asdf",
+            // "nickName": "asdf",
+            // "dob": "2023-11-22",
+            // "icNo": "34324",
+            // "salutationCd": "2",
+            // "sexCd": "1",
+            // "passportNo": "sdfdfds",
+            // "dtExpiry": "2023-11-23",
+            // "idCountry": "55"
+            // }
+        ])
     }
 
     return (
@@ -335,12 +407,12 @@ export default function Traveller(props) {
             </div>
 
             <div className="d-flex flex-row flex-xl-nowrap flex-no-wrap justify-content-start input-column gap-2">
-                <DropDownMenu title="Title" id="salutationCd" ref={salutationCdRef} data={salutation} />
-                <DropDownMenu title="Gender" id="sexCd" ref={sexCdRef} data={gender} />
+                <DropDownMenu title="Title" id="salutationCd" ref={salutationCdRef} data={salutation} valueKey="code" textKey="text" />
+                <DropDownMenu title="Gender" id="sexCd" ref={sexCdRef} data={gender} valueKey="code" textKey="text" />
             </div>
             <div className="d-flex flex-row flex-xl-nowrap flex-no-wrap align-items-end justify-content-start input-column gap-2">
-                <InputText id="contact_num" placeholder="Enter Contact Number" title="Contact Number" ref={contact_numRef} />
-                <InputEmail id="email" placeholder="Enter Email Address" title="Email" ref={emailRef} />
+                <InputText id="contact_num" placeholder="Enter Contact Number" title="Contact Number" ref={contact_numRef} tooltipText="Only numbers and - allowed" />
+                <InputEmail id="email" placeholder="Enter Email Address" title="Email" ref={emailRef} tooltipText="Format: abc@def.com" />
             </div>
 
             <div className="d-flex flex-row flex-xl-nowrap justify-content-start input-column gap-2">
@@ -371,8 +443,8 @@ export default function Traveller(props) {
             </div>
 
             <div className="d-flex flex-row flex-xl-nowrap flex-wrap justify-content-start input-column gap-0 gap-xl-2">
-                <InputText id="ecContacts" placeholder="Enter Phone Number" title="Phone Number" ref={ecContactsRef}  />
-                <InputEmail id="ecEmail" placeholder="Enter Email" title="Email" ref={ecEmailRef}  />
+                <InputText id="ecContacts" placeholder="Enter Phone Number" title="Phone Number" ref={ecContactsRef} tooltipText="Only numbers and - allowed" />
+                <InputEmail id="ecEmail" placeholder="Enter Email" title="Email" ref={ecEmailRef} tooltipText="Format: abc@def.com" />
                 <DropDownMenu title="Relationship" id="ecRelationship" ref={ecRelationshipRef} data={relationship} />
             </div>
 
@@ -383,25 +455,6 @@ export default function Traveller(props) {
 
             <div style={{marginBottom: 0, borderRadius: 0}}>
                 {
-                    // Object.entries({
-                    //     "1": {
-                    //         "adultRoomCount": 2,
-                    //         "childRoomWithBedCount": 0,
-                    //         "childRoomWithoutBedCount": 0,
-                    //         "infantRoomCount": 0
-                    //     },
-                    //     "2": {
-                    //         "adultRoomCount": 0,
-                    //         "childRoomWithBedCount": 1,
-                    //         "childRoomWithoutBedCount": 0,
-                    //         "infantRoomCount": 0
-                    //     },
-                    //     "3": {
-                    //         "adultRoomCount": 0,
-                    //         "childRoomWithBedCount": 0,
-                    //         "childRoomWithoutBedCount": 0,
-                    //         "infantRoomCount": 1
-                    //     }
                     Object.entries(tour_context.roomData).map((value,index)=>{
                         let totalPeopleCount = 0 // to be used as traveller Id
                         let arr2 =Object.entries(value[1]).map((value2,index2)=>{
@@ -427,12 +480,12 @@ export default function Traveller(props) {
             <hr className="hr mt-lg-4" style={{marginTop: '-10px'}} />
             <div className="d-flex button-combined_div d-flex justify-content-between flex-nowrap flex-sm-wrap">
             <div className="button-container col-md-2 col-5">
-                    <button onClick={props.prevPage} type="button" className="btn rounded-pill fw-bold w-100" 
+                    <button type="button" className="btn rounded-pill fw-bold w-100" 
                         style={{
                             fontFamily: '"Montserrat"', 
                             background: '#d1b882',
                             color: 'white',
-                            display : 'block',
+                            display : 'none',
                         }}
 
                     >BACK</button>

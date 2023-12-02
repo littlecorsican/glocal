@@ -82,6 +82,12 @@ body {
   .responsive-flex {
     flex-direction: column;
   }
+  #article_listing_div_mobile {
+    display: block !important
+  }
+  #article_listing_div_web {
+    display: none !important
+  }
 }
 
 @media only screen and (min-width: 770px) {
@@ -94,5 +100,11 @@ body {
   }
   .responsive-flex {
     flex-direction: row;
+  }
+  #article_listing_div_mobile {
+    display: none !important
+  }
+  #article_listing_div_web {
+    display: block !important
   }
 }

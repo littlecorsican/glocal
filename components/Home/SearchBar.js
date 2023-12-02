@@ -21,7 +21,16 @@ export default class SearchBar extends React.Component {
             "NOVEMBER",
             "DECEMBER"
         ],
-        category : [],
+        category : [
+            {
+                "code": "TOUR",
+                "description": "OUTBOUND"
+            },
+            {
+                "code": "CRUISE",
+                "description": "CRUISE"
+            },
+        ],
         countries : [],
         matchedCountries : [],
         inputValue : ""
@@ -103,7 +112,7 @@ export default class SearchBar extends React.Component {
         fetch(api().referenceList)
         .then(rawResult => rawResult.json())
         .then(jsonData => {
-            this.setState({ countries : jsonData.countryList , category : jsonData.tourTypeList })
+            this.setState({ countries : jsonData.countryList })
         });
     } catch (error) {
 

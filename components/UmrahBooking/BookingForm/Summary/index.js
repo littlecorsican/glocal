@@ -48,6 +48,7 @@ export default function Summary(props) {
             .then(jsonData => {
                 umrah_context.setLoading(false)
                 console.log(jsonData)
+                console.log("xxxxxxxx", jsonData.successful, jsonData.successful == true)
                 if (jsonData.successful == true) {
                     props.nextPage()
                 }

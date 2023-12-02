@@ -17,12 +17,12 @@ export default function ProgressBar(props) {
         id: "03",
         string: "Summary",
       },
-    //   {
-    //     id: "04",
-    //     string: "Payment",
-    //   },
       {
         id: "04",
+        string: "Payment",
+      },
+      {
+        id: "05",
         string: "Confirmation",
       },
     ];

@@ -1,19 +1,30 @@
 import React , {useState, useEffect } from 'react'
 import Image from 'next/image';
 import api from 'api'
+import { groupTourPackageWithLocation } from '../../utils/utils'
+
+/**
+ *  category = TOUR: outbound
+ *  category = INBOUND: inbound
+ */
 
 export default class SearchBar extends React.Component {
   constructor() {
-      super();
-      this.state = {
-        tourData: [],
-        cruiseData: []
-      }
+    super();
+    this.state = {
+        inboundData: [],
+        outboundData: [],
+        cruiseData: [],
+    }
 
   }
 
   gotoDetailPage=(id, idTourPkg)=>{
     location.href = `/tour/${idTourPkg}`
+  }
+
+  gotoCruiseDetailPage=(id, idTourPkg)=>{
+    location.href = `/cruise/${idTourPkg}`
   }
 
   componentDidMount() {
@@ -25,24 +36,34 @@ export default class SearchBar extends React.Component {
         .then(jsonData => {
             console.log(jsonData)
             this.setState({
-                tourData : jsonData?.tourDepList
+                outboundData: groupTourPackageWithLocation(jsonData?.tourDepList)
             })
         });
     
-        const fetch2 = fetch(url + "?type=CRUISE")
+        const fetch2 = fetch(url + "?type=INBOUND")
         .then(rawResult => rawResult.json())
         .then(jsonData => {
             console.log(jsonData)
             this.setState({
-                cruiseData : jsonData?.tourDepList
+                inboundData: groupTourPackageWithLocation(jsonData?.tourDepList)
             })
         });
 
-      Promise.all([fetch1, fetch2]).then(function(values) {
+        const fetch3 = fetch(url + "?type=CRUISE")
+        .then(rawResult => rawResult.json())
+        .then(jsonData => {
+            console.log(jsonData)
+            this.setState({
+                cruiseData: groupTourPackageWithLocation(jsonData?.tourDepList)
+            })
+        });
+
+      Promise.all([fetch1, fetch2, fetch3]).then(function(values) {
 
       }); 
     } catch (error) {
         console.log('There was an error', error);
+        alert("There is an error in our system, please try again later")
     }
   }
 
@@ -64,14 +85,45 @@ export default class SearchBar extends React.Component {
                 <div className="pb-5 px-2">
                     <div id="highlight_item_div" className="contaier d-flex flex-row flex-wrap gap-4 justify-content-center">
                         {
-                            this.state.tourData.length > 0 && this.state.tourData.map((value,index)=>{
+                            this.state.inboundData.length > 0 && this.state.inboundData.map((value,index)=>{
                                 if (index < 6) {
                                     return (
-                                        <div className="product col-12 col-xl-3 min-w-[260px]" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
+                                        <div className="product col-12 col-xl-3" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
                                             <div className="position-absolute border-0" style={{top: "8px", right: "8px"}}>
-                                                <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#F4B63D', fontFamily: 'Montserrat'}}>TOUR</button>
+                                                <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#2ECDFF', fontFamily: 'Montserrat'}}>INBOUND</button>
                                             </div>
-                                            <img className="img-fluid min-h-[330px] max-h-[450px]" src={value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/rsz_warner-bros-studio-tour.jpg" : value?.imageUrl } alt="" style={{ minHeight:"330px" }} />
+                                            <img className="img-fluid min-h-[330px] max-h-[450px]" src={value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/rsz_warner-bros-studio-tour.jpg" : value?.imageUrl } alt="" />
+                                            {/* <Image src={value.imageUrl} className="img-fluid" alt=' ' width={100} height={100}/> */}
+                                            <div className="container p-4 bg-white">
+                                                <div className="d-flex flex-row justify-content-between" style={{fontFamily: 'Montserrat'}}>
+                                                    <h4 className="fw-bold text-uppercase">{value?.title}</h4>
+                                                    <h4 className="fw-bold" style={{color: "#EA242D"}}>{value?.price}</h4>
+                                                </div>
+                                                {/* <h6  style={{fontFamily: 'Poppins', color: "#B8B09D"}}>{value?.tourCode}</h6> */}
+                                                <h6 className="lh-base m-0" style={{fontFamily: 'Poppins', maxHeight:"48px", overflow:"hidden"}}>{value?.specialNotes}</h6>
+                                            </div>
+                                            <button className="py-3 border-0" style={{background: "#B8B09D", borderColor: "#B8B09D", borderRadius: "0px 0px 24px 0px", fontFamily: 'Montserrat'}}>
+                                                <h6 className="fw-bold text-white text-uppercase m-0">VIEW DETAILS | FROM RM {value?.price}</h6>
+                                            </button>
+                                        </div>
+                                    )
+                                }
+                            })
+                        }
+                    
+                    </div>
+                </div>
+                <div className="pb-5 px-2">
+                    <div id="highlight_item_div" className="contaier d-flex flex-row flex-wrap gap-4 justify-content-center">
+                        {
+                            this.state.outboundData.length > 0 && this.state.outboundData.map((value,index)=>{
+                                if (index < 6) {
+                                    return (
+                                        <div className="product col-12 col-xl-3" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
+                                            <div className="position-absolute border-0" style={{top: "8px", right: "8px"}}>
+                                                <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#993DF4', fontFamily: 'Montserrat'}}>OUTBOUND</button>
+                                            </div>
+                                            <img className="img-fluid min-h-[330px] max-h-[450px]" src={value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/rsz_warner-bros-studio-tour.jpg" : value?.imageUrl } alt="" />
                                             {/* <Image src={value.imageUrl} className="img-fluid" alt=' ' width={100} height={100}/> */}
                                             <div className="container p-4 bg-white">
                                                 <div className="d-flex flex-row justify-content-between" style={{fontFamily: 'Montserrat'}}>
@@ -98,7 +150,7 @@ export default class SearchBar extends React.Component {
                             this.state.cruiseData.length > 0 && this.state.cruiseData.map((value,index)=>{
                                 if (index < 6) {
                                     return (
-                                        <div className="product col-12 col-xl-3 min-w-[260px]" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
+                                        <div className="product col-12 col-xl-3" key={index} onClick={()=>this.gotoCruiseDetailPage(value.id, value.idTourPkg)}>
                                             <div className="position-absolute border-0" style={{top: "8px", right: "8px"}}>
                                                 <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#F4B63D', fontFamily: 'Montserrat'}}>CRUISE</button>
                                             </div>

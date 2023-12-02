@@ -27,11 +27,25 @@ const DropDownMenu = forwardRef(function ( props, ref ) {
         defaultValue={props.defaultValue ? props.defaultValue : -1}
       >
         {props.defaultValue == 0 ? null : <option value={-1} key={-1}>Please Select</option>}
+        {/* 
+          for data like this
+          const salutation = {
+            0 : "Mr",
+            1 : "Mrs",
+            2 : "Ms"
+        } */}
         {
           !Array.isArray(props.data) && Object.keys(props.data).map(function(key) {
             return <option value={parseInt(key)} key={props.defaultValue == 0 ? key : parseInt(key)+1}>{props.data[key]}</option>
           })
         }
+        {/* 
+          for data like this
+          const salutation = [
+            {text: "Mr", code:"MR"},
+            {text: "Mrs", code:"MRS"},
+            {text: "Ms", code:"MS"},
+        ] */}
         {
           Array.isArray(props.data) && props.data.map((value,index)=> {
             return <option 

@@ -10,6 +10,7 @@ import api from 'api'
 export default function Contact() {
 
   const [rJson, setRJson] = useState({})
+  const [tourDepList, setTourDepList] = useState([])
   const [CMSHTML, setCMSHTML] = useState("")
 
   const  router = useRouter();
@@ -18,6 +19,20 @@ export default function Contact() {
   console.log(router.query)
 
   const tableTh = ["#", "Departure", "Price From" , "Airline", "Status"]
+  const textToMonth = {
+    "Jan": 1,
+    "Feb": 2,
+    "Mar": 3,
+    "Apr": 4,
+    "May": 5,
+    "Jun": 6,
+    "Jul": 7,
+    "Aug": 8,
+    "Sep": 9,
+    "Oct": 10,
+    "Nov": 11,
+    "Dec": 12,
+  }
 
   useEffect(() => {
     if(!router.isReady) return;
@@ -29,20 +44,21 @@ export default function Contact() {
       fetch(url)
       .then(rawResult => rawResult.json())
       .then(jsonData => {
-          console.log(jsonData, "jsonData")
-          setRJson(jsonData.tourPkg)
-          let cmsArr = jsonData?.tourPkg?.tourPkgDailyItinerary?.dailyItineraryItemEngList
-          let cmsCombine = ""
-          if (cmsArr) {
-            cmsCombine = `<div style="font-family: Poppins">`
-            for (let i =0 ; i < cmsArr.length ; i++) {
-              console.log(cmsArr[i])
-              cmsCombine += `<p><span style="font-weight: bold">` + cmsArr[i]?.title + "</span></p>"
-              cmsCombine += "<p>" + cmsArr[i]?.description + "</p>"
-            }
-            cmsCombine += "</div>"
-            setCMSHTML(cmsCombine)
+        console.log(jsonData, "jsonData", addFormattedDate(jsonData.tourPkg.tourDepList))
+        setTourDepList(sortTourpkgdetailByDate(addFormattedDate(jsonData.tourPkg.tourDepList)))
+        setRJson(jsonData.tourPkg)
+        let cmsArr = jsonData?.tourPkg?.tourPkgDailyItinerary?.dailyItineraryItemEngList
+        let cmsCombine = ""
+        if (cmsArr) {
+          cmsCombine = `<div style="font-family: Poppins">`
+          for (let i =0 ; i < cmsArr.length ; i++) {
+            console.log(cmsArr[i])
+            cmsCombine += `<p><span style="font-weight: bold">` + cmsArr[i]?.title + "</span></p>"
+            cmsCombine += "<p>" + cmsArr[i]?.description + "</p>"
           }
+          cmsCombine += "</div>"
+          setCMSHTML(cmsCombine)
+        }
       });
     } catch (error) {
       console.log('There was an error', error);
@@ -50,6 +66,28 @@ export default function Contact() {
 
   }, [router.isReady]);
 
+  const addFormattedDate=(array)=>{
+    return array.map((value)=>{
+      value.date = convertTextDateToDateObj(value.dtDep)
+      return value
+    })
+  }
+
+  const sortTourpkgdetailByDate=(array)=>{
+    return array.sort(function(a,b){
+      return new Date(a.date) - new Date(b.date);
+    });
+  }
+
+  const convertTextDateToDateObj=(text_date)=>{
+    //Jan 29, 2024
+    let string_date = text_date.replace(",", "")
+    const arr_date = string_date.split(" ")
+    const month = textToMonth[arr_date[0]]
+    const day = arr_date[1]
+    const year = arr_date[2]
+    return `${year}-${month}-${day}`
+  }
 
   return (
     <Layout>
@@ -66,7 +104,7 @@ export default function Contact() {
               </div> 
               <div>
                 <div className="title" style={{paddingTop: '25px', paddingBottom: '60px'}}>
-                  <h2 style={{fontWeight: 700}}>{rJson.numDays}D{rJson.numNights}N {rJson.nameEn}</h2>
+                  {rJson.numDays && <h2 style={{fontWeight: 700}}>{rJson.numDays}D{rJson.numNights}N {rJson.nameEn}</h2>}
                   <p style={{}} dangerouslySetInnerHTML={{__html: rJson.highLight}}>
                   </p>
                   <button onClick={()=>location.href="#selectdates"} className="cruise-red-button">SELECT DATES</button>
@@ -104,7 +142,7 @@ export default function Contact() {
                       <div className="flex-1 tab-header block text-[#fff] bg-[#b32129] text-center p-3 m-4" id="selectdates">
                         FULL TOUR  
                       </div>
-                      {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-[#b32129] text-center p-3 m-4 text-white bg-[#b32129]" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERY PDF @ 行程下载</button>}
+                      {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-[#b32129] text-center p-3 m-4 text-white bg-[#b32129]" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERARY PDF @ 行程下载</button>}
                     </div>
                     <div className="block" >
                       <p><b>Note :</b> </p>
@@ -126,7 +164,7 @@ export default function Contact() {
                           </tr>
                         </thead>
                         <tbody>
-                          {rJson.tourDepList && rJson.tourDepList.map((value,index)=>{
+                          {tourDepList && tourDepList.map((value,index)=>{
                             return <tr key={index}>
                                 <td className="border border-slate-300"> 
                                   {index+1}
@@ -135,7 +173,7 @@ export default function Contact() {
                                   {<Departure dtDep={value.dtDep} desc={value.desc} langDesc={value.langDesc} />}
                                 </td>
                                 <td className="align-top">
-                                  <b>RM {value.fullCtw}✩</b>
+                                  <b>RM {value.tourPrice}✩</b>
                                 </td>
                                 <td className="align-top">
                                   {value.airlineDesc}🔗

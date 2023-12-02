@@ -9,59 +9,65 @@ import BookingSummary from '../components/CruiseBooking/BookingSummary'
 import { useRouter } from "next/router";
 import api from 'api'
 import Loading from '../components/Loading'
+import { payment_mode } from '../utils/constants.js'
 
 export default function Contact() {
 
-    const [dep, setDep] = useState({})
-    const [tourPackage, setTourPackage] = useState({})
-    const [tourDepItemList, setTourDepItemList] = useState([])
-    const [successfulBookingId, setSuccessfulBookingId] = useState(null)
-    const [idCompany, setIdCompany] = useState(null)
-    const [timer, setTimer] = useState(null)
-    const [country, setCountry] = useState({})
-    const [iPayConfigListId, setIPayConfigListId] = useState()
-    const [loading, setLoading] = useState(false)
-    const [loadingText, setLoadingText] = useState("")
-    const [tourCruiseCabinList, setTourCruiseCabinList] = useState(null)
-    const [peopleAmount, setPeopleAmount] = useState(0)  // total need to pay passenger
-    const [infantAmount, setInfantAmount] = useState(0)  //total need to pay infant
-    const [totalPeople, setTotalPeople] = useState(0)  //  total passenger
-    const [totalInfant, setTotalInfant] = useState(0)  // total infant
-    const [userInputData, setUserInputData] = useState(null)
-    const [selectedCabinIndex, setSelectedCabinIndex] = useState(0)
+  const [dep, setDep] = useState({})
+  const [tourPackage, setTourPackage] = useState({})
+  const [tourDepItemList, setTourDepItemList] = useState([])
+  const [successfulBookingId, setSuccessfulBookingId] = useState(null)
+  const [idCompany, setIdCompany] = useState(null)
+  const [timer, setTimer] = useState(null) // timer count
+  const [countdown, setCountDown] = useState(false) // whether timer is running true/false
+  const [country, setCountry] = useState({})
+  const [iPayConfigListId, setIPayConfigListId] = useState(1)
+  const [adminChargesPercentage, setAdminChargesPercentage] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [loadingText, setLoadingText] = useState("")
+  const [tourCruiseCabinList, setTourCruiseCabinList] = useState(null)
+  const [peopleAmount, setPeopleAmount] = useState(0)  // total need to pay passenger eg 1000
+  const [infantAmount, setInfantAmount] = useState(0)  //total need to pay infant eg 1000
+  const [totalPeople, setTotalPeople] = useState(0)  //  total passenger eg 1, 2, 3,
+  const [totalInfant, setTotalInfant] = useState(0)  // total infant eg, 1, 2, 3
+  const [userInputData, setUserInputData] = useState(null)
+  const [selectedCabinIndex, setSelectedCabinIndex] = useState(0)
+  const [portCharges_amt, setPortCharges_amt] = useState(0)
+  const [selectedPaymentMode, setSelectedPaymentMode] = useState(0)
 
-    const  router = useRouter();
-    const  idTourPkg = router.query["idTourPkg"];
-    const  idBase = router.query["id"];
-    console.log("idTourPkg", idTourPkg, idBase)
-    let intervalId = useRef(null)
+  const  router = useRouter();
+  const  idTourPkg = router.query["idTourPkg"];
+  const  idBase = router.query["id"];
+  console.log("idTourPkg", idTourPkg, idBase)
+  let intervalId = useRef(null)
 
-    useEffect(() => {
-      if(!router.isReady) return;
-      if (!idCompany) return;
+  useEffect(() => {
+    if(!router.isReady) return;
+    if (!idCompany) return;
 
-      console.log("idTourPkg2", idTourPkg, idBase)
+    console.log("idTourPkg2", idTourPkg, idBase)
 
-      let url = `${api().tourdepdetail}?idCompany=${idCompany}&idTourDep=${idBase}`
-      try {
-        fetch(url)
-        .then(rawResult => rawResult.json())
-        .then(jsonData => {
-          setTourPackage(jsonData?.tourDep?.tourPkg)
-          setDep(jsonData?.tourDep)
-          setTourCruiseCabinList(jsonData?.tourDep?.tourCruiseCabinList)
-          let tempDepList = jsonData?.tourDep?.tourDepItemList
-          // assign quantity and 0 to all objects because the API to create booking requires it
-          for (let i = 0 ; i < tempDepList.length ; i ++) {
-            tempDepList[i].quantity = 0;
-          }
-          setTourDepItemList(tempDepList)
-          
+    let url = `${api().tourdepdetail}?idCompany=${idCompany}&idTourDep=${idBase}`
+    try {
+      fetch(url)
+      .then(rawResult => rawResult.json())
+      .then(jsonData => {
+        setTourPackage(jsonData?.tourDep?.tourPkg)
+        setDep(jsonData?.tourDep)
+        setTourCruiseCabinList(jsonData?.tourDep?.tourCruiseCabinList)
+        let tempDepList = jsonData?.tourDep?.tourDepItemList
+        // assign quantity and 0 to all objects because the API to create booking requires it
+        for (let i = 0 ; i < tempDepList.length ; i ++) {
+          tempDepList[i].quantity = 0;
+        }
+        setTourDepItemList(tempDepList)
+        
 
-        });
-      } catch (error) {
-        console.log('There was an error', error);
-      }
+      });
+    } catch (error) {
+      console.log('There was an error', error);
+      alert("There is an error in our system, please try again later")
+    }
 
   }, [router.isReady, idCompany]);
 
@@ -77,7 +83,7 @@ export default function Contact() {
           .then(jsonData => {
               console.log(jsonData)
               const onlineBookingConfigList = jsonData.onlineBookingConfigList
-              setIdCompany(onlineBookingConfigList[onlineBookingConfigList.length-1].idCompany)
+              setIdCompany(onlineBookingConfigList[onlineBookingConfigList.length-1]?.idCompany || 1)
           });
 
           const fetch2 = fetch(url2)
@@ -98,8 +104,8 @@ export default function Contact() {
           .then(rawResult => rawResult.json())
           .then(jsonData => {
               console.log(jsonData)
-              console.log("iPayConfigList", jsonData)
-              setIPayConfigListId(1)
+              setIPayConfigListId(jsonData?.ipayConfigList[0]?.idBase || 1)
+              setAdminChargesPercentage(jsonData?.ipayConfigList[0]?.adminChargesPercentage || 0)
           });
 
         Promise.all([fetch1, fetch2, fetch3]).then(function(values) {
@@ -107,26 +113,29 @@ export default function Contact() {
         }); 
         } catch (error) {
           console.log('There was an error', error);
+          alert("There is an error in our system, please try again later")
         }
   },[])
 
   const start=()=>{
     setTimer(900)
+    setCountDown(true)
     intervalId.current = setInterval(()=>{
       setTimer((timer)=>timer-1)
     }, 1000) 
   }
 
-  const stop=()=>{
-    setTimer(null)
-    clearInterval(intervalId.current);
-  }
+  // const stop=()=>{
+  //   setTimer(null)
+  //   clearInterval(intervalId.current);
+  // }
 
   useEffect(()=>{
     if (timer < 1) {
       setTimer(null)
       clearInterval(intervalId.current);
       if (timer != null) {
+        setCountDown(false)
         alert("Times up")
         cancelBooking()
       }
@@ -136,6 +145,7 @@ export default function Contact() {
   const cancelBooking=()=>{
     //call cancel booking api
     setLoading(true)
+    setLoadingText("Cancelling booking....")
     const idBooking = successfulBookingId
     let url = `/api/cancelBooking`
     try {
@@ -147,6 +157,7 @@ export default function Contact() {
       .then(jsonData => {
           console.log(jsonData)
           setLoading(false)
+          setLoadingText("")
           const successful = jsonData.successful
           if (successful) {
             location.href = '/'
@@ -180,6 +191,10 @@ export default function Contact() {
           totalInfant, setTotalInfant,
           userInputData, setUserInputData,
           selectedCabinIndex, setSelectedCabinIndex,
+          portCharges_amt, setPortCharges_amt,
+          countdown,
+          adminChargesPercentage, setAdminChargesPercentage,
+          selectedPaymentMode, setSelectedPaymentMode
 
         }}>
         <div className="container" style={{paddingTop: '120px'}}>
@@ -205,6 +220,7 @@ export default function Contact() {
                 dep={dep} 
                 tourPackage={tourPackage} 
                 timer={timer}
+                selectedPaymentMode={selectedPaymentMode}
               />
             </div>
           </div>

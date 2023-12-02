@@ -12,14 +12,21 @@ export default function Rooms(props, ref) {
     const [infant, setInfant] = useState(0)
     const [occupancyCount, setOccupancyCount] = useState(1)
 
-    const occupancyLimit = 3
+    const occupancyLimit = {
+        adult: 2,
+        children: 1,
+        infant: 1
+    }
 
     const tour_context = useContext(TourContext)
 
     useEffect(()=>{
         tour_context.handleRoomChange(props.id, adult, childWithBed, childWithoutBed, infant)
         console.log("adult + childWithBed + childWithoutBed", adult + childWithBed + childWithoutBed)
-        setOccupancyCount(adult + childWithBed + childWithoutBed)
+        setOccupancyCount({
+            adult: adult,
+            children:  + childWithBed + childWithoutBed
+        })
     }, [adult, childWithBed, infant, childWithoutBed])
 
 
@@ -42,7 +49,7 @@ export default function Rooms(props, ref) {
             <IncrementCount title={"Adult"} key="0" setCount={setAdult} limit={occupancyLimit} occupancyCount={occupancyCount} count={adult} />
             <IncrementCount title={"Children With Bed (< 12 yrs)"} key="1" setCount={setChildren} limit={occupancyLimit} occupancyCount={occupancyCount} count={childWithBed}/>
             <IncrementCount title={"Children Without Bed (< 12 yrs)"} key="2" setCount={setChildrenWithoutBed} limit={occupancyLimit} occupancyCount={occupancyCount} count={childWithoutBed} />
-            <IncrementCount title={"Infant (< 12 yrs)"} key="3" setCount={setInfant} limit={1} occupancyCount={infant} count={infant} />            
+            <IncrementCount title={"Infant (< 12 yrs)"} key="3" setCount={setInfant} limit={occupancyLimit} occupancyCount={infant} count={infant} />            
       </div>
     </div>
    )

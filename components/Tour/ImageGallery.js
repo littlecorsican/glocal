@@ -29,7 +29,7 @@ export default function ImageGallery(props) {
                 </Link> 
               }
               {  // if no image data
-                (!props.data || props.data.length == 0) && <Link href="/images/caff37b0-1637-4c8f-a510-c39ecfb5dd42.jpeg" className="lightbox" data-caption="">
+                (props.data == null || props.data.length == 0) && <Link href="/images/caff37b0-1637-4c8f-a510-c39ecfb5dd42.jpeg" className="lightbox" data-caption="">
                   <div id="hoverText" style={{width: '100%', height: '100%', position: 'absolute', zIndex: 1}}>
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
                       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40%', gap: '25px'}}>
@@ -48,7 +48,7 @@ export default function ImageGallery(props) {
                   </Link>
                 }
                 { // if no image data
-                  (!props.data || props.data.length == 0) && <Link href="/images/caff37b0-1637-4c8f-a510-c39ecfb5dd42.jpeg" className="lightbox" data-caption="">
+                  (props.data == null || props.data.length == 0) && <Link href="/images/caff37b0-1637-4c8f-a510-c39ecfb5dd42.jpeg" className="lightbox" data-caption="">
                     <img  style={{width: '100%', height: '100%', objectFit: 'cover'}} src="/images/caff37b0-1637-4c8f-a510-c39ecfb5dd42.jpeg" alt="" />
                   </Link>
                 }
@@ -67,7 +67,7 @@ export default function ImageGallery(props) {
                       })
                     }     
                     { // if no image data
-                      (!props.data || props.data.length == 0) && <>
+                      (props.data == null || props.data.length == 0) && <>
                         <div className="col-12">
                           <Link href="/images/tourListing1.png" className="lightbox" data-caption="">
                             <img  style={{width: '100%', height: '100%', objectFit: 'cover'}} src="/images/tourListing1.png" alt="" />

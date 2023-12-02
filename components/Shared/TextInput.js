@@ -10,7 +10,10 @@ const InputText = forwardRef(function ( props, ref ) {
       -id: string
       -ref: ref
       -required:booleon
+      -tooltipText: string
   */
+
+  const [showTooltipText, setShowTooltipText] = useState(false)
 
   return (
     <div className="w-100 input-box-2">
@@ -31,7 +34,17 @@ const InputText = forwardRef(function ( props, ref ) {
           className="form-control input-box" 
           {...props}
           ref={ref}
+          onFocus={()=>{
+            setShowTooltipText(true)
+          }}
+          onBlur={()=>{
+            setShowTooltipText(false)
+          }}
         />
+        {showTooltipText && <div className="text-red-600 text-xs">
+          {props?.tooltipText}
+        </div>}
+        {!showTooltipText && <p></p>}
     </div>
   )
 })

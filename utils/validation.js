@@ -1,3 +1,6 @@
+// NONE OF THE FUNCTIONS IN THIS FILE IS CURRENTLY IN USED
+// STORING FOR POTENTIAL FUTURE USE
+
 import api from "../api.js"
 
 export const validation=(api)=>{ 

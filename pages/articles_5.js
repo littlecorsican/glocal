@@ -2,8 +2,22 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Layout from '../components/Layout'
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 
 export default function Footer() {
+
+    const [data, setData] = useState([
+        "/images/articles/article_5_1.jpeg",
+        "/images/articles/article_5_2.jpeg",
+        "/images/articles/article_5_3.jpeg",
+        "/images/articles/article_5_4.jpeg",
+        "/images/articles/article_5_5.jpeg",
+        "/images/articles/article_5_6.jpeg",
+        "/images/articles/article_5_7.jpeg",
+        "/images/articles/article_5_8.jpeg",
+    ])
+
 
     return (
         <Layout>
@@ -30,6 +44,17 @@ export default function Footer() {
                             <img className="img-fluid" src="icons/contact_gold.png" alt="icon calendar" />
                             <h6 className="fw-bold mt-2" style={{fontFamily: '"Poppins"', color: '#B8B09D'}}>Tour News</h6>
                             </div>
+                        </div>
+                        <div className="p-8">
+                            <Carousel centerMode={true} dynamicHeight={true} swipeable={true} className="h-fit px-[30vw]">
+                                {
+                                    data.map((value, index)=>{
+                                        return <div key={index}>
+                                        <img src={value} className="max-h-[500px] " />
+                                    </div>
+                                    })
+                                }
+                            </Carousel>
                         </div>
                         <div id="content_listing_div" className="text_content_div_2">
                             <h2 className="fw-bold pt-3 pt-xl-5 text-break" style={{fontFamily: '"Montserrat"', fontSize: '30px'}}></h2>
@@ -76,11 +101,17 @@ export default function Footer() {
                                 the city skyline and the sparkling waters surrounding us.
                             </h6>
                             <h2 className="fw-bold pt-3 pt-xl-5 text-break" style={{fontFamily: '"Montserrat"', fontSize: '30px'}} >
+                            
+                            </h2>
+                            <h6 style={{fontFamily: '"Poppins"', fontWeight: 400, lineHeight: '27px'}} >
                                 Saving the best for last, we ventured to the awe-inspiring Gardens by the Bay. The
                                 lush greenery, vibrant flowers, and futuristic Supertrees left us spellbound. As evening
                                 descended, we made our way to Marina Bay Sands to witness the mesmerizing light and
                                 water show. The dazzling display of colors and synchronized music created a truly magical
                                 experience.
+                            </h6>
+                            <h2 className="fw-bold pt-3 pt-xl-5 text-break" style={{fontFamily: '"Montserrat"', fontSize: '30px'}} >
+                            
                             </h2>
                             <h6 style={{fontFamily: '"Poppins"', fontWeight: 400, lineHeight: '27px'}} >
                                 Our day trip to Singapore was a whirlwind of adventure, culture, and natural beauty.

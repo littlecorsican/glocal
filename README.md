@@ -42,6 +42,29 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
+## Before you start
+
+Please create .env.local file and fill in these variables, and fill it into environment variables tab of vercel when you deploy online
+
+useful links
+https://revnology.gitlab-page.revnology.com.my/kakijalan/index.html
+https://portal.merchant.razer.com/index.php?mod=nologin&opt=vcode
+https://sandbox.merchant.razer.com/MerchantPortal/index.php?mod=authentication&opt=login
+https://trevabook.ddns.net/trevabook-admin/app/login
+https://kakijalandev-git-dev-gnomemage19901.vercel.app/
+https://portal.merchant.razer.com/index.php?mod=authentication&opt=login
+
+NEXT_PUBLIC_NODE_ENV=""  
+NEXT_IMAGE_ALLOWED_DOMAINS=""
+NEXT_PUBLIC_VERIFY_KEY=""
+NEXT_PUBLIC_SECRET_KEY=""
+NEXT_PUBLIC_MERCHANT_ID=""
+
+things to check when go live
+.env.local
+remove click me buttons
+
+
 
 /pages/booking-tour
     TourBooking(folder)
@@ -76,3 +99,41 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 *UMRAH follow tour , so currently the UmrahBooking not in used
 
 junk folder - all the stuff that was previously used but later discarded
+
+
+logic
+desktop size
+if 5
+provide 4, 1
+if 4
+provide 4
+if 3
+provide 3
+if 2
+provide 2
+if 1
+provide 1
+
+tablet size
+if 5
+provide 3, 2
+if 4
+provide 3, 1
+if 3
+provide 3, 0
+if 2
+provide 2, 0
+if 1
+provide 1, 0
+
+phone size
+if 5
+provide 2, 2, 1
+if 4
+provide 2, 2
+if 3
+provide 2, 1
+if 2
+provide 2, 0
+if 1
+provide 1, 0

@@ -66,7 +66,7 @@ export default function Contact() {
               </div> 
               <div>
                 <div className="title" style={{paddingTop: '25px', paddingBottom: '60px'}}>
-                  <h2 style={{fontWeight: 700}}>{rJson.numDays}D{rJson.numNights}N {rJson.nameEn}</h2>
+                  {rJson.numDays && <h2 style={{fontWeight: 700}}>{rJson.numDays}D{rJson.numNights}N {rJson.nameEn}</h2>}
                   <p style={{}} dangerouslySetInnerHTML={{__html: rJson.highLight}}>
                   </p>
                   <button onClick={()=>location.href="#selectdates"} className="cruise-red-button">SELECT DATES</button>
@@ -104,7 +104,7 @@ export default function Contact() {
                       <div className="flex-1 tab-header block text-[#fff] bg-[#b32129] text-center p-3 m-4" id="selectdates">
                         FULL TOUR  
                       </div>
-                      {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-[#b32129] text-center p-3 m-4 text-white bg-[#b32129]" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERY PDF @ 行程下载</button>}
+                      {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-[#b32129] text-center p-3 m-4 text-white bg-[#b32129]" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERARY PDF @ 行程下载</button>}
                     </div>
                     <div className="block" >
                       <p><b>Note :</b> </p>
