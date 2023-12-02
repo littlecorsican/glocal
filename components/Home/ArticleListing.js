@@ -101,8 +101,8 @@ export default function Footer() {
 
 function CardType1(props) {
     return (
-        <div className="flex flex-row w-full justify-evenly my-4 ">
-            <div className="flex flex-row bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:2 }}>
+        <div className="flex flex-row w-full justify-evenly my-2 ">
+            <div className="flex flex-row bg-white m-2 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:2 }}>
                 <div style={{ backgroundImage: `url('${props.value.image_path}')` }} className="w-1/2 bg-no-repeat bg-cover min-h-[300px]">
                 </div>
                 <div className="w-1/2 p-4 min-h-[300px] flex-wrap whitespace-normal">
@@ -116,7 +116,7 @@ function CardType1(props) {
                 </div>
             </div>
             {props.index !== props.data.length-1 && <div className="" style={{ flex:1 }}>
-                <div className="flex flex-column bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis">
+                <div className="flex flex-column bg-white m-2 rounded-md max-h-[350px] overflow-hidden text-ellipsis">
                     <div className="flex-1">
                         <img src={props.data[props.index+1].image_path} className="w-full max-h-[200px]" />
                     </div>
@@ -137,8 +137,8 @@ function CardType1(props) {
 
 function CardType2(props) {
     return (
-        <div className="flex flex-row w-full justify-evenly my-4 ">
-            <div className="flex flex-row bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:1 }}>
+        <div className="flex flex-row w-full justify-evenly my-2 ">
+            <div className="flex flex-row bg-white m-2 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:1 }}>
                 <div className="flex flex-column bg-white max-h-[350px] overflow-hidden text-ellipsis">
                     <div className="flex-1">
                         <img src={props.value.image_path} className="w-full max-h-[200px]" />
@@ -155,7 +155,7 @@ function CardType2(props) {
                 </div>
             </div>
             {props.index !== props.data.length-1 && <div className="" style={{ flex:2 }}>
-                <div className="flex flex-row bg-white m-4 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:2 }}>
+                <div className="flex flex-row bg-white m-2 rounded-md max-h-[350px] overflow-hidden text-ellipsis" style={{ flex:2 }}>
                     <div style={{ backgroundImage: `url('${props.data[props.index+1].image_path}')` }} className="w-1/2 bg-no-repeat bg-cover min-h-[300px]">
                     </div>
                     <div className="w-1/2 p-4 min-h-[300px] flex-wrap whitespace-normal">
