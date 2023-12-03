@@ -44,7 +44,7 @@ export default function Contact() {
           <button onClick={()=>location.href='/tour'} className="btn text-white rounded-5 px-5 py-2 fw-bold" style={{backgroundColor: '#D68A2C', fontFamily: '"Montserrat"'}}>START SEARCH</button>
         </div>
         {/* Planning */}
-        <div id="planning_div" className="bg-image d-flex flex-column justify-content-center align-items-center gap-0 gap-xl-3 position-relative" style={{backgroundSize: 'cover', height: '600px', backgroundPosition: 'center', marginTop: '-7px', zIndex: 1}}>
+        <div id="planning_div" className="bg-image d-flex flex-column justify-content-center align-items-center gap-0 gap-xl-3 position-relative" style={{backgroundSize: 'cover', backgroundPosition: 'center', marginTop: '-7px', zIndex: 1}}>
           <h5 className="fw-bold mb-3 text-center px-3" style={{fontFamily: '"Montserrat"'}}>
             PLANNING
             <hr className="relative top-[-0.50rem]  border-4 border-[#D68A2C] m-0 opacity-50" />
@@ -53,16 +53,15 @@ export default function Contact() {
           <p className="col-11 col-sm-10 col-xl-8 text-center" style={{fontFamily: '"Poppins"'}}>
             We are certified and specialize in everything within and out of Malaysia, including Umrah and Haji. We take care of all the documentation needed for the trip such as vaccination and Visa. We offer all-in packages for you to choose from.
           </p>
-          
-        </div>
-        <div className="col-12 col-xl-12 m-0 my-xl-5 rounded">
-          <video style={{width: '100%'}} className="embed-responsive-item" controls>
-            <source src="/videos/sampleVideo1.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <div className='text-center'>
-          <button onClick={()=>location.href='/tour'} className="btn text-white rounded-5 px-5 py-2 fw-bold" style={{backgroundColor: '#2158AA', fontFamily: '"Montserrat"'}}>START SEARCH</button>
+          <div className="col-12 col-xl-12 m-0 my-xl-5 mx-16">
+            <video style={{width: '100%'}} className="embed-responsive-item rounded-xl" controls>
+              <source src="/videos/sampleVideo1.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div className='text-center'>
+            <button onClick={()=>location.href='/tour'} className="btn text-white rounded-5 px-5 py-2 fw-bold" style={{backgroundColor: '#2158AA', fontFamily: '"Montserrat"'}}>START SEARCH</button>
+          </div>
         </div>
         {/* <div id="planning_div" className="d-flex flex-row flex-wrap justify-content-between py-xl-5">
           <div className="col-12 col-xl-8 m-0 my-xl-5">
