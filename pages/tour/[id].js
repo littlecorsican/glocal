@@ -166,7 +166,7 @@ export default function Contact() {
                     <div className="flex-1 tab-header block text-[#fff] bg-[#3470C9] text-center p-3 m-4" id="selectdates">
                       FULL TOUR  
                     </div>
-                      {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-[#b32129] text-center p-3 m-4 text-white bg-[#b32129]" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERARY PDF @ 行程下载</button>}
+                      {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-primary text-center p-3 m-4 text-white" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERARY PDF @ 行程下载</button>}
                     </div>
                     <div className="block" >
                       <p><b>Note :</b> </p>
