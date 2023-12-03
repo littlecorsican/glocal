@@ -59,7 +59,7 @@ export default function Footer() {
                 <div id="article_listing_div_mobile" className="container d-flex flex-wrap justify-content-center gap-3">
                     {
                         data.map((value,index)=>{
-                            return  <div key={index} className="container d-flex flex-row flex-xxl-nowrap flex-wrap shadow bg-white p-4 col-lg-5 col-12 gap-xl-3 gap-2 m-0"             style={{borderRadius: "20px 0px"}}>
+                            return  <div key={index} className="container d-flex flex-row flex-xxl-nowrap flex-wrap shadow bg-white p-4 col-lg-5 col-12 gap-xl-3 gap-2 my-4"             style={{borderRadius: "20px 0px"}}>
                                     <div className="col-12 col-xxl-6 d-flex">
                                         <img   className="img-fluid w-100" src={value.image_path} alt="article1" />
                                     </div>
