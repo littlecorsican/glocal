@@ -36,7 +36,7 @@ export default function Rooms(props, ref) {
             <p className="" style={{fontFamily: '"Montserrat"', fontStyle: 'normal', fontWeight: 700, textTransform: 'uppercase', color: '#500000'}}>
                 Room {props.id}
             </p>
-            {props.addRoomCount != undefined ? <button type="button" className="btn btn-link" style={{fontFamily: '"Poppins"', fontWeight: 700, color: '#ea242d', marginTop: '-10px', textDecoration: 'none'}} onClick={props.addRoomCount}>
+            {props.addRoomCount != undefined ? <button type="button" className="btn btn-link text-colourblue" style={{fontFamily: '"Poppins"', fontWeight: 700, marginTop: '-10px', textDecoration: 'none'}} onClick={props.addRoomCount}>
                 + Add Room
             </button> : 
                 <button type="button" className="btn btn-link" style={{fontFamily: '"Poppins"', fontWeight: 700, color: '#ea242d', marginTop: '-10px', textDecoration: 'none'}} onClick={()=>props.removeRoomCount(props.id)}>

@@ -50,7 +50,11 @@ export default function DetailsCard(props) {
                         <h6>:</h6>
                         <h6 className="fw-bold na-text" style={{fontWeight: '700px'}}>{cruise_context?.dep.airlineCode} {cruise_context?.dep.airlineDesc}</h6>
                     </div>
-                    {!cruise_context.countdown && <p onClick={()=>location.href=`/tour/${props.idTourPkg}`} style={{fontFamily: '"Poppins"', color: '#ea242d', cursor:"pointer"}}>Change Dates</p>}
+                    {!cruise_context.countdown && <p 
+                        onClick={()=>location.href=`/tour/${props.idTourPkg}`} 
+                        style={{fontFamily: '"Poppins"', cursor:"pointer"}}
+                        className="text-colourblue underline"
+                    >Change Dates</p>}
                 </div>
                 </div>
             </div>

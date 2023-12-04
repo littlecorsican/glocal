@@ -163,10 +163,10 @@ export default function Contact() {
                 <div className=" col-lg-7 col-12 order-2 order-lg-1 flex-1">
 
                     <div className="flex">
-                      <div className="flex-1 tab-header block text-[#fff] bg-first rounded text-center p-3 m-4" id="selectdates">
+                      <div className="flex-1 tab-header block text-[#fff] bg-colourblue rounded text-center p-3 m-4" id="selectdates">
                         FULL TOUR  
                       </div>
-                      {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-first text-center p-3 m-4 text-white" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERARY PDF @ 行程下载</button>}
+                      {rJson?.tourPkgItinery?.fileUrl && <button className="flex-1 tab-header rounded block text-[#fff] bg-colourblue text-center p-3 m-4 text-white" onClick={()=>{location.href=`${rJson.tourPkgItinery.fileUrl}`}}>ITINERARY PDF @ 行程下载</button>}
                     </div>
                     <div className="block" >
                       <p><b>Note :</b> </p>
@@ -203,7 +203,7 @@ export default function Contact() {
                                   {value.airlineDesc}🔗
                                 </td>
                                 <td className="align-top"> 
-                                  <button className="rounded px-7 py-2 text-white bg-first" onClick={()=>location.href=`/booking-cruise?id=${value.idBase}&idTourPkg=${value.idTourPkg}`}>Departure Detail</button>
+                                  <button className="rounded px-7 py-2 text-white bg-colourblue" onClick={()=>location.href=`/booking-cruise?id=${value.idBase}&idTourPkg=${value.idTourPkg}`}>Departure Detail</button>
                                 </td>
                               </tr>
                           })}

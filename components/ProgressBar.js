@@ -42,7 +42,7 @@ export default function ProgressBar(props) {
                     if (props.index == index) {
                         return  <div key={index}>  
                             <div className="d-none d-xl-flex justify-content-center align-items-center flex-column">
-                                <div className="rounded-5" style={{ background: "#EA242D" }}>
+                                <div className="rounded-5 bg-colourbrown">
                                 <p
                                     className="text-white fw-bold m-0 d-flex justify-content-center align-items-center progress-icon"
                                     style={{ fontFamily: '"Montserrat"' }}
@@ -50,12 +50,12 @@ export default function ProgressBar(props) {
                                     {value.id}
                                 </p>
                                 </div>
-                                <h6 className="fw-bold progress-font" style={{ color: "#EA242D" }}>
+                                <h6 className="fw-bold progress-font" style={{ color: "#B8B09D" }}>
                                     {value.string}
                                 </h6>
                             </div>
                             <div className="d-flex d-xl-none justify-content-start align-items-center flex-column col-3">
-                                <div className="rounded-5" style={{ background: "#EA242D" }}>
+                                <div className="rounded-5 bg-colourbrown">
                                 <p
                                     className="text-white fw-bold m-0 d-flex justify-content-center align-items-center progress-icon"
                                     style={{ fontFamily: '"Montserrat"' }}
@@ -63,7 +63,7 @@ export default function ProgressBar(props) {
                                     {value.id}
                                 </p>
                                 </div>
-                                <h6 className="fw-bold text-center progress-font" style={{ color: "#EA242D" }}>
+                                <h6 className="fw-bold text-center progress-font" style={{ color: "#B8B09D" }}>
                                     {value.string}
                                 </h6>
                             </div>
@@ -71,7 +71,7 @@ export default function ProgressBar(props) {
                     } else {
                         return <div key={index}>
                         <div className="d-none d-xl-flex justify-content-center align-items-center flex-column">
-                            <div className="rounded-5" style={{ background: "#B8B09D" }}>
+                            <div className="rounded-5 bg-colourgrey">
                             <p
                                 className="text-white fw-bold m-0 d-flex justify-content-center align-items-center progress-icon"
                                 style={{ fontFamily: '"Montserrat"' }}
@@ -84,7 +84,7 @@ export default function ProgressBar(props) {
                             </h6>
                         </div>
                         <div className="d-flex d-xl-none justify-content-start align-items-center flex-column col-3">
-                            <div className="rounded-5" style={{ background: "#B8B09D" }}>
+                            <div className="rounded-5 bg-colourgrey" >
                             <p
                                 className="text-white fw-bold m-0 d-flex justify-content-center align-items-center progress-icon"
                                 style={{ fontFamily: '"Montserrat"' }}
