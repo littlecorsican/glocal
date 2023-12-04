@@ -108,3 +108,9 @@ body {
     display: block !important
   }
 }
+
+
+.icon {
+  width: 30px;
+  height: 30px;
+}

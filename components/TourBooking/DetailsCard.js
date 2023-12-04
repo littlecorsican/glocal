@@ -24,10 +24,8 @@ export default function DetailsCard(props) {
                         <h5 className="m-0 headline-upper-small" style={{color: '#b8b09d'}}>{tour_context?.dep?.code}</h5>
                     </div>
                     <div className="d-flex justify-content-start flex-column flex-xl-row gap-0 gap-xl-4">
-                        <div className="d-flex justify-content-start align-items-center flex-row gap-2 fw-normal">
-                            <svg width={26} height={26} viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13 0.5C6.1125 0.5 0.5 6.1125 0.5 13C0.5 19.8875 6.1125 25.5 13 25.5C19.8875 25.5 25.5 19.8875 25.5 13C25.5 6.1125 19.8875 0.5 13 0.5ZM13 23C7.4875 23 3 18.5125 3 13C3 7.4875 7.4875 3 13 3C18.5125 3 23 7.4875 23 13C23 18.5125 18.5125 23 13 23ZM14.25 6.75V13C14.25 13.6875 13.6875 14.25 13 14.25H9.25C8.5625 14.25 8 13.6875 8 13C8 12.3125 8.5625 11.75 9.25 11.75H11.75V6.75C11.75 6.0625 12.3125 5.5 13 5.5C13.6875 5.5 14.25 6.0625 14.25 6.75Z" fill="black" />
-                            </svg>
+                        <div className="d-flex justify-content-start align-items-center flex-row gap-2 fw-normal my-2">
+                        <img src="/images/duration.png" className="icon mr-2" />
                             {tour_context?.tourPackage?.numDays} Days {tour_context?.tourPackage?.numNights} Nights
                         </div>
                         {/* <div className="d-flex justify-content-start align-items-center flex-row gap-2 fw-normal">
@@ -40,14 +38,12 @@ export default function DetailsCard(props) {
                         {/* Location icon - removed as backend dev wont provide location in API */}
                     </div>
                     <div className="d-flex flex-column">
-                        <div className="d-flex justify-content-start flex-row gap-1 gap-xl-2 grouped-desc">
-                            <h6 className="col-5 col-xl-3">Selected Date</h6>
-                            <h6>:</h6>
+                        <div className="d-flex justify-content-start flex-row gap-1 gap-xl-2 grouped-desc my-2">
+                            <img src="/images/calendar.png" className="icon mr-2" />
                             <h6 className="fw-bold">{tour_context?.dep?.dtDep}</h6>
                         </div>
-                    <div className="d-flex justify-content-start flex-row gap-1 gap-xl-2 grouped-desc">
-                        <h6 className="col-5 col-xl-3">Airlines</h6>
-                        <h6>:</h6>
+                    <div className="d-flex justify-content-start flex-row gap-1 gap-xl-2 grouped-desc my-2">
+                        <img src="/images/airplane.svg" className="icon mr-2" />
                         <h6 className="fw-bold na-text" style={{fontWeight: '700px'}}>{tour_context?.dep?.airlineCode} {tour_context?.dep?.airlineDesc}</h6>
                     </div>
                     {!tour_context.countdown && <p 
