@@ -72,7 +72,7 @@ export default function Contact(props) {
         <div className={`${props.selectedPaymentMode == payment_mode.pay_full_amount ? "flex-top-child" : "flex-bottom-child"}`}>
           <hr className="hr mt-lg-1" />
           <p className="m-0 fw-bold" style={{fontFamily: '"Poppins"', color: '#b8b09d', letterSpacing: '0.05em'}}>TOTAL DUE</p>
-          <h3 className="fw-bold mb-4 m-0" style={{fontFamily: '"Poppins"', color: '#B32129'}}>
+          <h3 className="fw-bold mb-4 m-0 text-colourdark" style={{fontFamily: '"Poppins"'}}>
             RM {
                 props.selectedPaymentMode == payment_mode.pay_full_amount ? 
                 calculateCruiseTotalAmount({

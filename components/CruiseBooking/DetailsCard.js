@@ -19,10 +19,11 @@ export default function DetailsCard(props) {
                     />
                 </div>
                 <div className="p-4 px-xl-5 d-flex justify-content-start flex-column w-100 gap-3 align-self-center" style={{fontFamily: 'Poppins', flex: 1}}>
-                    <div className="d-flex flex-xl-row flex-column justify-content-between gap-1 gap-xl-3 flex-xl-nowrap flex-wrap">
+                    <div className="d-flex flex-xl-column flex-column justify-content-between gap-1 gap-xl-3 flex-xl-nowrap flex-wrap">
                         <h5 className="fw-bold m-0 text-uppercase headline-upper" style={{fontFamily: 'Montserrat'}}>{cruise_context?.tourPackage.numDays}D{cruise_context?.tourPackage.numNights}N {cruise_context?.tourPackage.nameEn} </h5>
                         <h5 className="m-0 headline-upper-small" style={{color: '#b8b09d'}}>{cruise_context?.dep.code}</h5>
                     </div>
+                    <hr style={{ margin:"0"}} />
                     <div className="d-flex justify-content-start flex-column flex-xl-row gap-0 gap-xl-4">
                         <div className="d-flex justify-content-start align-items-center flex-row gap-2 fw-normal">
                             <img src="/images/duration.png" className="icon mr-2" />
