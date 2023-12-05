@@ -8,36 +8,21 @@ export default function Contact() {
     const [data, setData] = useState([
         {
             id: 1,
-            image_path: "/images/contact1.png",
-            name: 'SYAFIQ',
+            image_path: "",
+            name: 'xxxx',
             role: "Sales Support",
-            tel: "+6011-1093 4828",
+            tel: "+012345678",
             email: "demo@gmail.com"
         },
         {
             id: 2,
-            image_path: "/images/contact2.png",
-            name: 'HAFIS',
+            image_path: "",
+            name: 'yyyy',
             role: "Sales Support",
-            tel: "+6011-1091 4828",
+            tel: "1234567889",
             email: "demo@gmail.com"
         },
-        {
-            id: 3,
-            image_path: "/images/contact3.png",
-            name: 'EIDA',
-            role: "Sales Support",
-            tel: "+6011-3517 8412",
-            email: "demo@gmail.com"
-        },
-        {
-            id: 4,
-            image_path: "/images/contact4.png",
-            name: 'NADIA',
-            role: "Sales Support",
-            tel: "+6011-1094 4828",
-            email: "demo@gmail.com"
-        },
+
     ])
 
   return (
@@ -195,14 +180,14 @@ export default function Contact() {
                                 CALL US
                             </p>
                             <Link 
-                                href="tel:+60360960384"
+                                href="tel:+12345678"
                                 className="text-decoration-none text-white"
                             >
                             <p
                                 className="text-white fw-normal m-0"
                                 style={{ fontFamily: 'Poppins', letterSpacing: 1 }}
                             >
-                                +60 3 6096 0384
+                                +60 12345678
                             </p>
                             </Link>
                         </div>
@@ -225,7 +210,7 @@ export default function Contact() {
                                 EMAIL US
                             </p>
                             <Link 
-                                href="mailto:support@kakijalan.com.my"
+                                href="mailto:xxxx@yyyy.com.my"
                                 className="text-decoration-none text-white"
                             >
                             <p
@@ -236,7 +221,7 @@ export default function Contact() {
                                     overflowWrap: "anywhere"
                                 }}
                             >
-                                support@kakijalan.com.my
+                                xxx@yyy.com.my
                             </p>
                             </Link>
                         </div>
@@ -262,8 +247,7 @@ export default function Contact() {
                             className="text-white fw-normal m-0"
                             style={{ fontFamily: 'Poppins', letterSpacing: "0.5px" }}
                         >
-                            29-1, JALAN ESERINA AA U16/AA ELMINA, SEKSYEN U16 40160 SHAH ALAM
-                            SELANGOR
+                            INSERT ADDRESS HERE
                         </p>
                     </div>
                     </div>

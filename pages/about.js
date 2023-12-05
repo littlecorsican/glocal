@@ -28,7 +28,7 @@ export default function Contact() {
             </h6>
             <h5 className="fw-bold" style={{fontFamily: '"Montserrat"'}}>CERTIFIED & LICENSED SINCE 2018</h5>
             <p style={{fontFamily: '"Poppins"'}}>
-              Glocal Travel also known as Cahaya Nur Holidays (M) Sdn Bhd, was established in 2018, and started becoming active in the tourism industry in that same year. We are also registered and licensed with the Ministry of Tourism Malaysia to carry out tourism activities and also photography. We are also a member of the Tourism Agents & Photography Association (MATTA). We pride ourselves in being listed as one of the Tourism Malaysia agencies to attend events, exhibitions, and seminar organized by them.
+              INSERT TEXT ABOUT COMPANY
             </p>
           </div>
           <div className="col-12 col-xl-12 p-0 d-flex justify-content-end">
@@ -39,7 +39,7 @@ export default function Contact() {
         <div id="agency_div" className="bg-image text-white d-flex flex-column justify-content-center align-items-center gap-0 gap-xl-3 position-relative" style={{backgroundSize: 'cover', height: '600px', backgroundPosition: 'center', marginTop: '-7px', zIndex: 1}}>
           <h2 className="fw-bold mb-3 text-center px-3" style={{fontFamily: '"Montserrat"'}}>Full-Service Tourism Agency</h2>
           <p className="col-11 col-sm-10 col-xl-8 text-center" style={{fontFamily: '"Poppins"'}}>
-            Glocal Travel, also known as Cahaya Nur Holidays (M) Sdn Bhd, was established in 2018, and started becoming active in the tourism industry in that same year. We are also registered and licensed with the Ministry of Tourism Malaysia to carry out tourism activities and also photography. We are also a member of the Tourism Agents & Photography Association (MATTA). We pride ourselves in being listed as one of the Tourism Malaysia agencies to attend events, exhibitions, and seminar organized by them.
+            INSERT TEXT ABOUT COMPANY
           </p>
           <button onClick={()=>location.href='/tour'} className="btn text-white rounded-5 px-5 py-2 fw-bold" style={{backgroundColor: '#D68A2C', fontFamily: '"Montserrat"'}}>START SEARCH</button>
         </div>
