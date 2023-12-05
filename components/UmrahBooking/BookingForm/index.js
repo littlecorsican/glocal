@@ -1,13 +1,14 @@
+import { UmrahContext } from 'global/global_context';
 import Image from 'next/image'
 import Link from 'next/link';
 import {useState, useEffect, useContext} from 'react'
 import React from 'react';
-import ProgressBar from '../ProgressBar'
-import TourOverview from './UmrahOverview'
+import ProgressBar from '../../ProgressBar'
+import TourOverview from './TourOverview'
 import Traveller from './Traveller'
 import Summary from './Summary'
 import Payment from './Payment'
-import Confirmation from './Confirmation'
+import {getTourBookingIdToStorage, getTravellerDetails} from 'utils/utils'
 
 export default class Car extends React.Component {
     constructor() {
@@ -56,14 +57,23 @@ export default class Car extends React.Component {
     }
 
     componentDidMount() {
-
+        // const id = getTourBookingIdToStorage()
+        // const travellerDetails = getTravellerDetails()
+        // if (id && !travellerDetails) {
+        //     this.setState({ progressIndex: 1 })
+        // } else if (id && travellerDetails) {
+        //     this.setState({ progressIndex: 3 })
+        // }
     }
 
     render() {
         const { progressIndex, inputData }  = this.state 
         const { tourDepItemList, dep, start }  = this.props 
         return (
-            <div className="card d-flex flex-column shadow mt-3 p-lg-5 p-4 shadow-lg border-0" style={{borderRadius: '30px', minWidth:"400px"}}>
+            <div className="card d-flex flex-column shadow mt-3 p-lg-5 p-4 shadow-lg border-0" style={{borderRadius: '30px'}}>
+                {/* <button onClick={()=>this.setState({
+                    progressIndex : 3
+                })}>click me</button> */}
                 {/*NAVIGATION PART ICON*/}
                 <div id="progress_div" >
                     <ProgressBar index={this.state.progressIndex}/>
@@ -93,7 +103,7 @@ export default class Car extends React.Component {
                     progressIndex={progressIndex}
                 />
                 <Payment nextPage={this.nextPage} prevPage={this.prevPage} progressIndex={progressIndex} />
-                <Confirmation nextPage={this.nextPage} prevPage={this.prevPage} progressIndex={progressIndex} />
+                {/* <Confirmation nextPage={this.nextPage} prevPage={this.prevPage} progressIndex={progressIndex} /> */}
             </div>
         )
     }

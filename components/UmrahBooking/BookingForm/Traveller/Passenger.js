@@ -41,9 +41,9 @@ export default function Passenger(props) {
 
          {/* 2nd row  */}
          <div className="d-flex flex-row flex-xl-nowrap flex-wrap justify-content-start input-column gap-2">
-            <DropDownMenu title="Title" id="salutationCd" onChange={onChange} data={salutation} />
+            <DropDownMenu title="Title" id="salutationCd" onChange={onChange} data={salutation} valueKey="code" textKey="text" />
 
-            <DropDownMenu title="Gender" id="sexCd" onChange={onChange} data={gender} />
+            <DropDownMenu title="Gender" id="sexCd" onChange={onChange} data={gender} valueKey="code" textKey="text" />
 
             <InputText id="icNo" placeholder="1234567-00-1234" title="IC No." onChange={onChange} />
             <DateInput title="Date of Birth" id="dob" onChange={onChange} />
@@ -54,7 +54,7 @@ export default function Passenger(props) {
             <InputText id="passportNo" placeholder="A123456789" title="Passport No" onChange={onChange} />
             <DateInput title="Date of Expiry" id="dtExpiry" onChange={onChange} />
 
-            <DropDownMenu title="Nationality" id="idCountry" onChange={onChange} data={umrah_context?.country} textKey="countryName" />
+            <DropDownMenu title="Nationality" id="idCountry" onChange={onChange} data={umrah_context?.country} textKey="countryName" valueKey="idCountry" />
 
             <div className="w-100 input-box-2">
                <label htmlFor="remarks" className="form-label input-label fw-bold mt-3">Remark</label>
@@ -65,7 +65,8 @@ export default function Passenger(props) {
          <div className="d-flex flex-row flex-xl-nowrap flex-wrap justify-content-start input-column gap-2">
             <div className="w-100 input-box-2">
                <label htmlFor="isBillingPerson" className="form-label input-label fw-bold mt-3 p-1">Is Billing Person?</label>
-               <input type="checkbox" id="isBillingPerson" name="isBillingPerson" value="isBillingPerson" onChange={onChange} />
+               <input type="checkbox" id="isBillingPerson" name="isBillingPerson" value="isBillingPerson" onChange={onChange} 
+                     checked={props.billingPerson.roomNo === props.roomId && props.billingPerson.travellerId === props.travellerId } />
             </div>
          </div>
          <br/><br/>

@@ -11,6 +11,9 @@ import DropDownMenu from '@component/components/Shared/DropDownMenu';
 import TextArea from '@component/components/Shared/TextArea';
 import InputEmail from '@component/components/Shared/EmailInput';
 import _ from 'lodash';
+import { Money } from '@dintero/money'
+import { payment_mode } from '@component/utils/constants.js'
+import { calculateTourTotalAmount } from '@component/utils/payment.js'
 
 export default function Traveller(props) {
 
@@ -19,6 +22,10 @@ export default function Traveller(props) {
 
     const [passengerList, setPassengerList] = useState([])
     const [errorMsg, setErrorMsg] = useState("")
+    const [billingPerson, setBillingPerson] = useState({
+        roomNo: 1,
+        travellerId: 1
+    })
 
     const first_nameRef = useRef()
     const surnameRef = useRef()
@@ -45,19 +52,54 @@ export default function Traveller(props) {
     //     props.onChange(e.target, inputData, "")
     // }, 300));
 
+    // useEffect(()=>{
+    //     umrah_context.setUserInputData(null) // clear the userinput data
+    // },[])
+
     const storeApi=()=>{
 
-        for (let i = 0 ; i < passengerList.length ; i++ ) {
-            delete passengerList[i].travellerId;
-        }
+        const { aggregateData } = umrah_context
+        // calculate total amount
+        const adultRoom = aggregateData?.adultRoom?.amount || 0
+        const childWithBedRoom = aggregateData?.childWithBedRoom?.amount || 0
+        const childWithoutBedRoom = aggregateData?.childWithNoBedRoom?.amount || 0
+        const infantRoom = aggregateData?.infantRoom?.amount || 0
+
+        const fnReturn = calculateTourTotalAmount({
+            adultRoom: adultRoom,
+            childWithBedRoom: childWithBedRoom,
+            childWithoutBedRoom: childWithoutBedRoom,
+            infantRoom: infantRoom,
+            adminChargesPercentage: umrah_context.adminChargesPercentage,
+            deposit: umrah_context?.umrah_context?.deposit,
+            totalHeadCount: umrah_context?.totalHeadCount
+        })
+
+        // // CALCULATE TOTAL AMOUNT
+        // const amountPreAdminCharges = Money.of(adultRoom, 'MYR')
+        // .add(Money.of(childWithBedRoom, 'MYR'))
+        // .add(Money.of(childWithoutBedRoom, 'MYR'))
+        // .add(Money.of(infantRoom, 'MYR'))
+
+        // console.log("amountPreAdminCharges", amountPreAdminCharges.toString())
+
+        // const adminCharges = Money.of(amountPreAdminCharges, 'MYR').multiply(umrah_context.adminChargesPercentage)
+        // const amountPostAdminCharges = Money.of(amountPreAdminCharges, 'MYR').add(adminCharges)
+
+        // console.log("adminCharges", adminCharges.toString())
+        // console.log("amountPostAdminCharges", amountPostAdminCharges.toString())
+
+        // // CALCULATE DEPOSIT AMOUNT
+        // const depositAmount = Money.of(umrah_context?.tourPackage?.deposit, 'MYR')
+        // .multiply(umrah_context?.totalHeadCount)
+        // .toString()
 
         const body = {
-            "idBooking": umrah_context.successfulBookingId || "",
-            "salutationCd": salutation[salutationCdRef.current.value||0],
+            "salutationCd": salutationCdRef.current.value||0,
             "surname": surnameRef.current.value,
             "givenName": first_nameRef.current.value,
             "nickName": nickNameRef.current.value,
-            "sexCd": gender[sexCdRef.current.value||0],
+            "sexCd": sexCdRef.current.value,
             "contactNo": contact_numRef.current.value,
             "email": emailRef.current.value,
             "idCountry": idCountryRef.current.value,
@@ -73,11 +115,11 @@ export default function Traveller(props) {
             "passengerList": passengerList,
             "paymentInfo": {
                 "idIpayConfig": umrah_context.iPayConfigListId,
-                "email": "",    
-                "paymentAmt": 200.00,
-                "adminChargesPercentage": 0.02,
-                "adminCharges": 4.00,
-                "totalPaymentAmt": 204.00
+                "email": emailRef.current.value,    
+                "paymentAmt": umrah_context?.selectedPaymentMode == payment_mode.pay_full_amount ? fnReturn.amountPreAdminCharges : fnReturn.depositAmount,
+                "adminChargesPercentage": umrah_context?.selectedPaymentMode == payment_mode.pay_full_amount ? umrah_context.adminChargesPercentage : 0,
+                "adminCharges": umrah_context?.selectedPaymentMode == payment_mode.pay_full_amount ? fnReturn.adminCharges : 0,
+                "totalPaymentAmt": umrah_context?.selectedPaymentMode == payment_mode.pay_full_amount ? fnReturn.amountPostAdminCharges : fnReturn.depositAmount
             }
         }
 
@@ -91,6 +133,18 @@ export default function Traveller(props) {
         console.log("passengerList2", passengerList)
     },[passengerList])
 
+    useEffect(()=>{
+        let passengerListClone = _.cloneDeep(passengerList);
+        for (let i = 0 ; i < passengerListClone.length ; i ++) {
+            if (passengerListClone[i].roomNo == billingPerson.roomNo && passengerListClone[i].travellerId == billingPerson.travellerId) {
+                passengerListClone[i].isBillingPerson = true
+            } else {
+                passengerListClone[i].isBillingPerson = false
+            }
+        }
+        setPassengerList(passengerListClone)
+    },[billingPerson])
+
     const handleInputChange=(roomNo, travellerId, fieldId, value)=>{  //verify passenger input
         console.log(roomNo, travellerId, fieldId, value)
         let passengerListClone = _.cloneDeep(passengerList);
@@ -101,57 +155,51 @@ export default function Traveller(props) {
         })
         console.log("exists", exists)
 
-        if (fieldId == "sexCd") {
-            value = gender[parseInt(value)]
-        }
-        if (fieldId == "salutationCd") {
-            value = salutation[parseInt(value)]
-        }
-
         if (exists.length > 0) {  // if exists, update it
             for (let i = 0 ; i < passengerListClone.length ; i ++) {
                 if (passengerListClone[i].roomNo == roomNo && passengerListClone[i].travellerId == travellerId) {
                     passengerListClone[i][fieldId] = value
+                    if (fieldId==="isBillingPerson") {  //handling isBillingPerson
+                        setBillingPerson({
+                            roomNo,
+                            travellerId
+                        })
+                        passengerListClone[i].isBillingPerson = true
+                    }
+                } 
+                if (passengerListClone[i].roomNo == billingPerson.roomNo && passengerListClone[i].travellerId == billingPerson.travellerId) {
+                    passengerListClone[i].isBillingPerson = true
+                } else {
+                    passengerListClone[i].isBillingPerson = false
                 }
             }
             console.log("passengerListClone", passengerListClone)
         } else {  // if no, create it
-            passengerListClone.push({
-                roomNo : roomNo,
-                travellerId : travellerId,
-                [fieldId] : value
-            })
+            if (fieldId==="isBillingPerson") {
+                passengerListClone.push({
+                    roomNo : roomNo,
+                    travellerId : travellerId,
+                    [fieldId] : true
+                })
+                setBillingPerson({
+                    roomNo,
+                    travellerId
+                })
+            } else {
+                passengerListClone.push({
+                    roomNo : roomNo,
+                    travellerId : travellerId,
+                    [fieldId] : value
+                 })
+            }
+
         }
         setPassengerList(passengerListClone)
 
     }
 
-    // const verifyTravellerInput=()=>{ //currently not in use
-    //     const checked = understoodRef.current.checked
-    //     console.log("checked", checked)
-    //     if (!checked) {
-    //         return
-    //     }
-    //     console.log("checked2", checked)
-        
-    //     const verifyInput = [
-    //         "first_name", "surname", "contact_num", "email" , "address_1", "postcode", "first_name_em", "surname_em",
-    //         "phone_em", "email_em", "understoodChkbox"
-    //     ]
-    //     const verifyAll=()=> {
-    //         for (let i = 0 ; i < verifyInput.length ; i++) {
-    //             if (umrah_context.inputData[verifyInput[i]] == "" || !umrah_context.inputData.hasOwnProperty(verifyInput[i])) {
-    //                 return false
-    //             }
-    //         }
-    //         return true
-    //     }
-    //     const inputIncomplete = verifyAll()
-    //     console.log("inputIncomplete", inputIncomplete, verifyInput)
-    //     setNextBtnEnabled(inputIncomplete)
-    // }
-
     const verifyInput=()=>{
+        setErrorMsg("")
         const checked = understoodRef.current.checked
         let errorMsgArr = []
 
@@ -238,41 +286,42 @@ export default function Traveller(props) {
         // verify passenger input
         for (let i = 0 ; i < passengerList.length ; i++ ) {
             const passenger = passengerList[i];
-            const index = i + 1
+            const travellerId = passenger.travellerId
+            const roomNo = passenger.roomNo
             if (!passenger.hasOwnProperty('givenName')) {
-                errorMsgArr.push(<div>Please input traveller {index} first name.</div>)
+                errorMsgArr.push(<div>Please input Room {roomNo} traveller {travellerId} first name.</div>)
             }
 
             if (!passenger.hasOwnProperty('surname')) {
-                errorMsgArr.push(<div>Please input traveller {index} surname.</div>)
+                errorMsgArr.push(<div>Please input Room {roomNo} traveller {travellerId} surname.</div>)
             }
 
             if (!passenger.hasOwnProperty('dob')) {
-                errorMsgArr.push(<div>Please input traveller {index} date of birth.</div>)
+                errorMsgArr.push(<div>Please input Room {roomNo} traveller {travellerId} date of birth.</div>)
             }
 
             if (!passenger.hasOwnProperty('passportNo')) {
-                errorMsgArr.push(<div>Please input traveller {index} passport no.</div>)
+                errorMsgArr.push(<div>Please input Room {roomNo} traveller {travellerId} passport no.</div>)
             }
 
             if (!passenger.hasOwnProperty('dtExpiry')) {
-                errorMsgArr.push(<div>Please input traveller {index} passport expiry date.</div>)
+                errorMsgArr.push(<div>Please input Room {roomNo} traveller {travellerId} passport expiry date.</div>)
             }
 
             if (!passenger.hasOwnProperty('icNo')) {
-                errorMsgArr.push(<div>Please input traveller {index} IC no.</div>)
+                errorMsgArr.push(<div>Please input Room {roomNo} traveller {travellerId} IC no.</div>)
             }
 
             if (!passenger.hasOwnProperty('salutationCd') || passenger?.salutationCd == "-1" ) {
-                errorMsgArr.push(<div>Please select traveller {index} salutation.</div>)
+                errorMsgArr.push(<div>Please select Room {roomNo} traveller {travellerId} salutation.</div>)
             }
 
             if (!passenger.hasOwnProperty('sexCd') || passenger?.sexCd == "-1" ) {
-                errorMsgArr.push(<div>Please select traveller {index} gender.</div>)
+                errorMsgArr.push(<div>Please select Room {roomNo} traveller {travellerId} gender.</div>)
             }
 
             if (!passenger.hasOwnProperty('idCountry') || passenger?.idCountry == "-1" ) {
-                errorMsgArr.push(<div>Please select traveller {index} nationality.</div>)
+                errorMsgArr.push(<div>Please select Room {roomNo} traveller {travellerId} nationality.</div>)
             }
 
         }
@@ -290,8 +339,61 @@ export default function Traveller(props) {
         verifyInput()
     }
 
+    const fillAllFormInstantly=()=>{
+        first_nameRef.current.value = "afsf"
+        surnameRef.current.value = "2343asdf"
+        nickNameRef.current.value = "af234sf"
+        salutationCdRef.current.value = 1
+        sexCdRef.current.value = 1
+        contact_numRef.current.value = "124234234"
+        emailRef.current.value = "cyxtf@hotmail.com"
+        postcodeRef.current.value = "234234"
+        stateRef.current.value = 3
+        idCountryRef.current.value = 129
+        address_1Ref.current.value = "fghfgrsdplfk opsdkf sf sdf"
+        understoodRef.current.checked = true
+        ecGivenNameRef.current.value = "fghfgr sdf"
+        ecContactsRef.current.value = "234234"
+        ecSurnameRef.current.value = "tyrty"
+        ecEmailRef.current.value = "asf@adsf.com"
+        ecRelationshipRef.current.value = 0
+        setPassengerList([
+            {
+            "roomNo": 1,
+            "travellerId": 1,
+            "givenName": "asdf",
+            "isBillingPerson": true,
+            "surname": "asdf",
+            "nickName": "asdf",
+            "dob": "2023-11-21",
+            "icNo": "34234",
+            "sexCd": "0",
+            "salutationCd": "0",
+            "passportNo": "erwrwe",
+            "dtExpiry": "2023-11-23",
+            "idCountry": "84"
+            },
+            // {
+            // "roomNo": 1,
+            // "travellerId": 2,
+            // "givenName": "dsafasdf",
+            // "isBillingPerson": false,
+            // "surname": "asdf",
+            // "nickName": "asdf",
+            // "dob": "2023-11-22",
+            // "icNo": "34324",
+            // "salutationCd": "2",
+            // "sexCd": "1",
+            // "passportNo": "sdfdfds",
+            // "dtExpiry": "2023-11-23",
+            // "idCountry": "55"
+            // }
+        ])
+    }
+
     return (
-        <>
+        <div style={{ display: `${props.progressIndex == 1 ? "block" : "none"}` }}>
+            {/* <div><button onClick={()=>fillAllFormInstantly()}>click me</button></div> */}
             <h2 id="topOfForm" className="d-flex justify-content-center py-5 headline-order fw-bold" style={{fontFamily: 'Montserrat', fontStyle: "normal"}}>Traveller</h2>
             <h5 style={{fontFamily: '"Montserrat"', fontStyle: 'normal', fontWeight: 700, fontSize: '19px', lineHeight: '23px', textTransform: 'uppercase', color: '#500000'}}>BILLING INFORMATION</h5>
             <hr className="hr mt-0" />
@@ -305,12 +407,12 @@ export default function Traveller(props) {
             </div>
 
             <div className="d-flex flex-row flex-xl-nowrap flex-no-wrap justify-content-start input-column gap-2">
-                <DropDownMenu title="Title" id="salutationCd" ref={salutationCdRef} data={salutation} />
-                <DropDownMenu title="Gender" id="sexCd" ref={sexCdRef} data={gender} />
+                <DropDownMenu title="Title" id="salutationCd" ref={salutationCdRef} data={salutation} valueKey="code" textKey="text" />
+                <DropDownMenu title="Gender" id="sexCd" ref={sexCdRef} data={gender} valueKey="code" textKey="text" />
             </div>
             <div className="d-flex flex-row flex-xl-nowrap flex-no-wrap align-items-end justify-content-start input-column gap-2">
-                <InputText id="contact_num" placeholder="Enter Contact Number" title="Contact Number" ref={contact_numRef} />
-                <InputEmail id="email" placeholder="Enter Email Address" title="Email" ref={emailRef} />
+                <InputText id="contact_num" placeholder="Enter Contact Number" title="Contact Number" ref={contact_numRef} tooltipText="Only numbers and - allowed" />
+                <InputEmail id="email" placeholder="Enter Email Address" title="Email" ref={emailRef} tooltipText="Format: abc@def.com" />
             </div>
 
             <div className="d-flex flex-row flex-xl-nowrap justify-content-start input-column gap-2">
@@ -318,13 +420,13 @@ export default function Traveller(props) {
             </div>
 
             <div className="d-flex flex-row flex-xl-nowrap justify-content-start input-column gap-2">
-                <InputText id="address_2" placeholder="Enter Address 2" title="Address Line 2" ref={address_2Ref} />
+                <InputText id="address_2" placeholder="Enter Address 2" title="Address Line 2" ref={address_2Ref} required={false} />
             </div>
         
             <div className="d-flex flex-row flex-xl-nowrap flex-wrap justify-content-start input-column gap-0 gap-xl-2">
                 <InputText id="postcode" placeholder="Enter Postcode Number" title="Postcode" ref={postcodeRef} />
                 <DropDownMenu title="State" id="state" ref={stateRef} data={states} />
-                <DropDownMenu title="Country/Region" id="idCountry" ref={idCountryRef} data={umrah_context.country} textKey="countryName" />
+                <DropDownMenu title="Country/Region" id="idCountry" ref={idCountryRef} data={umrah_context.country} textKey="countryName" valueKey="idCountry" />
             </div>
 
             <div className="form-check mt-3">
@@ -341,8 +443,8 @@ export default function Traveller(props) {
             </div>
 
             <div className="d-flex flex-row flex-xl-nowrap flex-wrap justify-content-start input-column gap-0 gap-xl-2">
-                <InputText id="ecContacts" placeholder="Enter Phone Number" title="Phone Number" ref={ecContactsRef}  />
-                <InputEmail id="ecEmail" placeholder="Enter Email" title="Email" ref={ecEmailRef}  />
+                <InputText id="ecContacts" placeholder="Enter Phone Number" title="Phone Number" ref={ecContactsRef} tooltipText="Only numbers and - allowed" />
+                <InputEmail id="ecEmail" placeholder="Enter Email" title="Email" ref={ecEmailRef} tooltipText="Format: abc@def.com" />
                 <DropDownMenu title="Relationship" id="ecRelationship" ref={ecRelationshipRef} data={relationship} />
             </div>
 
@@ -353,25 +455,6 @@ export default function Traveller(props) {
 
             <div style={{marginBottom: 0, borderRadius: 0}}>
                 {
-                    // Object.entries({
-                    //     "1": {
-                    //         "adultRoomCount": 2,
-                    //         "childRoomWithBedCount": 0,
-                    //         "childRoomWithoutBedCount": 0,
-                    //         "infantRoomCount": 0
-                    //     },
-                    //     "2": {
-                    //         "adultRoomCount": 0,
-                    //         "childRoomWithBedCount": 1,
-                    //         "childRoomWithoutBedCount": 0,
-                    //         "infantRoomCount": 0
-                    //     },
-                    //     "3": {
-                    //         "adultRoomCount": 0,
-                    //         "childRoomWithBedCount": 0,
-                    //         "childRoomWithoutBedCount": 0,
-                    //         "infantRoomCount": 1
-                    //     }
                     Object.entries(umrah_context.roomData).map((value,index)=>{
                         let totalPeopleCount = 0 // to be used as traveller Id
                         let arr2 =Object.entries(value[1]).map((value2,index2)=>{
@@ -382,6 +465,7 @@ export default function Traveller(props) {
                                     roomId={index+1} 
                                     travellerId={totalPeopleCount} 
                                     handleInputChange={handleInputChange} 
+                                    billingPerson={billingPerson}
                                 />
                             })
                             return arr
@@ -395,28 +479,28 @@ export default function Traveller(props) {
             {/*BUTTON NEXT PART*/}
             <hr className="hr mt-lg-4" style={{marginTop: '-10px'}} />
             <div className="d-flex button-combined_div d-flex justify-content-between flex-nowrap flex-sm-wrap">
-                <div className="button-container col-md-2 col-5">
-                    {/* <button onClick={props.prevPage} type="button" className="btn rounded-pill fw-bold w-100" 
+            <div className="button-container col-md-2 col-5">
+                    <button type="button" className="button fw-bold w-100" 
                         style={{
                             fontFamily: '"Montserrat"', 
                             background: '#d1b882',
-                            color: 'white' , 
-                            display : 'block',
+                            display : 'none',
                         }}
-                    >BACK</button> */}
+
+                    >BACK</button>
                 </div>
                 <div className="button-container col-md-2 col-5">
-                    <button onClick={nextPage} type="button" className="btn rounded-pill fw-bold w-100" 
+                    <button onClick={nextPage} type="button" className="button fw-bold w-100" 
                         style={{
                             fontFamily: '"Montserrat"', 
                             background: '#d1b882',
-                            color: 'white',
                             display : 'block',
                         }}
                         >NEXT</button>
                 </div>
             </div>
-        </>
+        </div>
     )
     
-  }
+}
+

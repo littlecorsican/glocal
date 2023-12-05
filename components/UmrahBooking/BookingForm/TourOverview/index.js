@@ -4,10 +4,8 @@ import Link from 'next/link';
 import {useState, useEffect, useCallback, useRef, useContext} from 'react'
 import React from 'react';
 import Rooms from './Rooms'
-import api from 'api'
 import { cloneDeep } from 'lodash';
-
-
+import { payment_mode } from '@component/utils/constants.js'
 
 export default function Overview(props) {
 
@@ -30,9 +28,11 @@ export default function Overview(props) {
 
     const checkIfCanEnableNext=()=>{
         let headCount = 0
+        let adultCount = 0
         console.log("checkIfCanEnableNext", roomData)
         for (const key in roomData) {
             headCount += roomData[key].adultRoomCount
+            adultCount += roomData[key].adultRoomCount
             headCount += roomData[key].childRoomWithBedCount
             headCount += roomData[key].childRoomWithoutBedCount
             headCount += roomData[key].infantRoomCount
@@ -40,7 +40,9 @@ export default function Overview(props) {
         console.log("headCount", headCount)
         if (headCount > 0 && checkbox1.current.checked == true && checkbox2.current.checked == true) {
             umrah_context.setTotalHeadCount(headCount)
-            setNextBtnEnabled(true)
+            if (adultCount > 0) {
+                setNextBtnEnabled(true)
+            }
         } else {
             umrah_context.setTotalHeadCount(headCount)
             setNextBtnEnabled(false)
@@ -81,15 +83,14 @@ export default function Overview(props) {
         }
         console.log("tempArr2", tempArr2)
         setRoomList([...tempArr2])
+        umrah_context.removeRoomFromRoomData(id)
     }
 
     useEffect(()=>{
         setRoomData(umrah_context?.roomData)
     },[umrah_context])
 
-
-    const nextPage=()=> {
-
+    const makeBooking=async()=>{
         //  populate tourDepItemList
         console.log("tourDepItemList", umrah_context.tourDepItemList)
         console.log("roomData", umrah_context.roomData)
@@ -100,12 +101,12 @@ export default function Overview(props) {
                     if (tourDepItemListClone[i].code == "FT_SGL") {
                         tourDepItemListClone[i].quantity += 1
                     }
-                    if (tourDepItemListClone[i].code == "APT_ADT") {
-                        tourDepItemListClone[i].quantity += 1
-                    }
-                    if (tourDepItemListClone[i].code == "FUEL_ADT") {
-                        tourDepItemListClone[i].quantity += 1
-                    }
+                    // if (tourDepItemListClone[i].code == "APT_ADT") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
+                    // if (tourDepItemListClone[i].code == "FUEL_ADT") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
                 }
             } 
             if (umrah_context.roomData[key].adultRoomCount == 2) {
@@ -113,12 +114,12 @@ export default function Overview(props) {
                     if (tourDepItemListClone[i].code == "FT_TWN") {
                         tourDepItemListClone[i].quantity += 2
                     }
-                    if (tourDepItemListClone[i].code == "APT_ADT") {
-                        tourDepItemListClone[i].quantity += 2
-                    }
-                    if (tourDepItemListClone[i].code == "FUEL_ADT") {
-                        tourDepItemListClone[i].quantity += 2
-                    }
+                    // if (tourDepItemListClone[i].code == "APT_ADT") {  //temporary no need fill in tax/fuel/vat/tips
+                    //     tourDepItemListClone[i].quantity += 2
+                    // }
+                    // if (tourDepItemListClone[i].code == "FUEL_ADT") {
+                    //     tourDepItemListClone[i].quantity += 2
+                    // }
                 }
             }
             if (umrah_context.roomData[key].childRoomWithBedCount == 1) {
@@ -126,12 +127,12 @@ export default function Overview(props) {
                     if (tourDepItemListClone[i].code == "FT_CWB") {
                         tourDepItemListClone[i].quantity += 1
                     }
-                    if (tourDepItemListClone[i].code == "APT_CHD") {
-                        tourDepItemListClone[i].quantity += 1
-                    }
-                    if (tourDepItemListClone[i].code == "FUEL_CHD") {
-                        tourDepItemListClone[i].quantity += 1
-                    }
+                    // if (tourDepItemListClone[i].code == "APT_CHD") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
+                    // if (tourDepItemListClone[i].code == "FUEL_CHD") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
                 }
             }
             if (umrah_context.roomData[key].childRoomWithoutBedCount == 1) {
@@ -139,12 +140,12 @@ export default function Overview(props) {
                     if (tourDepItemListClone[i].code == "FT_CNB") {
                         tourDepItemListClone[i].quantity += 1
                     }
-                    if (tourDepItemListClone[i].code == "APT_CHD") {
-                        tourDepItemListClone[i].quantity += 1
-                    }
-                    if (tourDepItemListClone[i].code == "FUEL_CHD") {
-                        tourDepItemListClone[i].quantity += 1
-                    }
+                    // if (tourDepItemListClone[i].code == "APT_CHD") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
+                    // if (tourDepItemListClone[i].code == "FUEL_CHD") {
+                    //     tourDepItemListClone[i].quantity += 1
+                    // }
                 }
             }
             if (umrah_context.roomData[key].infantRoomCount == 1) {
@@ -156,53 +157,65 @@ export default function Overview(props) {
                 }
             }
         }
-        console.log("tourDepItemListClone", tourDepItemListClone)
 
+        console.log({
+            idCompany : umrah_context.idCompany,
+            idTourDep:umrah_context.dep.idBase,
+            bookingChargeItemList:tourDepItemListClone,
+            quantity : 1,})
 
-        const url = `/api/makeBookingOnline`
-        // umrah_context.setLoading(true)
-        // try {
-        //     fetch(url, {
-        //         method: 'POST',
-        //         body: JSON.stringify({
-        //             idCompany: umrah_context.idCompany,
-        //             idTourDep: umrah_context.dep.idBase,
-        //             bookingChargeItemList:tourDepItemListClone,
-        //             quantity : 1,}),
-        //         headers : {
-        //             // "Access-Control-Allow-Origin": "https://trevabook.ddns.net/",
-        //             // "Access-Control-Allow-Credentials": "true",
-        //             // "Access-Control-Allow-Methods": "GET,OPTIONS,DELETE,PATCH,POST,PUT",
-        //             // "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version,Authorization",
-        //             "Content-Type" : "application/json",
-        //         }
+        try {
+            umrah_context.setLoading(true)
+            umrah_context?.setLoadingText("Sending booking details....")
+            const fetch1 = await fetch('api/makeBookingOnline', {
+                method: 'POST',
+                body: JSON.stringify({
+                    idCompany: umrah_context.idCompany,
+                    idTourDep: umrah_context.dep.idBase,
+                    bookingChargeItemList: tourDepItemListClone,
+                    quantity: umrah_context.totalHeadCount || 1,
+                }),
+                headers : {
+                    "Content-Type" : "application/json",
+                }
 
-        //     })
-        //     .then(rawResult => rawResult.json())
-        //     .then(jsonData => {
-        //         console.log(jsonData)
-        //         console.log("parsedData", JSON.parse(jsonData))
-        //         umrah_context.setLoading(false)
-        //         const parsedData = JSON.parse(jsonData)
-        //         const idBooking = parsedData.idBooking
-        //         const successful = parsedData.successful
-        //         if (successful) {
-        //             umrah_context.setSuccessfulBookingId(idBooking)
-        //             umrah_context.start()
-        //             props.nextPage()
-        //         } else {
-        //             alert("Error , please try again later")
-        //         }
-        //     });
-        // } catch (error) {
-        //     console.log('There was an error', error);
-        // }
-        // console.log(umrah_context)
-        props.nextPage()
+            })
+            const response1 = await fetch1.json();
+            console.log("response1", response1)
+            const idBooking = response1.idBooking
+            // const idBooking = 3321
+            umrah_context.setSuccessfulBookingId(idBooking)
+            //addTourBookingIdToStorage(idBooking)
+            const successful = response1.successful
+            // const successful = true
+            umrah_context.setLoading(false)
+            umrah_context?.setLoadingText("")
+            if (successful) {
+                props.start()
+                props.nextPage()
+            } else {
+                if (response1.error) {
+                    alert(`${response1.error}`)
+                } else {
+                    alert("Error , please try again later")
+                }
+                return
+            }
+        } catch (error) {
+            console.log('There was an error', error);
+            alert('There was an error', error);
+            umrah_context.setLoading(false)
+            umrah_context?.setLoadingText("")
+        }
     }
 
-  return (
-        <>
+    const paymentModeChange=(e)=>{
+        console.log(payment_mode[e.target.id])
+        umrah_context.setSelectedPaymentMode(payment_mode[e.target.id])
+    }
+
+    return (
+        <div style={{ display: `${props.progressIndex == 0 ? "block" : "none"}` }}>
             <h2 className="d-flex justify-content-center py-5 headline-order" style={{fontFamily: '"Montserrat"', fontStyle: 'normal'}}>TOUR OVERVIEW</h2>
             <div id="room_div">
                 {
@@ -227,33 +240,67 @@ export default function Overview(props) {
                 Tour member must ensure he/she is medically and physically fit for travel. Please disclose any physical, medical, or other special needs that require special attention at the time of booking. T&amp;C Apply
                 </label>
             </div>
+
+            <p className="summary-desc text-start mt-3" style={{fontWeight: 600}}>Please select your payment mode</p>
+            <div className="conatiner d-flex flex-wrap justify-content-between">
+                <div className="d-flex flex-column col-xl-6 col-12">
+                    <div className="payment_div d-flex">
+                        <div className="form-check">
+                            <input className="form-check-input" 
+                                type="radio"
+                                name="payment_mode"
+                                id="pay_full_amount"
+                                defaultValue="pay_full_amount"
+                                onClick={paymentModeChange}
+                                checked={umrah_context.selectedPaymentMode == payment_mode.pay_full_amount}
+                            />
+                        </div>
+                        <label htmlFor="pay_full_amount" className="m-0" style={{fontSize: '15px'}}>Pay Full Amount</label>
+                    </div>
+                </div>
+                <div className="d-flex flex-column col-xl-6 col-12">
+                    <div className="payment_div d-flex">
+                        <div className="form-check">
+                            <input className="form-check-input"
+                                type="radio"
+                                name="payment_mode"
+                                id="pay_deposit_only"
+                                defaultValue="pay_full_amount"
+                                onClick={paymentModeChange}
+                                checked={umrah_context.selectedPaymentMode == payment_mode.pay_deposit_only}
+                            />
+                        </div>
+                        <label htmlFor="pay_deposit_only" className="m-0" style={{fontSize: '15px'}}>Pay Deposit Only</label>
+                    </div>
+                </div>
+            </div>
             
             {/*BUTTON NEXT PART*/}
             <hr className="hr mt-lg-4" style={{marginTop: '-10px'}} />
             <div className="d-flex button-combined_div d-flex justify-content-between flex-nowrap flex-sm-wrap">
-                <div className="button-container col-md-2 col-5">
-                    <button onClick={props.prevPage} type="button" className="btn rounded-pill fw-bold w-100" 
+                {/* KEEPING BACK BUTTON HERE TO KEEP NEXT BUTTON ON RIGHT HAND SIDE */}
+                <div className="button-container col-md-2 col-5">  
+                    <button type="button" className="button fw-bold w-100" 
                         style={{
                             fontFamily: '"Montserrat"', 
-                            background: backBtnEnabled ? '#d1b882' : '#cdcdcd', 
-                            color: 'white' , 
+                            background: backBtnEnabled ? '#d1b882' : 'transparent', 
                             display : backBtnDisplay ? 'block' : 'none',
                         }}
                         disabled = {backBtnEnabled ? false: true}
                     >BACK</button>
                 </div>
                 <div className="button-container col-md-2 col-5">
-                    <button onClick={nextPage} type="button" className="btn rounded-pill fw-bold w-100" 
+                    <button onClick={()=>{
+                        makeBooking()
+                    }} type="button" className="button fw-bold w-100" 
                         style={{
-                            fontFamily: '"Montserrat"', 
-                            background: nextBtnEnabled ? '#d1b882' : '#cdcdcd', 
-                            color: 'white',
+                            background: nextBtnEnabled ? '#d1b8trans2' : 'transparent', 
                             display : nextBtnDisplay ? 'block' : 'none',
                         }}
                         disabled = {nextBtnEnabled ? false: true}
                         >NEXT</button>
                 </div>
             </div>
-        </>
+        </div>
     )
 }

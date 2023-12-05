@@ -1,29 +1,33 @@
-import { UmrahContext } from 'global/global_context';
+import { TourContext } from 'global/global_context';
 import Image from 'next/image'
 import Link from 'next/link';
 import {useState, useEffect, useContext} from 'react'
 
 export default function DetailsCard(props) {
 
-    const umrah_context = useContext(UmrahContext)
+    const tour_context = useContext(TourContext)
 
     return (
         <div id="selected_booking">
             <div className="card d-flex justify-content-start flex-row flex-wrap shadow-lg border-0" style={{borderTopLeftRadius: '2rem', borderBottomRightRadius: '1.5rem'}}>
                 <div className="d-flex justify-content-start col-12 col-xl-4 position-relative">
-                    <img src={umrah_context?.tourPackage?.tourCarouselList ? umrah_context?.tourPackage?.tourCarouselList[0]?.fileUrl : ""} className="img-fluid w-100" style={{borderTopLeftRadius: '1.5rem', backgroundSize: 'cover'}} alt="Article Image" />
+                    <img 
+                        src={tour_context?.tourPackage?.tourCarouselList ? tour_context?.tourPackage?.tourCarouselList[0]?.fileUrl : "/images/genting_dream_Sing_50.jpg"}
+                        className="img-fluid w-100"
+                        style={{borderTopLeftRadius: '1.5rem', backgroundSize: 'cover'}}
+                        alt="Article Image"
+                    />
                 </div>
                 <div className="p-4 px-xl-5 d-flex justify-content-start flex-column w-100 gap-3 align-self-center" style={{fontFamily: 'Poppins', flex: 1}}>
-                    <div className="d-flex flex-xl-row flex-column justify-content-between gap-1 gap-xl-3 flex-xl-nowrap flex-wrap">
-                        <h5 className="fw-bold m-0 text-uppercase headline-upper" style={{fontFamily: 'Montserrat'}}>{umrah_context?.tourPackage?.numDays}D{umrah_context?.tourPackage.numNights}N {umrah_context?.tourPackage?.nameEn} </h5>
-                        <h5 className="m-0 headline-upper-small" style={{color: '#b8b09d'}}>{umrah_context?.dep?.code}</h5>
+                    <div className="d-flex flex-xl-column flex-column justify-content-between gap-1 gap-xl-3 flex-xl-nowrap flex-wrap">
+                        <h5 className="fw-bold m-0 text-uppercase headline-upper" style={{fontFamily: 'Montserrat'}}>{tour_context?.tourPackage?.numDays}D{tour_context?.tourPackage.numNights}N {tour_context?.tourPackage?.nameEn} </h5>
+                        <h5 className="m-0 headline-upper-small" style={{color: '#b8b09d'}}>{tour_context?.dep?.code}</h5>
                     </div>
+                    <hr style={{ margin:"0"}} />
                     <div className="d-flex justify-content-start flex-column flex-xl-row gap-0 gap-xl-4">
-                        <div className="d-flex justify-content-start align-items-center flex-row gap-2 fw-normal">
-                            <svg width={26} height={26} viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13 0.5C6.1125 0.5 0.5 6.1125 0.5 13C0.5 19.8875 6.1125 25.5 13 25.5C19.8875 25.5 25.5 19.8875 25.5 13C25.5 6.1125 19.8875 0.5 13 0.5ZM13 23C7.4875 23 3 18.5125 3 13C3 7.4875 7.4875 3 13 3C18.5125 3 23 7.4875 23 13C23 18.5125 18.5125 23 13 23ZM14.25 6.75V13C14.25 13.6875 13.6875 14.25 13 14.25H9.25C8.5625 14.25 8 13.6875 8 13C8 12.3125 8.5625 11.75 9.25 11.75H11.75V6.75C11.75 6.0625 12.3125 5.5 13 5.5C13.6875 5.5 14.25 6.0625 14.25 6.75Z" fill="black" />
-                            </svg>
-                            {umrah_context?.tourPackage?.numDays} Days {umrah_context?.tourPackage?.numNights} Nights
+                        <div className="d-flex justify-content-start align-items-center flex-row gap-2 fw-normal my-2">
+                        <img src="/images/duration.png" className="icon mr-2" />
+                            {tour_context?.tourPackage?.numDays} Days {tour_context?.tourPackage?.numNights} Nights
                         </div>
                         {/* <div className="d-flex justify-content-start align-items-center flex-row gap-2 fw-normal">
                             <svg width={26} height={26} viewBox="0 0 20 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,17 +39,19 @@ export default function DetailsCard(props) {
                         {/* Location icon - removed as backend dev wont provide location in API */}
                     </div>
                     <div className="d-flex flex-column">
-                        <div className="d-flex justify-content-start flex-row gap-1 gap-xl-2 grouped-desc">
-                            <h6 className="col-5 col-xl-3">Selected Date</h6>
-                            <h6>:</h6>
-                            <h6 className="fw-bold">{umrah_context?.dep?.dtDep}</h6>
+                        <div className="d-flex justify-content-start flex-row gap-1 gap-xl-2 grouped-desc my-2">
+                            <img src="/images/calendar.png" className="icon mr-2" />
+                            <h6 className="fw-bold">{tour_context?.dep?.dtDep}</h6>
                         </div>
-                    <div className="d-flex justify-content-start flex-row gap-1 gap-xl-2 grouped-desc">
-                        <h6 className="col-5 col-xl-3">Airlines</h6>
-                        <h6>:</h6>
-                        <h6 className="fw-bold na-text" style={{fontWeight: '700px'}}>{umrah_context?.dep?.airlineCode} {umrah_context?.dep?.airlineDesc}</h6>
+                    <div className="d-flex justify-content-start flex-row gap-1 gap-xl-2 grouped-desc my-2">
+                        <img src="/images/airplane.svg" className="icon mr-2" />
+                        <h6 className="fw-bold na-text" style={{fontWeight: '700px'}}>{tour_context?.dep?.airlineCode} {tour_context?.dep?.airlineDesc}</h6>
                     </div>
-                    <p onClick={()=>location.href=`/tour/${props.idTourPkg}`} style={{fontFamily: '"Poppins"', color: '#ea242d', cursor:"pointer"}}>Change Dates</p>
+                    {!tour_context.countdown && <p 
+                        onClick={()=>location.href=`/tour/${props.idTourPkg}`} 
+                        style={{fontFamily: '"Poppins"', cursor:"pointer"}}
+                        className="text-colourblue underline"
+                    >Change Dates</p>}
                 </div>
                 </div>
             </div>
