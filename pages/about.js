@@ -26,7 +26,7 @@ export default function Contact() {
               OUR HISTORY
               <hr className="relative top-[-0.25rem]  border-4 border-[#D68A2C] m-0 opacity-50" />
             </h6>
-            <h5 className="fw-bold" style={{fontFamily: '"Montserrat"'}}>CERTIFIED & LICENSED SINCE 2018</h5>
+            <h5 className="fw-bold" style={{fontFamily: '"Montserrat"'}}>INSERT TEXT ABOUT COMPANY</h5>
             <p style={{fontFamily: '"Poppins"'}}>
               INSERT TEXT ABOUT COMPANY
             </p>
