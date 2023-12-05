@@ -109,7 +109,7 @@ function CardType1(props) {
                     <div className="text-lg font-bold" style={{ fontFamily: '"Montserrat"' }}>{props.value.title}</div>
                         <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
                             <Link className="text-decoration-none text-[#D68A2C] font-bold" href={props.value.readmore_link}>
-                                Read More <span className="text-[#2158AA] font-normal">&gt;</span>
+                                Read More <span className="text-colourblue font-normal">&gt;</span>
                             </Link>
                         </div>
                     <div className="text-sm font-normal leading-8 my-2" style={{ fontFamily: '"Poppins"' }}>{props.value.description}</div>
@@ -124,7 +124,7 @@ function CardType1(props) {
                         <div className="text-lg font-bold" style={{ fontFamily: '"Montserrat"' }}>{props.data[props.index+1].title}</div>
                         <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
                             <Link className="text-decoration-none text-[#D68A2C] font-bold" href={props.data[props.index+1].readmore_link}>
-                                Read More <span className="text-[#2158AA] font-normal">&gt;</span>
+                                Read More <span className="text-colourblue font-normal">&gt;</span>
                             </Link>
                         </div>
                         <div className="text-sm font-normal leading-8 my-2 " style={{ fontFamily: '"Poppins"' }}>{props.data[props.index+1].description}</div>
@@ -147,7 +147,7 @@ function CardType2(props) {
                         <div className="text-lg font-bold" style={{ fontFamily: '"Montserrat"' }}>{props.value.title}</div>
                         <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
                             <Link className="text-decoration-none text-[#D68A2C] font-bold" href={props.value.readmore_link}>
-                                Read More <span className="text-[#2158AA] font-normal">&gt;</span>
+                                Read More <span className="text-colourblue font-normal">&gt;</span>
                             </Link>
                         </div>
                         <div className="text-sm font-normal leading-8 my-2 " style={{ fontFamily: '"Poppins"' }}>{props.value.description}</div>
@@ -163,7 +163,7 @@ function CardType2(props) {
                         <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
                             <div className="text-[#D68A2C] font-bold my-2" style={{ fontFamily: '"Montserrat"' }}>
                                 <Link className="text-decoration-none text-[#D68A2C] font-bold" href={props.data[props.index+1].readmore_link}>
-                                    Read More <span className="text-[#2158AA] font-normal">&gt;</span>
+                                    Read More <span className="text-colourblue font-normal">&gt;</span>
                                 </Link>
                             </div>
                         </div>

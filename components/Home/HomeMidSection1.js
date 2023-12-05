@@ -87,26 +87,12 @@ export default class SearchBar extends React.Component {
                         {
                             this.state.inboundData.length > 0 && this.state.inboundData.map((value,index)=>{
                                 if (index < 6) {
-                                    return (
-                                        <div className="product col-12 col-xl-3" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
-                                            <div className="position-absolute border-0" style={{top: "8px", right: "8px"}}>
-                                                <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#2ECDFF', fontFamily: 'Montserrat'}}>INBOUND</button>
-                                            </div>
-                                            <img className="img-fluid min-h-[330px] max-h-[450px]" src={value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/rsz_warner-bros-studio-tour.jpg" : value?.imageUrl } alt="" />
-                                            {/* <Image src={value.imageUrl} className="img-fluid" alt=' ' width={100} height={100}/> */}
-                                            <div className="container p-4 bg-white">
-                                                <div className="d-flex flex-row justify-content-between" style={{fontFamily: 'Montserrat'}}>
-                                                    <h4 className="fw-bold text-uppercase">{value?.title}</h4>
-                                                    <h4 className="fw-bold" style={{color: "#EA242D"}}>{value?.price}</h4>
-                                                </div>
-                                                {/* <h6  style={{fontFamily: 'Poppins', color: "#B8B09D"}}>{value?.tourCode}</h6> */}
-                                                <h6 className="lh-base m-0" style={{fontFamily: 'Poppins', maxHeight:"48px", overflow:"hidden"}}>{value?.specialNotes}</h6>
-                                            </div>
-                                            <button className="py-3 border-0" style={{background: "#B8B09D", borderColor: "#B8B09D", borderRadius: "0px 0px 24px 0px", fontFamily: 'Montserrat'}}>
-                                                <h6 className="fw-bold text-white text-uppercase m-0">VIEW DETAILS | FROM RM {value?.price}</h6>
-                                            </button>
-                                        </div>
-                                    )
+                                    return <Card 
+                                        type="inbound"
+                                        gotoFn={this.gotoDetailPage}
+                                        value={value}
+                                        key={index}
+                                    />
                                 }
                             })
                         }
@@ -118,26 +104,12 @@ export default class SearchBar extends React.Component {
                         {
                             this.state.outboundData.length > 0 && this.state.outboundData.map((value,index)=>{
                                 if (index < 6) {
-                                    return (
-                                        <div className="product col-12 col-xl-3" key={index} onClick={()=>this.gotoDetailPage(value.id, value.idTourPkg)}>
-                                            <div className="position-absolute border-0" style={{top: "8px", right: "8px"}}>
-                                                <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#993DF4', fontFamily: 'Montserrat'}}>OUTBOUND</button>
-                                            </div>
-                                            <img className="img-fluid min-h-[330px] max-h-[450px]" src={value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/rsz_warner-bros-studio-tour.jpg" : value?.imageUrl } alt="" />
-                                            {/* <Image src={value.imageUrl} className="img-fluid" alt=' ' width={100} height={100}/> */}
-                                            <div className="container p-4 bg-white">
-                                                <div className="d-flex flex-row justify-content-between" style={{fontFamily: 'Montserrat'}}>
-                                                    <h4 className="fw-bold text-uppercase">{value?.title}</h4>
-                                                    <h4 className="fw-bold" style={{color: "#EA242D"}}>{value?.price}</h4>
-                                                </div>
-                                                {/* <h6  style={{fontFamily: 'Poppins', color: "#B8B09D"}}>{value?.tourCode}</h6> */}
-                                                <h6 className="lh-base m-0" style={{fontFamily: 'Poppins', maxHeight:"48px", overflow:"hidden"}}>{value?.specialNotes}</h6>
-                                            </div>
-                                            <button className="py-3 border-0" style={{background: "#B8B09D", borderColor: "#B8B09D", borderRadius: "0px 0px 24px 0px", fontFamily: 'Montserrat'}}>
-                                                <h6 className="fw-bold text-white text-uppercase m-0">VIEW DETAILS | FROM RM {value?.price}</h6>
-                                            </button>
-                                        </div>
-                                    )
+                                    return <Card 
+                                        type="outbound"
+                                        gotoFn={this.gotoDetailPage}
+                                        value={value}
+                                        key={index}
+                                    />
                                 }
                             })
                         }
@@ -149,31 +121,12 @@ export default class SearchBar extends React.Component {
                         {
                             this.state.cruiseData.length > 0 && this.state.cruiseData.map((value,index)=>{
                                 if (index < 6) {
-                                    return (
-                                        <div className="product col-12 col-xl-3" key={index} onClick={()=>this.gotoCruiseDetailPage(value.id, value.idTourPkg)}>
-                                            <div className="position-absolute border-0" style={{top: "8px", right: "8px"}}>
-                                                <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#F4B63D', fontFamily: 'Montserrat'}}>CRUISE</button>
-                                            </div>
-                                            <img 
-                                                className="img-fluid"
-                                                src={ value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/genting_dream_Sing_50.jpg"  : value?.imageUrl }
-                                                alt=""
-                                                style={{ minHeight:"330px" }}
-                                            />
-                                            {/* <Image src={value.imageUrl} className="img-fluid" alt=' ' width={100} height={100}/> */}
-                                            <div className="container p-4 bg-white">
-                                                <div className="d-flex flex-row justify-content-between" style={{fontFamily: 'Montserrat'}}>
-                                                    <h4 className="fw-bold text-uppercase">{value?.title}</h4>
-                                                    <h4 className="fw-bold" style={{color: "#EA242D"}}>{value?.price}</h4>
-                                                </div>
-                                                {/* <h6  style={{fontFamily: 'Poppins', color: "#B8B09D"}}>{value?.tourCode}</h6> */}
-                                                <h6 className="lh-base m-0" style={{fontFamily: 'Poppins', maxHeight:"48px", overflow:"hidden"}}>{value?.specialNotes}</h6>
-                                            </div>
-                                            <button className="py-3 border-0" style={{background: "#B8B09D", borderColor: "#B8B09D", borderRadius: "0px 0px 24px 0px", fontFamily: 'Montserrat'}}>
-                                                <h6 className="fw-bold text-white text-uppercase m-0">VIEW DETAILS | FROM RM {value?.price}</h6>
-                                            </button>
-                                        </div>
-                                    )
+                                    return <Card 
+                                        type="cruise"
+                                        gotoFn={this.gotoCruiseDetailPage}
+                                        value={value}
+                                        key={index}
+                                    />
                                 }
                             })
                         }
@@ -187,5 +140,35 @@ export default class SearchBar extends React.Component {
   }
 }
 
-
+function Card({
+    gotoFn,
+    value,
+    type, // tour , cruise, umrah
+}) {
+    return (
+        <div className="product col-12 col-xl-3" onClick={()=>gotoFn(value.id, value.idTourPkg)}>
+            <div className="position-absolute border-0" style={{top: "14px", left: "14px"}}>
+                <button className="p-2 fw-bold text-white border-0 rounded-1 text-uppercase" style={{background: '#F4B63D', fontFamily: 'Montserrat'}}>{type.toUpperCase()}</button>
+            </div>
+            <img 
+                className="img-fluid"
+                src={ value?.imageUrl.split("/")[value?.imageUrl.split("/").length-1] == "null" ? "/images/genting_dream_Sing_50.jpg"  : value?.imageUrl }
+                alt=""
+                style={{ minHeight:"330px", borderRadius: "20px 20px 0px 0px" }}
+            />
+            {/* <Image src={value.imageUrl} className="img-fluid" alt=' ' width={100} height={100}/> */}
+            <div className="container p-4 bg-white">
+                <div className="d-flex flex-row justify-content-between" style={{fontFamily: 'Montserrat'}}>
+                    <h4 className="fw-bold text-uppercase">{value?.title}</h4>
+                    <h4 className="fw-bold text-colourbrown" >RM{value?.price}</h4>
+                </div>
+                {/* <h6  style={{fontFamily: 'Poppins', color: "#B8B09D"}}>{value?.tourCode}</h6> */}
+                <h6 className="lh-base m-0" style={{fontFamily: 'Poppins', maxHeight:"48px", overflow:"hidden"}}>{value?.specialNotes}</h6>
+            </div>
+            <div className="px-4 py-8 text-xl fw-bold text-uppercase m-0 text-colourbrown">
+                BOOK NOW <span className="text-colourblue font-normal">&gt;</span>
+            </div>
+        </div>
+    )
+}
 
