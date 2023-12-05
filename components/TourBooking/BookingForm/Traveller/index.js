@@ -480,22 +480,20 @@ export default function Traveller(props) {
             <hr className="hr mt-lg-4" style={{marginTop: '-10px'}} />
             <div className="d-flex button-combined_div d-flex justify-content-between flex-nowrap flex-sm-wrap">
             <div className="button-container col-md-2 col-5">
-                    <button type="button" className="btn rounded-pill fw-bold w-100" 
+                    <button type="button" className="button fw-bold w-100" 
                         style={{
                             fontFamily: '"Montserrat"', 
                             background: '#d1b882',
-                            color: 'white',
                             display : 'none',
                         }}
 
                     >BACK</button>
                 </div>
                 <div className="button-container col-md-2 col-5">
-                    <button onClick={nextPage} type="button" className="btn rounded-pill fw-bold w-100" 
+                    <button onClick={nextPage} type="button" className="button fw-bold w-100" 
                         style={{
                             fontFamily: '"Montserrat"', 
                             background: '#d1b882',
-                            color: 'white',
                             display : 'block',
                         }}
                         >NEXT</button>

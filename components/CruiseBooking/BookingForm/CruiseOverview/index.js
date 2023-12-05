@@ -302,22 +302,21 @@ export default function Overview(props) {
             <hr className="hr mt-lg-4" style={{marginTop: '-10px'}} />
             <div className="d-flex button-combined_div d-flex justify-content-between flex-nowrap flex-sm-wrap">
                 <div className="button-container col-md-2 col-5">
-                    <button onClick={props.prevPage} type="button" className="btn rounded-pill fw-bold w-100" 
+                    <button type="button" className="button fw-bold w-100" 
                         style={{
                             fontFamily: '"Montserrat"', 
-                            background: backBtnEnabled ? '#d1b882' : '#cdcdcd', 
-                            color: 'white' , 
+                            background: backBtnEnabled ? '#d1b882' : 'transparent', 
                             display : backBtnDisplay ? 'block' : 'none',
                         }}
                         disabled = {backBtnEnabled ? false: true}
                     >BACK</button>
                 </div>
                 <div className="button-container col-md-2 col-5">
-                    <button onClick={makeBooking} type="button" className="btn rounded-pill fw-bold w-100" 
+                    <button onClick={()=>{
+                        makeBooking()
+                    }} type="button" className="button fw-bold w-100" 
                         style={{
-                            fontFamily: '"Montserrat"', 
-                            background: nextBtnEnabled ? '#d1b882' : '#cdcdcd', 
-                            color: 'white',
+                            background: nextBtnEnabled ? '#d1b8trans2' : 'transparent', 
                             display : nextBtnDisplay ? 'block' : 'none',
                         }}
                         disabled = {nextBtnEnabled ? false: true}
