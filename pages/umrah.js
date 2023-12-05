@@ -42,7 +42,7 @@ export default function Footer() {
                     </div>
                 </div>
             <div id="umrah-body" className="d-flex flex-row flex-wrap justify-content-between py-xl-5">
-                <div className="text-center">
+                <div className="text-center m-auto">
                     <div style={{display: "flex", justifyContent: "center"}}>
                         <h2 className="text-center header-title" style={{fontFamily: 'Montserrat', fontWeight: "700", fontSize: "20px", color: "#000", letterSpacing: "0.15em"}}>
                             FEATURES
@@ -97,23 +97,31 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-                {/* <div className="col-12 col-xl-6 m-0 my-xl-5">
-                    <video style={{width: '100%'}} className="embed-responsive-item" controls>
+                <div className="w-full rounded my-6 mx-12">
+                    <video style={{width: '100%'}} className="embed-responsive-item rounded-5 max-h-[550px]" controls>
                     <source src="videos/sampleVideo1.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                     </video>
-                </div> */}
+                </div>
+                <div className='m-auto'>
+                    <button onClick={()=>location.href = '/umrah'} className="text-white rounded-2 fw-bold py-3 px-4 align-self-center mt-4 mb-5" style={{backgroundColor: "#2158AA", fontFamily: 'Montserrat', border: "none", maxWidth: "300px"}}>BROWSE PACKAGES</button>
+                </div>
             </div>
             <div id="umrah-packages" style={{paddingTop: '50px', background: 'linear-gradient(to top, #f5f5f5 25%, transparent 25%)'}}>
-                <div className="container mx-auto">
-                    <h2 className="text-center w-100 fw-bold text-lg" style={{fontFamily: 'Montserrat'}}>UMRAH PACKAGES</h2>
-                    <div className="d-flex justify-content-center w-100 pt-2 mb-5">
-                        <svg className="under-stroke" width={141} height={11} viewBox="0 0 141 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width={45} height={11} fill="#D1B882" />
-                            <rect x={48} width={45} height={11} fill="#D1B882" />
-                            <rect x={96} width={45} height={11} fill="#D1B882" />
-                        </svg>
+                <div className="text-center m-auto">
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                        <h4 className="text-center header-title" style={{fontFamily: 'Montserrat', fontWeight: "700", fontSize: "20px", color: "#000", letterSpacing: "0.15em"}}>
+                            PACKAGE
+                            <hr className="relative top-[-0.5rem]  border-4 border-[#D68A2C] m-0 opacity-50"></hr>
+                        </h4>
                     </div>
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                        <h3 className="d-flex justify-content-center justify-content-xl-start flex-wrap" style={{fontFamily: 'Montserrat', fontWeight: "700", marginBottom: "30px"}}>
+                            UMRAH <span className="ms-2" style={{color: "#D68A2C"}}>PACKAGES</span>
+                        </h3>
+                    </div>
+                </div>
+                <div className="container mx-auto">
                     <div className="row justify-content-center" id="umrah_packages_div">
                         {
                             umrah.map((value,index)=>{

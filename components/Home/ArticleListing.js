@@ -91,7 +91,7 @@ export default function Footer() {
                     }
                 </div>
                 {/* ------------END OF WEB------------- */}
-                <button onClick={()=>location.href = '/articles'} className="text-white rounded-pill fw-bold py-3 px-4 align-self-center mt-4 mb-5" style={{backgroundColor: "#2158AA", fontFamily: 'Montserrat', border: "none", maxWidth: "300px"}}>VISIT OUR NEWSROOM</button>
+                <button onClick={()=>location.href = '/articles'} className="text-white rounded-2 fw-bold py-3 px-4 align-self-center mt-4 mb-5" style={{backgroundColor: "#2158AA", fontFamily: 'Montserrat', border: "none", maxWidth: "300px"}}>VISIT OUR NEWSROOM</button>
             </div>
         </section>
     )
