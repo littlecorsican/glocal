@@ -84,27 +84,27 @@ export const faq = [
     {
         id: 1,
         title: 'IS THERE ANY MUTAWWIF (GROUP LEADER) FOR THE TRIP?',
-        description: 'KAKIJALAN will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
+        description: 'COMPANY will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
     },
     {
         id: 2,
         title: 'WHAT DOCUMENTS ARE NEEDED FOR VISA APPLICATION?',
-        description: 'KAKIJALAN will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
+        description: 'COMPANY will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
     },
     {
         id: 3,
         title: 'WHAT TYPE OF VACCINE IS NEEDED FOR UMRAH?',
-        description: 'KAKIJALAN will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
+        description: 'COMPANY will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
     },
     {
         id: 4,
         title: 'IS THERE A NEED FOR AN ADDITIONAL INSURANCE?',
-        description: 'KAKIJALAN will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
+        description: 'COMPANY will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
     },
     {
         id: 5,
         title: 'WHEN WILL THE UMRAH COURSE BE HELD?',
-        description: 'KAKIJALAN will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
+        description: 'COMPANY will provide an experienced Mutawwif from Malaysia to guide you throughout your Umrah journey.'
     },
 ]
 
