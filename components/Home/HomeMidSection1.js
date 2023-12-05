@@ -165,7 +165,7 @@ function Card({
                 {/* <h6  style={{fontFamily: 'Poppins', color: "#B8B09D"}}>{value?.tourCode}</h6> */}
                 <h6 className="lh-base m-0" style={{fontFamily: 'Poppins', maxHeight:"48px", overflow:"hidden"}}>{value?.specialNotes}</h6>
             </div>
-            <div className="px-4 py-8 text-xl fw-bold text-uppercase m-0 text-colourbrown">
+            <div className="px-4 py-8 text-xl fw-bold text-uppercase m-0 text-colourbrown cursor-pointer">
                 BOOK NOW <span className="text-colourblue font-normal">&gt;</span>
             </div>
         </div>

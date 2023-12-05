@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>KakiJalan</title>
+        <title>Glocal</title>
         <link rel="icon" type="image/x-icon" href="/icons/down_button_gold.png"/>
       </Head>
       <Layout>
