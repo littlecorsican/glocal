@@ -15,8 +15,8 @@ export default class TopMenu extends React.Component {
             "child" : []
           },
           {
-            "title" : "cruise",
-            "url" : "/cruise",
+            "title" : "umrah",
+            "url" : "/umrah",
             "child" : []
           },
           {
@@ -37,11 +37,6 @@ export default class TopMenu extends React.Component {
               },
             ]
           },
-          // {
-          //   "title" : "umrah",
-          //   "url" : "/umrah",
-          //   "child" : []
-          // },
           {
             "title" : "contact",
             "url" : "/contact",
