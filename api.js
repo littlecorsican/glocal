@@ -18,7 +18,7 @@ const api=()=>{
         }
         
     } else if (process.env.NEXT_PUBLIC_NODE_ENV == "production") {
-        const base = "https://kakijalan.ddns.net/kakijalan-admin/api/v1"
+        const base = "https://glocaltravel.ddns.net/glocal-admin/api/v1"
         return {
             "referenceList": `${base}/referenceList`,
             "tourPackageWithLocation": `${base}/tourpackagelistwithlocation`,
