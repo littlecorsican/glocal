@@ -47,7 +47,7 @@ export default function DetailsCard(props) {
                         <img src="/images/airplane.svg" className="icon mr-2" />
                         <h6 className="fw-bold na-text" style={{fontWeight: '700px'}}>{cruise_context?.dep.airlineCode} {cruise_context?.dep.airlineDesc}</h6>
                     </div>
-                    {!cruise_context.countdown && <p 
+                    {!cruise_context?.countdown && <p 
                         onClick={()=>location.href=`/tour/${props.idTourPkg}`} 
                         style={{fontFamily: '"Poppins"', cursor:"pointer"}}
                         className="text-colourblue underline"
