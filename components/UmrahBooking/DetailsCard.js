@@ -47,7 +47,7 @@ export default function DetailsCard(props) {
                         <img src="/images/airplane.svg" className="icon mr-2" />
                         <h6 className="fw-bold na-text" style={{fontWeight: '700px'}}>{umrah_context?.dep?.airlineCode} {umrah_context?.dep?.airlineDesc}</h6>
                     </div>
-                    {!umrah_context.countdown && <p 
+                    {!umrah_context?.countdown && <p 
                         onClick={()=>location.href=`/tour/${props.idTourPkg}`} 
                         style={{fontFamily: '"Poppins"', cursor:"pointer"}}
                         className="text-colourblue underline"
