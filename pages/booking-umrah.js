@@ -3,9 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link';
 import Layout from '../components/Layout'
 import {useState, useEffect, useRef, useContext} from 'react'
-import DetailsCard from '../components/TourBooking/DetailsCard'
-import BookingForm from '../components/TourBooking/BookingForm'
-import BookingSummary from '../components/TourBooking/BookingSummary'
+import DetailsCard from '../components/UmrahBooking/DetailsCard'
+import BookingForm from '../components/UmrahBooking/BookingForm'
+import BookingSummary from '../components/UmrahBooking/BookingSummary'
 import { useRouter } from "next/router";
 import api from 'api'
 import Loading from '../components/Loading'

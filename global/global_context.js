@@ -10,3 +10,4 @@ export const CruiseConsumer = CruiseContext.Consumer
 
 export const UmrahContext = createContext();
 export const UmrahProvider = UmrahContext.Provider
+export const UmrahConsumer = UmrahContext.Consumer
