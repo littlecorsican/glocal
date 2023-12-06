@@ -1,4 +1,4 @@
-import { TourContext } from 'global/global_context';
+import { UmrahContext } from 'global/global_context';
 import Image from 'next/image'
 import Link from 'next/link';
 import {useState, useEffect, useContext} from 'react'
@@ -12,7 +12,7 @@ export default function BookingSummary(props) {
   // const [countDown ,setCountDown] = useState(900)
   // const [startCountDown ,setStartCountDown] = useState(false)
 
-  const tour_context = useContext(TourContext)
+  const umrah_context = useContext(UmrahContext)
 
   const secondsToMin=(countDown)=>{
     let min = Math.floor(countDown / 60)
@@ -27,15 +27,15 @@ export default function BookingSummary(props) {
   }
 
   const { timer, startTimer } = props
-  const { aggregateData } = tour_context
+  const { aggregateData } = umrah_context
 
   const adultRoom = aggregateData?.adultRoom?.amount || 0
   const childWithBedRoom = aggregateData?.childWithBedRoom?.amount || 0
   const childWithoutBedRoom = aggregateData?.childWithNoBedRoom?.amount || 0
   const infantRoom = aggregateData?.infantRoom?.amount || 0
-  const deposit = tour_context?.tourPackage?.deposit || 0
-  const adminChargesPercentage = tour_context?.adminChargesPercentage || 0
-  const totalHeadCount = tour_context?.totalHeadCount || 0
+  const deposit = umrah_context?.tourPackage?.deposit || 0
+  const adminChargesPercentage = umrah_context?.adminChargesPercentage || 0
+  const totalHeadCount = umrah_context?.totalHeadCount || 0
 
   return (
     <div id="summary_div" className="card d-flex justify-content-start flex-column flex-wrap p-4 rounded-5 shadow">
@@ -49,8 +49,8 @@ export default function BookingSummary(props) {
         </div>
       </div>}
       <h5 className="fw-bold m-0 text-uppercase" style={{fontFamily: 'Montserrat', fontSize: '25px'}}>Booking Summary</h5>
-      <h6 className="text-uppercase pt-lg-3 pt-2" style={{fontFamily: '"Montserrat"', fontWeight: 700, lineHeight: '20px', color: '#500000'}}>{tour_context?.tourPackage?.nameEn} ({tour_context?.dep?.code})</h6>
-      <p style={{fontFamily: '"Poppins"', color: '#0e0001'}}>{tour_context?.dep?.dtDep}</p>
+      <h6 className="text-uppercase pt-lg-3 pt-2" style={{fontFamily: '"Montserrat"', fontWeight: 700, lineHeight: '20px', color: '#500000'}}>{umrah_context?.tourPackage?.nameEn} ({umrah_context?.dep?.code})</h6>
+      <p style={{fontFamily: '"Poppins"', color: '#0e0001'}}>{umrah_context?.dep?.dtDep}</p>
         {/* adult count */}
       {aggregateData?.adultRoom?.quantity > 0 && <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
         <h6>Adult x{aggregateData.adultRoom.quantity}</h6>
@@ -72,7 +72,7 @@ export default function BookingSummary(props) {
       </div>}
       <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
         <h6>Admin Charges</h6>
-        <h6> {tour_context?.adminChargesPercentage * 100 || 0}% </h6>
+        <h6> {umrah_context?.adminChargesPercentage * 100 || 0}% </h6>
       </div>
       <div className="booking-summary-flex">
         <div className={`${props.selectedPaymentMode == payment_mode.pay_full_amount ? "flex-top-child" : "flex-bottom-child"}`}>
@@ -107,7 +107,7 @@ export default function BookingSummary(props) {
           <hr/>
           <div className="d-flex justify-content-between flex-row gap-1 gap-xl-2 m-0" style={{fontFamily: '"Montserrat"', color: '#500000'}}>
             <h6>Booking Deposit</h6>
-            <h6> RM {tour_context?.tourPackage?.deposit * (totalHeadCount)} </h6>
+            <h6> RM {umrah_context?.tourPackage?.deposit * (totalHeadCount)} </h6>
           </div>
         </div>
       </div>
