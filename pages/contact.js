@@ -95,7 +95,7 @@ export default function Contact() {
                     </div>
                     <div className="col-12 col-xl-6">
                         <p className="fw-bold m-1" style={{ fontFamily: 'Poppins' }}>
-                            Surname <span style={{ color: "#ea242d" }}>*</span>
+                            Last Name <span style={{ color: "#ea242d" }}>*</span>
                         </p>
                         <input
                             type="text"
