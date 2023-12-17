@@ -25,6 +25,43 @@ export default function Contact() {
 
     ])
 
+    const formControlToFormBody = {
+        fname: "firstName",
+        lname: "lastName",
+        contact: "phone",
+        email: "email",
+        message: "message"
+    }
+
+    const handleSubmit=(e)=>{
+        e.preventDefault()
+        console.log("e", e.target)
+        const postBody = {}
+        for (let i =0; i < e.target.length; i++) {
+            if (e.target[i].className == "form-control") {
+                postBody[formControlToFormBody[e.target[i].id]] = e.target[i].value
+                e.target[i].value = ""
+            }
+        }
+        toast("Sending......");
+        fetch('api/contactUs', {
+            method: 'POST',
+            body: JSON.stringify(postBody),
+            headers : {
+                "Content-Type" : "application/json",
+            }    
+        })
+        .then(rawResult => rawResult.json())
+        .then(jsonData => {
+            console.log("jsonData", jsonData)
+            if (jsonData.status) {
+                toast("Message sent!");
+            } else {
+                toast("Error, message not sent.");
+            }
+        })
+    }
+
   return (
     <Layout>
     <div className="contact-page">
@@ -74,7 +111,7 @@ export default function Contact() {
                 id="message_div"
             >
                 <div className="rounded-4 shadow-lg bg-white d-flex flex-column flex-xl-row-reverse col-12">
-                <form className="p-4 p-xl-5 col-12 col-xl-8">
+                <form className="p-4 p-xl-5 col-12 col-xl-8" onSubmit={handleSubmit}>
                     <div className="row gx-2 gy-2">
                     <h5
                         className="text-center text-xl-start fw-bold mt-3 col-12"
@@ -100,8 +137,8 @@ export default function Contact() {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Doe"
-                            id="sname"
+                            placeholder=""
+                            id="lname"
                         />
                     </div>
                     <div className="col-12 col-xl-6">
@@ -132,7 +169,7 @@ export default function Contact() {
                         </p>
                         <textarea
                             className="form-control"
-                            id="exampleFormControlTextarea1"
+                            id="message"
                             placeholder="Write Message"
                             rows={3}
                             defaultValue={""}
